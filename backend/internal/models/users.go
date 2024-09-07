@@ -6,7 +6,3 @@ type User struct {
 	Password string
 	Tel      string
 }
-
-func main() {
-
-}
