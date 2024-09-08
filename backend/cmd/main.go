@@ -17,22 +17,23 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err) // 使用日志记录错误，而不是panic
 	}
 
-	// // 实例一个接口
+	// 实例一个接口
 	parkingLotRepo := repository.NewParkingLotRepository(db)
-	newLot := models.ParkingLot{
-		ParkingLotID: 2,
-		ParkingName:  "CMU Parking",
-		Longitude:    decimal.RequireFromString("121.00"),
-		Latitude:     decimal.RequireFromString("5.000"),
-		Capacity:     100,
-		Rates:        decimal.RequireFromString("10"),
+	// 把新的停车场数据写好
+	lot := &models.ParkingLot{
+		ParkingLotID: 1,
+		ParkingName:  "hjh Parking",
+		// Longitude:    decimal.RequireFromString("13"),
+		// Latitude:     decimal.RequireFromString("65"),
+		Capacity: 1,
+		Rates:    decimal.RequireFromString("666"),
 	}
-	result := parkingLotRepo.Create(&newLot)
-	// 用result判断是否创建成功
-	if result != nil {
-		log.Fatalf("failed to create record: %v", result)
+	// 调用 Update 方法更新记录
+	id := 1
+	parkingLotRepo.Update(lot, id)
+	res, err1 := parkingLotRepo.FindByID(id)
+	if err1 != nil {
+		log.Fatalf("failed to find parking lot: %v", err1)
 	}
-	// 打印创建的记录
-	log.Printf("Created parking lot: %+v", newLot)
-
+	log.Printf("Updated parking lot: %+v", res)
 }

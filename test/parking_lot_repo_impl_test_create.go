@@ -77,8 +77,9 @@
 	}
 	// 调用 Update 方法更新记录
 	id := 1
-	err = parkingLotRepo.Update(lot, id)
-	if err != nil {
-		log.Fatalf("failed to update parking lot: %v", err)
+	parkingLotRepo.Update(lot, id)
+	res, err1 := parkingLotRepo.FindByID(id)
+	if err1 != nil {
+		log.Fatalf("failed to find parking lot: %v", err1)
 	}
-	log.Printf("Parking lot updated: %+v", lot)
+	log.Printf("Updated parking lot: %+v", res)
