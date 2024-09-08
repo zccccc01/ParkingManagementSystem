@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/shopspring/decimal"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
 func main() {
@@ -16,15 +15,21 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err) // 使用日志记录错误，而不是panic
 	}
 
-	// 自动迁移
-	db.AutoMigrate(&models.ParkingLot{}, &models.ParkingSpace{})
-
-	// 创建仓库实例
-	lotRepo := repository.NewParkingLotRepository(db)
-
-	newLot := models.ParkingLot{ParkingName: "Main Parking Lot"}
-	if err := lotRepo.Create(&newLot); err != nil {
-		log.Printf("failed to create parking lot: %v", err)
+	// 创建记录
+	newLot := models.ParkingLot{
+		ParkingLotID: 1,
+		ParkingName:  "Central Parking",
+		Longitude:    decimal.RequireFromString("115.000000"),
+		Latitude:     decimal.RequireFromString("39.000000"),
+		Capacity:     100,
+		Rates:        decimal.RequireFromString("2.50"),
 	}
-	fmt.Println("Parking lot and space created successfully.")
+	result := db.Create(&newLot)
+	if result.Error != nil {
+		log.Fatalf("failed to create record: %v", result.Error)
+	}
+
+	// 打印创建的记录
+	log.Printf("Created parking lot: %+v", newLot)
+
 }
