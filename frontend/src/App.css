@@ -3,6 +3,7 @@
 }
 
 h1 {
+  user-select: none;  /* 禁止文字选择  */
   font-family: 'KaiTi';
   font-weight: bolder;
   color: orange;
@@ -10,15 +11,16 @@ h1 {
 
 .App-logo {
   position: absolute;
-  top: 15vmin;
-  height: 30vmin;
+  top: 12vmin;
+  height: 25vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
-  }
+    -webkit-user-drag: none;  /* 禁止图片拖动 */
+  } 
 }
 
 .App-header {
