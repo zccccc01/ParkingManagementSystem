@@ -1,9 +1,9 @@
 package models
 
 type ViolationRecord struct {
-	ViolationID   int `gorm:"primaryKey"`
-	RecordID      int `gorm:"foreignKey:RecordID"`
-	FineAmount    float64
-	ViolationType string
-	Status        string
+	ViolationID   int     `gorm:"column:ViolationID;primaryKey"`
+	RecordID      int     `gorm:"column:RecordID;foreignKey:REID"`
+	FineAmount    float64 `gorm:"column:FineAmount"`
+	ViolationType string  `gorm:"column:ViolationType"`
+	Status        string  `gorm:"column:Status"`
 }
