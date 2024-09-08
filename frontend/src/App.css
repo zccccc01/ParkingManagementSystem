@@ -10,7 +10,6 @@ h1 {
 }
 
 .App-logo {
-  position: absolute;
   top: 12vmin;
   height: 25vmin;
   pointer-events: none;
@@ -25,7 +24,7 @@ h1 {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 1vh;
   display: flex;
   flex-direction: column;
   align-items: center;

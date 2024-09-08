@@ -24,7 +24,8 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <Header logo={logo} />
+        <Header /> 
+        <img src={logo} className="App-logo" alt="logo" />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
