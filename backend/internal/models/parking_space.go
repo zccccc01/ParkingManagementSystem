@@ -1,8 +1,8 @@
 package models
 
 type ParkingSpace struct {
-	SpaceID      int
+	SpaceID      int `gorm:"primaryKey"`
 	Number       int
 	Status       string
-	ParkingLotID int
+	ParkingLotID int `gorm:"forignKey:ParkingLotID"`
 }

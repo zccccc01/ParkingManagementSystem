@@ -1,8 +1,8 @@
 package models
 
 type Vehicle struct {
-	VehicleID   int
-	UserID      int
+	VehicleID   int `gorm:"primaryKey"`
+	UserID      int `gorm:"foreignKey:UserID"`
 	PlateNumber string
 	Color       string
 }

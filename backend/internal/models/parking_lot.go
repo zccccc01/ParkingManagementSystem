@@ -1,7 +1,7 @@
 package models
 
 type ParkingLot struct {
-	ParkingLotID int
+	ParkingLotID int `gorm:"primaryKey"`
 	ParkingName  string
 	Longitude    float64
 	Latitude     float64
