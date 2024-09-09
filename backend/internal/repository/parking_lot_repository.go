@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 )
 
@@ -18,4 +20,14 @@ type ParkingLotRepository interface {
 	Update(lot *models.ParkingLot, id int) error
 	// 根据ID删除一条记录
 	Delete(id int) error
+	// 查询某个时间段停车占用情况
+	QueryOccupancy(start time.Time, end time.Time) ([]models.ParkingRecord, error)
+	// 查询停车场收入
+	QueryRevenue(start time.Time, end time.Time) (float64, error)
+	// 查询违规停车统计
+	QueryViolations(start time.Time, end time.Time) ([]models.ViolationRecord, error)
+	// 根据ID查找停车位
+	FindSpaceByID(spaceID int) (*models.ParkingSpace, error)
+	// 查找停车场的违规记录
+	FindViolationsByLotID(lotID int) ([]models.ViolationRecord, error)
 }
