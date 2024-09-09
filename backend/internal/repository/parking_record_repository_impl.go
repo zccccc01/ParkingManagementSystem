@@ -41,9 +41,41 @@ func (r *ParkingRecordRepositoryImpl) UpdateRecordExitByRecordID(id int, now tim
 }
 
 func (r *ParkingRecordRepositoryImpl) GetFeeByRecordID(id int) (float64, error) {
-
-	return 0, nil
+	var existingRecord models.ParkingRecord
+	result := r.DB.First(&existingRecord, "RecordID = ?", id)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	start := existingRecord.StartTime
+	end := existingRecord.EndTime
+	timeDiff := end.Sub(start)
+	lotID := existingRecord.LotID
+	var existingLot models.ParkingLot
+	result = r.DB.First(&existingLot, "ParkingLotID = ?", lotID)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	// 这个方法将decimal类型转化为float64类型
+	rate, _ := existingLot.Rates.Float64()
+	return float64(timeDiff.Hours()) * rate, nil
 }
+
 func (r *ParkingRecordRepositoryImpl) GetFeeByVehicleID(id int) (float64, error) {
-	return 0, nil
+	var existingRecord models.ParkingRecord
+	result := r.DB.First(&existingRecord, "VehicleID = ?", id)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	start := existingRecord.StartTime
+	end := existingRecord.EndTime
+	timeDiff := end.Sub(start)
+	lotID := existingRecord.LotID
+	var existingLot models.ParkingLot
+	result = r.DB.First(&existingLot, "ParkingLotID = ?", lotID)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	// 这个方法将decimal类型转化为float64类型
+	rate, _ := existingLot.Rates.Float64()
+	return float64(timeDiff.Hours()) * rate, nil
 }

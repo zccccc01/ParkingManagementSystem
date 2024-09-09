@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -33,9 +33,19 @@ func main() {
 	// 	log.Fatalf("failed to create record: %v", ans)
 	// }
 
-	ans2 := parkingRecordRepo.UpdateRecordExitByRecordID(123, time.Now())
-	if ans2 != nil {
-		log.Fatalf("failed to create record: %v", ans2)
-	}
+	// ans2 := parkingRecordRepo.UpdateRecordExitByRecordID(123, time.Now())
+	// if ans2 != nil {
+	// 	log.Fatalf("failed to create record: %v", ans2)
+	// }
+	// ans, err := parkingRecordRepo.GetFeeByRecordID(123)
+	// if err != nil {
+	// 	log.Fatalf("failed to get fee: %v", err)
+	// }
+	// fmt.Println(ans)
 
+	ans2, err2 := parkingRecordRepo.GetFeeByVehicleID(11)
+	if err2 != nil {
+		log.Fatalf("failed to get fee: %v", err2)
+	}
+	fmt.Println(ans2)
 }
