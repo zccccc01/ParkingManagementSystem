@@ -3,9 +3,10 @@ package models
 import "time"
 
 type PaymentRecord struct {
-	PaymentID        int       `gorm:"primaryKey"`
-	ReservationID    int       `gorm:"foreignKey:ReservationID"`
+	PaymentID        int       `gorm:"column:PaymentID;primaryKey"`
+	RecordID         int       `gorm:"column:RecordID;foreignKey:RECID"`
+	ReservationID    int       `gorm:"column:ReservationID;foreignKey:RID"`
 	Amount           float64   `gorm:"column:Amount"`
-	PaymentTimeStamp time.Time `gorm:"column:PaymentTimeStamp"`
-	PaymentMethod    string
+	PaymentTimestamp time.Time `gorm:"column:PaymentTimestamp"`
+	PaymentMethod    string    `gorm:"column:PaymentMethod"`
 }
