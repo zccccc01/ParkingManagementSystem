@@ -11,3 +11,8 @@ type ParkingRecord struct {
 	EndTime   time.Time `gorm:"column:EndTime"`
 	Fee       float64   `gorm:"column:Fee"`
 }
+
+// 设置ParkingRecord表名为`parkingrecord`
+func (p *ParkingRecord) TableName() string {
+	return "parkingrecord"
+}
