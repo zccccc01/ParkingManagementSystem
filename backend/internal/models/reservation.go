@@ -12,6 +12,6 @@ type Reservation struct {
 	Status        string    `gorm:"column:Status"`
 }
 
-func (p *Reservation) TableName() string {
+func (r *Reservation) TableName() string {
 	return "reservation"
 }
