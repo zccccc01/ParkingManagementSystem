@@ -11,4 +11,6 @@ type ViolationRecordRepository interface {
 	GetStatusByRecordID(id int) (string, error)
 	//根据记录id获取违章类型
 	GetViolationTypeByRecordID(id int) (string, error)
+	// 发送罚单通知
+	SendViolationNotice(id int) error
 }

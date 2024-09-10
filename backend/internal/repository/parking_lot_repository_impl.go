@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	"github.com/shopspring/decimal"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
@@ -85,4 +87,60 @@ func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error 
 
 func (r *ParkingLotRepositoryImpl) Delete(id int) error {
 	return r.DB.Delete(&models.ParkingLot{}, "ParkingLotID = ?", id).Error
+}
+
+// QueryOccupancy 查询某个时间段停车占用情况
+func (r *ParkingLotRepositoryImpl) QueryOccupancy(start time.Time, end time.Time) ([]models.ParkingRecord, error) {
+	var records []models.ParkingRecord
+	result := r.DB.Where("start_time >= ? AND end_time <= ?", start, end).Find(&records)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return records, nil
+}
+
+// QueryRevenue 查询停车场收入
+func (r *ParkingLotRepositoryImpl) QueryRevenue(start time.Time, end time.Time) (float64, error) {
+	var totalRevenue float64
+	result := r.DB.Model(&models.ParkingRecord{}).
+		Where("end_time >= ? AND end_time <= ?", start, end).
+		Select("SUM(fee) AS total_fee").
+		Scan(&totalRevenue)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return totalRevenue, nil
+}
+
+// QueryViolations 查询违规停车统计
+func (r *ParkingLotRepositoryImpl) QueryViolations(start time.Time, end time.Time) ([]models.ViolationRecord, error) {
+	var violations []models.ViolationRecord
+	result := r.DB.Where("occurrence_time >= ? AND occurrence_time <= ?", start, end).Find(&violations)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return violations, nil
+}
+
+// FindSpaceByID 根据ID查找停车位
+func (r *ParkingLotRepositoryImpl) FindSpaceByID(spaceID int) (*models.ParkingSpace, error) {
+	var space models.ParkingSpace
+	result := r.DB.First(&space, "id = ?", spaceID)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return &space, nil
+}
+
+// FindViolationsByLotID 查找停车场的违规记录
+func (r *ParkingLotRepositoryImpl) FindViolationsByLotID(lotID int) ([]models.ViolationRecord, error) {
+	var violations []models.ViolationRecord
+	result := r.DB.Where("lot_id = ?", lotID).Find(&violations)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return violations, nil
 }
