@@ -11,3 +11,7 @@ type Reservation struct {
 	LotID         int       `gorm:"column:LotID;foreignKey:LID"`
 	Status        string    `gorm:"column:Status"`
 }
+
+func (r *Reservation) TableName() string {
+	return "reservation"
+}
