@@ -1,13 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
 func main() {
@@ -18,17 +15,8 @@ func main() {
 	}
 
 	// 实例一个接口
-	vehicleRepo := repository.NewVehicleRepository(db)
+	//vehicleRepo := repository.NewVehicleRepository(db)
 
-	vehicle := models.Vehicle{
-		//VehicleID:   11,
-		//UserID:      2,
-		PlateNumber: "12345",
-		Color:       "yellow",
-	}
+	//TODO: violation_record_repository_impl.go 未review
 
-	result := vehicleRepo.UpdateVehicleByVehicleID(11, &vehicle)
-	if result != nil {
-		fmt.Println(result)
-	}
 }

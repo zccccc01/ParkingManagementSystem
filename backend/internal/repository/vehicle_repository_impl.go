@@ -29,7 +29,6 @@ func (r *VehicleRepositoryImpl) GetAllByVehicleID(id int) (*models.Vehicle, erro
 	return &vehicle, nil
 }
 
-// TODO:test
 func (r *VehicleRepositoryImpl) GetAllByUserID(id int) ([]*models.Vehicle, error) {
 	var vehicles []models.Vehicle
 	result := r.DB.Where("UserID = ?", id).Find(&vehicles)
