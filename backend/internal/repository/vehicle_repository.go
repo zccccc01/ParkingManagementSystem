@@ -9,7 +9,7 @@ type VehicleRepository interface {
 	GetAllByVehicleID(id int) (*models.Vehicle, error)
 	//根据用户id获取所有记录
 	GetAllByUserID(id int) ([]*models.Vehicle, error)
-	//根据车辆id更新一条记录
+	//根据车辆id更新车牌号和颜色,用户id是外键,不能更改
 	UpdateVehicleByVehicleID(id int, vehicle *models.Vehicle) error
 	//根据车辆id删除一条记录
 	DeleteByVehicleID(id int) error
