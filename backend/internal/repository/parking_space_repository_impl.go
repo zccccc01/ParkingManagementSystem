@@ -9,7 +9,7 @@ type ParkingSpaceRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func NewParkingSpaceRepository(db *gorm.DB) ParkingRecordRepository {
+func NewParkingSpaceRepository(db *gorm.DB) ParkingSpaceRepository {
 	return &ParkingSpaceRepositoryImpl{DB: db}
 }
 
@@ -17,16 +17,13 @@ func (r *ParkingSpaceRepositoryImpl) Create(space *models.ParkingSpace) error {
 	return r.DB.Create(space).Error
 }
 
-func (r *ParkingSpaceRepositoryImpl) GetLotIDBySpaceID(id int) (int, error) {
-	var space models.ParkingSpace
-	result := r.DB.First(&space, "SpaceID = ?", id)
+func (r *ParkingSpaceRepositoryImpl) GetAllStatusByLotID(id int) ([]models.ParkingSpace, error) {
+	var spaces []models.ParkingSpace
+	result := r.DB.Find(&spaces, "ParkingLotID = ?", id)
 	if result.Error != nil {
-		return -1, result.Error
+		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return -1, gorm.ErrRecordNotFound
-	}
-	return space.ParkingLotID, nil
+	return spaces, nil
 }
 
 func (r *ParkingSpaceRepositoryImpl) GetStatusBySpaceID(id int) (string, error) {
@@ -42,6 +39,7 @@ func (r *ParkingSpaceRepositoryImpl) GetStatusBySpaceID(id int) (string, error) 
 }
 
 func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, id int) error {
+	//TODO: 三个状态,置空,置占用,置预定
 	return nil
 }
 
