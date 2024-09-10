@@ -6,3 +6,7 @@ type User struct {
 	Password string `gorm:"column:Password;size:255;not null"`
 	Tel      string `gorm:"column:Tel;size:36"`
 }
+
+func (u *User) TableName() string {
+	return "users"
+}

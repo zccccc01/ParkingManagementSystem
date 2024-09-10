@@ -5,3 +5,7 @@ type ParkingSpace struct {
 	Status       string `gorm:"column:Status"`
 	ParkingLotID int    `gorm:"column:ParkingLotID;foreignKey:PLID"`
 }
+
+func (p *ParkingSpace) TableName() string {
+	return "parkingspace"
+}

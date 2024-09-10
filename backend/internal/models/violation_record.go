@@ -7,3 +7,7 @@ type ViolationRecord struct {
 	ViolationType string  `gorm:"column:ViolationType"`
 	Status        string  `gorm:"column:Status"`
 }
+
+func (v *ViolationRecord) TableName() string {
+	return "violationrecord"
+}

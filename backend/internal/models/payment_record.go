@@ -10,3 +10,7 @@ type PaymentRecord struct {
 	PaymentTimestamp time.Time `gorm:"column:PaymentTimestamp"`
 	PaymentMethod    string    `gorm:"column:PaymentMethod"`
 }
+
+func (p *PaymentRecord) TableName() string {
+	return "paymentrecord"
+}
