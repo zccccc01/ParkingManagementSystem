@@ -14,7 +14,7 @@ func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord
 }
 func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) (float64, error) {
 	var violationRecord models.ViolationRecord
-	result := r.DB.Where("record_id = ?", id).First(&violationRecord)
+	result := r.DB.Where("RecordId = ?", id).First(&violationRecord)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -22,7 +22,7 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) (float64
 }
 func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) (string, error) {
 	var violationRecord models.ViolationRecord
-	result := r.DB.Where("record_id = ?", id).First(&violationRecord)
+	result := r.DB.Where("RecordId = ?", id).First(&violationRecord)
 	if result.Error != nil {
 		return "", result.Error
 	}
@@ -30,7 +30,7 @@ func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) (string, err
 }
 func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) (string, error) {
 	var violationRecord models.ViolationRecord
-	result := r.DB.Where("record_id = ?", id).First(&violationRecord)
+	result := r.DB.Where("RecordId = ?", id).First(&violationRecord)
 	if result.Error != nil {
 		return "", result.Error
 	}
