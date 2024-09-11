@@ -17,38 +17,41 @@ func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord
 	return r.DB.Create(violation).Error
 }
 
-func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) (float64, error) {
-	var violationRecord models.ViolationRecord
-	result := r.DB.First(&violationRecord, "RecordId = ?", id)
+func (r *ViolationRecordRepositoryImpl) GetFineAmountsByRecordID(id int) ([]float64, error) {
+	var violationRecords []models.ViolationRecord
+	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
-		return -1, result.Error
+		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return -1, gorm.ErrRecordNotFound
+	var amounts []float64
+	for _, record := range violationRecords {
+		amounts = append(amounts, record.FineAmount)
 	}
-	return violationRecord.FineAmount, nil
+	return amounts, nil
 }
 
-func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) (string, error) {
-	var violationRecord models.ViolationRecord
-	result := r.DB.First(&violationRecord, "RecordId = ?", id)
+func (r *ViolationRecordRepositoryImpl) GetStatusesByRecordID(id int) ([]string, error) {
+	var violationRecords []models.ViolationRecord
+	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
-		return "", result.Error
+		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return "", gorm.ErrRecordNotFound
+	var statuses []string
+	for _, RecordID := range violationRecords {
+		statuses = append(statuses, RecordID.Status)
 	}
-	return violationRecord.Status, nil
+	return statuses, nil
 }
 
-func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) (string, error) {
-	var violationRecord models.ViolationRecord
-	result := r.DB.First(&violationRecord, "RecordId = ?", id)
+func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]string, error) {
+	var violationRecords []models.ViolationRecord
+	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
-		return "", result.Error
+		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return "", gorm.ErrRecordNotFound
+	var types []string
+	for _, RecordID := range violationRecords {
+		types = append(types, RecordID.ViolationType)
 	}
-	return violationRecord.ViolationType, nil
+	return types, nil
 }
