@@ -37,4 +37,35 @@ func main() {
 		fmt.Println(res)
 	}
 	fmt.Println(fine)
+
+	//user
+	//userRepo := repository.NewUserRepository(db)
+	// newUser := &models.User{
+	// 	Username: "john_doe",
+	// 	Password: "securepassword123",
+	// 	Tel:      "1234567890",
+	// }
+	// err = userRepo.Create(newUser)
+	// if err != nil {
+	// 	log.Fatal("failed to create user:", err)
+	// }
+
+	// // 更新密码
+	// err = userRepo.UpdatePasswordByID(newUser.UserID, "newsecurepassword456")
+	// if err != nil {
+	// 	log.Fatal("failed to update user password:", err)
+	// }
+
+	// // 获取电话
+	// tel, err := userRepo.GetTelByID(newUser.UserID)
+	// if err != nil {
+	// 	log.Fatal("failed to get user tel:", err)
+	// }
+	// log.Println("User Tel:", tel)
+
+	// // 删除记录
+	// err = userRepo.Delete(newUser.UserID)
+	// if err != nil {
+	// 	log.Fatal("failed to delete user:", err)
+	// }
 }
