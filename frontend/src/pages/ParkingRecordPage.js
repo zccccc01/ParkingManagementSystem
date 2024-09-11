@@ -1,11 +1,15 @@
-// src/pages/ParkingRecordPage.js
+// pages/ParkingRecordPage.js
 import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ParkingRecordPage = () => {
   return (
     <div className="parking-record-page">
-      <h1>Parking Record Page</h1>
-      <p>This is the parking record page.</p>
+      <Header />
+      <h1>停车记录页面</h1>
+      <p>展示用户的停车历史和支付记录</p>
+      <Footer />
     </div>
   );
 };

@@ -3,14 +3,13 @@
 }
 
 h1 {
-  user-select: none;  /* 禁止文字选择  */
+  user-select: none; /* 禁止文字选择  */
   font-family: 'KaiTi';
   font-weight: bolder;
   color: orange;
 }
 
 .App-logo {
-  position: absolute;
   top: 12vmin;
   height: 25vmin;
   pointer-events: none;
@@ -19,13 +18,13 @@ h1 {
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
-    -webkit-user-drag: none;  /* 禁止图片拖动 */
-  } 
+    -webkit-user-drag: none; /* 禁止图片拖动 */
+  }
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 1vh;
   display: flex;
   flex-direction: column;
   align-items: center;

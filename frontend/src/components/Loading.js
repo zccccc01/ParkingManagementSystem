@@ -1,9 +1,11 @@
-// src/components/Loading.js
+// components/Loading.js
 import React from 'react';
 
 const Loading = () => {
   return (
-    <div>Loading...</div>
+    <div className="loading">
+      <p>加载中...</p>
+    </div>
   );
 };
 

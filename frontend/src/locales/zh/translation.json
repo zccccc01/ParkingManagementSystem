@@ -1,0 +1,13 @@
+{
+  "home": "首页",
+  "register": "注册",
+  "login": "登录",
+  "dashboard": "仪表盘",
+  "parkingLots": "停车场列表",
+  "parkingSpots": "停车位详情",
+  "bookings": "预订",
+  "payments": "支付",
+  "parkingRecords": "停车记录",
+  "adminDashboard": "管理员仪表盘",
+  "violations": "违规"
+}

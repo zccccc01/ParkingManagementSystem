@@ -1,8 +1,26 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('App', () => {
+  it('renders the home page', async () => {
+    render(
+      <Router>
+        <App />
+      </Router>
+    );
+
+    await waitFor(() => expect(screen.getByText(/Home/i)).toBeInTheDocument());
+  });
+
+  it('renders the register page', async () => {
+    render(
+      <Router>
+        <App />
+      </Router>
+    );
+
+    await waitFor(() => expect(screen.getByText(/Register/i)).toBeInTheDocument());
+  });
 });

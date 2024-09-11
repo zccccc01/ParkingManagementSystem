@@ -1,15 +1,15 @@
-// src/pages/ParkingLotListPage.js
+// pages/ParkingLotListPage.js
 import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ParkingLotListPage = () => {
   return (
     <div className="parking-lot-list-page">
-      <h1>Parking Lot List</h1>
-      <ul>
-        <li>Parking Lot 1</li>
-        <li>Parking Lot 2</li>
-        <li>Parking Lot 3</li>
-      </ul>
+      <Header />
+      <h1>停车场列表</h1>
+      <p>附近停车场的实时信息</p>
+      <Footer />
     </div>
   );
 };
