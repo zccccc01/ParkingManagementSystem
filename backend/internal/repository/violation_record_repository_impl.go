@@ -17,7 +17,7 @@ func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord
 	return r.DB.Create(violation).Error
 }
 
-func (r *ViolationRecordRepositoryImpl) GetFineAmountsByRecordID(id int) ([]float64, error) {
+func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]float64, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
@@ -30,7 +30,7 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountsByRecordID(id int) ([]floa
 	return amounts, nil
 }
 
-func (r *ViolationRecordRepositoryImpl) GetStatusesByRecordID(id int) ([]string, error) {
+func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]string, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
