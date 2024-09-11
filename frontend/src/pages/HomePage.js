@@ -1,11 +1,16 @@
-// src/pages/HomePage.js
+// pages/HomePage.js
 import React from 'react';
+import SearchBar from '../components/SearchBar';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <div className="home-page">
-      <h1>Welcome to the Parking System</h1>
-      <p>This is the home page.</p>
+      <Header />
+      <SearchBar />
+      <p>欢迎来到停车管理系统！</p>
+      <Footer />
     </div>
   );
 };
