@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -17,55 +16,21 @@ func main() {
 	}
 
 	// 实例一个接口
-	violationRepo := repository.NewViolationRecordRepository(db)
+	violationRecordRepo := repository.NewViolationRecordRepository(db)
 
-	//TODO: violation_record_repository_impl.go 未review
-	// violation := models.ViolationRecord{
-	// 	ViolationID:   1,
-	// 	RecordID:      123,
-	// 	FineAmount:    30,
-	// 	ViolationType: "NOPAY",
-	// 	Status:        "UNPAID",
+	// amounts, ans := violationRecordRepo.GetFineAmountByRecordID(123)
+	// if ans != nil {
+	// 	log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
 	// }
-	// result := violationRepo.Create(&violation)
-	// if result != nil {
-	// 	fmt.Println(result)
+	// log.Printf("Fine amount: %v", amounts)
+	// status, ans := violationRecordRepo.GetStatusByRecordID(123)
+	// if ans != nil {
+	// 	log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
 	// }
-
-	fine, res := violationRepo.GetViolationTypeByRecordID(123)
-	if res != nil {
-		fmt.Println(res)
+	// log.Printf("Fine amount: %v", status)
+	type1, ans := violationRecordRepo.GetViolationTypeByRecordID(123)
+	if ans != nil {
+		log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
 	}
-	fmt.Println(fine)
-
-	//user
-	//userRepo := repository.NewUserRepository(db)
-	// newUser := &models.User{
-	// 	Username: "john_doe",
-	// 	Password: "securepassword123",
-	// 	Tel:      "1234567890",
-	// }
-	// err = userRepo.Create(newUser)
-	// if err != nil {
-	// 	log.Fatal("failed to create user:", err)
-	// }
-
-	// // 更新密码
-	// err = userRepo.UpdatePasswordByID(newUser.UserID, "newsecurepassword456")
-	// if err != nil {
-	// 	log.Fatal("failed to update user password:", err)
-	// }
-
-	// // 获取电话
-	// tel, err := userRepo.GetTelByID(newUser.UserID)
-	// if err != nil {
-	// 	log.Fatal("failed to get user tel:", err)
-	// }
-	// log.Println("User Tel:", tel)
-
-	// // 删除记录
-	// err = userRepo.Delete(newUser.UserID)
-	// if err != nil {
-	// 	log.Fatal("failed to delete user:", err)
-	// }
+	log.Printf("Fine amount: %v", type1)
 }

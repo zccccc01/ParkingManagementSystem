@@ -23,6 +23,9 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]float
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
 	var amounts []float64
 	for _, record := range violationRecords {
 		amounts = append(amounts, record.FineAmount)
@@ -30,11 +33,15 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]float
 	return amounts, nil
 }
 
+// TODO:返回值应该是ID对应某个状态(类似一个<k,v>)
 func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]string, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
 	}
 	var statuses []string
 	for _, RecordID := range violationRecords {
@@ -43,11 +50,15 @@ func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]string, e
 	return statuses, nil
 }
 
+// TODO:返回值应该是ID对应某个类型(类似一个<k,v>)
 func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]string, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
 	}
 	var types []string
 	for _, RecordID := range violationRecords {

@@ -9,23 +9,36 @@ type UserRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-// NewUserRepository is a helper function to create a new UserRepository
 func NewUserRepository(db *gorm.DB) *UserRepositoryImpl {
 	return &UserRepositoryImpl{DB: db}
 }
+
 func (r *UserRepositoryImpl) Create(user *models.User) error {
-	result := r.DB.Create(user)
-	return result.Error
+	return r.DB.Create(user).Error
 }
 
 func (r *UserRepositoryImpl) UpdatePasswordByID(id int, password string) error {
-	result := r.DB.Model(&models.User{}).Where("UserID = ?", id).Update("Password", password)
-	return result.Error
+	var existingUser models.User
+	result := r.DB.Model(&existingUser).Where("UserID = ?", id).Update("Password", password)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
 
 func (r *UserRepositoryImpl) UpdateTelByID(id int, tel string) error {
-	result := r.DB.Model(&models.User{}).Where("UserID = ?", id).Update("Tel", tel)
-	return result.Error
+	var existingUser models.User
+	result := r.DB.Model(&existingUser).Where("UserID = ?", id).Update("Tel", tel)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
 
 func (r *UserRepositoryImpl) GetTelByID(id int) (string, error) {
@@ -34,10 +47,12 @@ func (r *UserRepositoryImpl) GetTelByID(id int) (string, error) {
 	if result.Error != nil {
 		return "", result.Error
 	}
+	if result.RowsAffected == 0 {
+		return "", gorm.ErrRecordNotFound
+	}
 	return user.Tel, nil
 }
 
 func (r *UserRepositoryImpl) Delete(id int) error {
-	result := r.DB.Delete(&models.User{}, id)
-	return result.Error
+	return r.DB.Delete(&models.User{}, "UserID = ?", id).Error
 }
