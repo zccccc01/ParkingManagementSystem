@@ -2,9 +2,11 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
 func main() {
@@ -16,9 +18,17 @@ func main() {
 	// 开db的debug模式
 	db = db.Debug()
 	// 实例一个接口
-	//spaceRepo := repository.NewParkingSpaceRepository(db)
+	paymentRepo := repository.NewPaymentRecordRepository(db)
 
 	// TODO: where ="unpaid" 找到RecordID 从RID找VehicleID 找人的ID
 	// 实现发违规记录给某人
+
+	//timeStamp, _ := paymentRepo.GetPaymentTimeStampByPaymentID(1)
+
+	ans, err := paymentRepo.GetPaymentStatusByPaymentTimeStamp(time.Now())
+	if err != nil {
+		log.Fatalf("failed to get payment status: %v", err)
+	}
+	log.Printf("payment status: %v", ans)
 
 }

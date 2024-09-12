@@ -11,7 +11,7 @@ type PaymentRecordRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func NewPaymentRecordRepositoryImpl(db *gorm.DB) PaymentRecordRepository {
+func NewPaymentRecordRepository(db *gorm.DB) PaymentRecordRepository {
 	return &PaymentRecordRepositoryImpl{DB: db}
 }
 
@@ -69,7 +69,12 @@ func (r *PaymentRecordRepositoryImpl) GetPaymentTimeStampByPaymentID(id int) (ti
 
 func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByPaymentTimeStamp(timestamp time.Time) (string, error) {
 	var payment models.PaymentRecord
-	result := r.DB.First(&payment, "PaymentTimestamp=?", timestamp)
-	// TODO: 基于一个范围去查询
-	return "", nil
+	result := r.DB.Find(&payment, "PaymentTimestamp=?", timestamp)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return "NOPAY", nil
+		}
+		return "", result.Error
+	}
+	return "PAY", nil
 }
