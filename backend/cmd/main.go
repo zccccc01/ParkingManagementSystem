@@ -14,23 +14,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err) // 使用日志记录错误，而不是panic
 	}
-
+	db = db.Debug()
 	// 实例一个接口
-	violationRecordRepo := repository.NewViolationRecordRepository(db)
+	parkingLotRepo := repository.NewParkingLotRepository(db)
 
-	// amounts, ans := violationRecordRepo.GetFineAmountByRecordID(123)
-	// if ans != nil {
-	// 	log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
-	// }
-	// log.Printf("Fine amount: %v", amounts)
-	// status, ans := violationRecordRepo.GetStatusByRecordID(123)
-	// if ans != nil {
-	// 	log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
-	// }
-	// log.Printf("Fine amount: %v", status)
-	type1, ans := violationRecordRepo.GetViolationTypeByRecordID(123)
-	if ans != nil {
-		log.Fatalf("failed to get fine amount: %v", err) // 使用日志记录错误，而不是panic
+	// TODO: where ="unpaid" 找到RecordID 从RID找VehicleID 找人的ID
+	res, err := parkingLotRepo.FindAllIncomeByLotID(1)
+	if err != nil {
+		log.Fatalf("failed to find all income by lot id: %v", err)
+
 	}
-	log.Printf("Fine amount: %v", type1)
+	log.Println(res)
 }

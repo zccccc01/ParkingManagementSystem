@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"database/sql"
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	"github.com/shopspring/decimal"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
@@ -89,4 +92,26 @@ func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error 
 
 func (r *ParkingLotRepositoryImpl) Delete(id int) error {
 	return r.DB.Delete(&models.ParkingLot{}, "ParkingLotID = ?", id).Error
+}
+
+func (r *ParkingLotRepositoryImpl) FindAllIncomeByLotID(id int) (float64, error) {
+	// select sum(Amount) from paymentrecord where RecordID in (select RecordID from parkingrecord where LotID = ?)
+	var totalIncome sql.NullFloat64
+	query := `
+        SELECT SUM(Amount)
+        FROM paymentrecord 
+        WHERE RecordID IN (
+            SELECT RecordID 
+            FROM parkingrecord 
+            WHERE LotID = ?
+        )
+    `
+	err := r.DB.Raw(query, id).Row().Scan(&totalIncome)
+	if err != nil {
+		return 0, fmt.Errorf("error executing query: %w", err)
+	}
+	if totalIncome.Valid {
+		return totalIncome.Float64, nil
+	}
+	return 0, nil
 }
