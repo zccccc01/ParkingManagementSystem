@@ -17,7 +17,7 @@ func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord
 	return r.DB.Create(violation).Error
 }
 
-func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]float64, error) {
+func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]models.ViolationRecord, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
@@ -26,15 +26,17 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]float
 	if result.RowsAffected == 0 {
 		return nil, gorm.ErrRecordNotFound
 	}
-	var amounts []float64
+	var details []models.ViolationRecord
 	for _, record := range violationRecords {
-		amounts = append(amounts, record.FineAmount)
+		details = append(details, models.ViolationRecord{
+			RecordID:   record.RecordID,
+			FineAmount: record.FineAmount,
+		})
 	}
-	return amounts, nil
+	return details, nil
 }
 
-// TODO:返回值应该是ID对应某个状态(类似一个<k,v>)
-func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]string, error) {
+func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]models.ViolationRecord, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
@@ -43,15 +45,17 @@ func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]string, e
 	if result.RowsAffected == 0 {
 		return nil, gorm.ErrRecordNotFound
 	}
-	var statuses []string
-	for _, RecordID := range violationRecords {
-		statuses = append(statuses, RecordID.Status)
+	var details []models.ViolationRecord
+	for _, record := range violationRecords {
+		details = append(details, models.ViolationRecord{
+			RecordID: record.RecordID,
+			Status:   record.Status,
+		})
 	}
-	return statuses, nil
+	return details, nil
 }
 
-// TODO:返回值应该是ID对应某个类型(类似一个<k,v>)
-func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]string, error) {
+func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]models.ViolationRecord, error) {
 	var violationRecords []models.ViolationRecord
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
@@ -60,9 +64,12 @@ func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]st
 	if result.RowsAffected == 0 {
 		return nil, gorm.ErrRecordNotFound
 	}
-	var types []string
-	for _, RecordID := range violationRecords {
-		types = append(types, RecordID.ViolationType)
+	var details []models.ViolationRecord
+	for _, record := range violationRecords {
+		details = append(details, models.ViolationRecord{
+			RecordID:      record.RecordID,
+			ViolationType: record.ViolationType,
+		})
 	}
-	return types, nil
+	return details, nil
 }
