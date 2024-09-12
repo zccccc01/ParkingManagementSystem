@@ -24,6 +24,7 @@ const Header = () => {
   return (
     <StyledHeader className={styles.header}>
       <HeaderTitle>Parking Management System</HeaderTitle>
+      <br />
       <HeaderNav>
         <ul>
           <li>

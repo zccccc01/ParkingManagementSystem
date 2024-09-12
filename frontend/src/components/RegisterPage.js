@@ -6,12 +6,11 @@ import { useNavigate } from 'react-router-dom';
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('/api/register', { username, password, email });
+      const response = await axios.post('/api/register', { username, password });
       console.log('Registration successful:', response.data);
       navigate('/login');
     } catch (error) {
@@ -27,20 +26,16 @@ const RegisterPage = () => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className="register-page-input"
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className="register-page-input"
       />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button onClick={handleRegister}>Register</button>
+      <button onClick={handleRegister} className="register-page-button">Register</button>
     </div>
   );
 };
