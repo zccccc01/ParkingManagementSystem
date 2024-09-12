@@ -3,6 +3,7 @@ import React from 'react';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import './HomePage.module.scss'; // 导入SCSS样式
 
 const HomePage = () => {
   return (

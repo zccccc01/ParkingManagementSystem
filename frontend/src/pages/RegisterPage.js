@@ -2,29 +2,30 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import './RegisterPage.scss';
 
 const RegisterPage = () => {
   return (
-    <div className="register-page">
+    <label htmlFor="register-page">
       <Header />
       <h1>用户注册</h1>
       <form>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label>用户名：</label>
-        <input type="text" id="username" name="username" required />
+        <label htmlFor="username">
+          用户名:
+          <input id="username" type="username" />
+        </label>
         <br />
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label>密码：</label>
-        <input type="password" id="password" name="password" required />
         <br />
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label>邮箱：</label>
-        <input type="email" id="email" name="email" required />
+        <label htmlFor="password">
+          密码:
+          <input id="password" type="password" />
+        </label>
+        <br />
         <br />
         <button type="submit">注册</button>
       </form>
       <Footer />
-    </div>
+    </label>
   );
 };
 
