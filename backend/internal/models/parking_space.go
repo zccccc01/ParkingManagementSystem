@@ -1,8 +1,11 @@
 package models
 
 type ParkingSpace struct {
-	SpaceID      int `gorm:"primaryKey"`
-	Number       int
-	Status       string
-	ParkingLotID int `gorm:"forignKey:ParkingLotID"`
+	SpaceID      int    `gorm:"column:SpaceID;primaryKey"`
+	Status       string `gorm:"column:Status"`
+	ParkingLotID int    `gorm:"column:ParkingLotID;foreignKey:PLID"`
+}
+
+func (p *ParkingSpace) TableName() string {
+	return "parkingspace"
 }
