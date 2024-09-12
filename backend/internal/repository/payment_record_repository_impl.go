@@ -68,6 +68,8 @@ func (r *PaymentRecordRepositoryImpl) GetPaymentTimeStampByPaymentID(id int) (ti
 }
 
 func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByPaymentTimeStamp(timestamp time.Time) (string, error) {
+	var payment models.PaymentRecord
+	result := r.DB.First(&payment, "PaymentTimestamp=?", timestamp)
 	// TODO: 基于一个范围去查询
 	return "", nil
 }
