@@ -84,6 +84,7 @@ func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error 
 		return gorm.ErrRecordNotFound
 	}
 	return nil
+
 }
 
 func (r *ParkingLotRepositoryImpl) Delete(id int) error {
