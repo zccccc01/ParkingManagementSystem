@@ -61,7 +61,6 @@ func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error 
 	if result.Error != nil {
 		return result.Error
 	}
-
 	var updates = map[string]interface{}{}
 	if lot.ParkingName != existingLot.ParkingName {
 		updates["ParkingName"] = lot.ParkingName
@@ -95,8 +94,8 @@ func (r *ParkingLotRepositoryImpl) Delete(id int) error {
 }
 
 func (r *ParkingLotRepositoryImpl) FindAllIncomeByLotID(id int) (float64, error) {
-	// select sum(Amount) from paymentrecord where RecordID in (select RecordID from parkingrecord where LotID = ?)
 	var totalIncome sql.NullFloat64
+	// select sum(Amount) from paymentrecord where RecordID in (select RecordID from parkingrecord where LotID = ?)
 	query := `
         SELECT SUM(Amount)
         FROM paymentrecord 
@@ -106,9 +105,10 @@ func (r *ParkingLotRepositoryImpl) FindAllIncomeByLotID(id int) (float64, error)
             WHERE LotID = ?
         )
     `
-	err := r.DB.Raw(query, id).Row().Scan(&totalIncome)
-	if err != nil {
-		return 0, fmt.Errorf("error executing query: %w", err)
+	// 写好sql语句,再调用Raw方法查询,Raw()用于执行原生SQL查询
+	result := r.DB.Raw(query, id).Row().Scan(&totalIncome)
+	if result != nil {
+		return 0, fmt.Errorf("error executing query: %w", result)
 	}
 	if totalIncome.Valid {
 		return totalIncome.Float64, nil

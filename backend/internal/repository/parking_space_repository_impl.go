@@ -39,10 +39,13 @@ func (r *ParkingSpaceRepositoryImpl) GetStatusBySpaceID(id int) (string, error) 
 }
 
 func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, id int) error {
-	//TODO: 三个状态,置空,置占用,置预定
-	return nil
-}
-
-func (r *ParkingSpaceRepositoryImpl) Delete(id int) error {
+	var existingSpace models.ParkingSpace
+	result := r.DB.Model(&existingSpace).Where("SpaceID = ?", id).Updates(space)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
 	return nil
 }
