@@ -18,4 +18,6 @@ type ParkingLotRepository interface {
 	Update(lot *models.ParkingLot, id int) error
 	// 根据ID删除一条记录
 	Delete(id int) error
+	//获取停车场的总收入
+	FindAllIncomeByLotID(id int) (float64, error)
 }
