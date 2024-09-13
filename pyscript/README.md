@@ -1,4 +1,4 @@
-# 使用add_data_*.py这个脚本添加数据
+# 使用python脚本添加数据
 
 ## 1. 安装相关库
 
@@ -9,7 +9,7 @@ pip install mysql-connector-python
 ```
 
 ## 2. 修改数据库连接信息
-在`add_data_*.py`中,修改数据库连接信息,使其指向你本地的数据库.
+在`add_*.py`中,修改数据库连接信息,使其指向你本地的数据库.
 
 ```python
 config = {
