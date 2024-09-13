@@ -23,7 +23,7 @@ def insert_paymentrecord_data():
     cursor.execute("SELECT ReservationID FROM reservation")
     reservation_ids = [row[0] for row in cursor.fetchall()]
 
-    for i in range(11, 101):
+    for i in range(1, 101):
         record_id = random.choice(parking_record_ids) if parking_record_ids else None
         reservation_id = random.choice(reservation_ids) if reservation_ids else None
         amount = round(random.uniform(5.0, 500.0), 2)  # 支付金额在5到500之间

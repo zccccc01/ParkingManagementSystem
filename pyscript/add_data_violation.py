@@ -21,7 +21,7 @@ def insert_violationrecord_data():
     cursor.execute("SELECT RecordID FROM parkingrecord")
     parking_record_ids = [row[0] for row in cursor.fetchall()]
 
-    for i in range(11, 101):
+    for i in range(1, 101):
         record_id = random.choice(parking_record_ids) if parking_record_ids else None
         fine_amount = round(random.uniform(50.0, 500.0), 2)  # 罚款金额在50到500之间
         violation_type = random.choice(['OVERSTAY', 'NOPAY'])  # 违规类型

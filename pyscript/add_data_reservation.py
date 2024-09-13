@@ -25,7 +25,7 @@ def insert_reservation_data():
     cursor.execute("SELECT SpaceID FROM parkingspace")
     space_ids = [row[0] for row in cursor.fetchall()]
 
-    for i in range(12, 101):
+    for i in range(1, 101):
         lot_id = random.choice(parking_lot_ids)
         vehicle_id = random.choice(vehicle_ids)
         space_id = random.choice(space_ids)

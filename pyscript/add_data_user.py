@@ -18,10 +18,13 @@ cursor = conn.cursor()
 # 插入数据的函数
 def insert_user_data():
     for i in range(1, 101):
-        username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=random.randint(6, 12)))
-        password = ''.join(
-            random.choices(string.ascii_lowercase + string.digits + string.ascii_uppercase + "!@#$%^&*()",
-                           k=random.randint(8, 16)))
+        # 选择三个非元音字母的大写字母
+        consonants = ''.join([c for c in string.ascii_uppercase if c not in 'AEIOU'])
+        username = ''.join(random.choices(consonants, k=3))
+
+        # 密码为6位数字加3位字母
+        password = ''.join(random.choices(string.digits, k=6)) + ''.join(random.choices(string.ascii_lowercase, k=3))
+
         tel = "1" + ''.join(random.choices(string.digits, k=10))  # 生成以1开头的11位电话号码
 
         query = (

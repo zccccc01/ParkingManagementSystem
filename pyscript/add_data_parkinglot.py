@@ -17,8 +17,11 @@ cursor = conn.cursor()
 
 # 插入数据的函数
 def insert_data():
-    for i in range(1, 501):
-        parking_name = ''.join(random.choices(string.ascii_uppercase, k=5)) + 'Lot'
+    for i in range(1, 101):
+        # 随机生成一个字母作为前缀
+        prefix = random.choice(string.ascii_uppercase)
+        # 组合成完整的ParkingName，例如：ACityLot
+        parking_name = prefix + 'CityLot'
         longitude = random.uniform(-180, 180)
         latitude = random.uniform(-90, 90)
         capacity = random.randint(50, 500)
@@ -41,4 +44,4 @@ insert_data()
 cursor.close()
 conn.close()
 
-print("500条数据已成功插入到parkinglot表中。")
+print("100条数据已成功插入到parkinglot表中。")
