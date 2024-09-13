@@ -1,6 +1,28 @@
-.NotFoundPage {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    height: 15vh; /* 使div的高度占满整个视口高度 */
+// src/pages/AboutUsPage.scss
+
+.AboutUsPage {
+  text-align: center;
+
+  h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
   }
+
+  p {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: #666;
+  }
+
+  hr {
+    margin: 2em 0;
+  }
+
+  img {
+    border-radius: 50%;
+    border: 2px solid #000;
+    width: 150px; /* 设置宽度 */
+    height: 150px; /* 设置高度 */
+    object-fit: cover; /* 确保图片填充整个容器 */
+  }
+}

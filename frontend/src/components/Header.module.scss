@@ -7,10 +7,12 @@
   align-items: center;
 
   h1 {
+    position: absolute;
+    left: 15px;
     margin: 0;
-    margin-bottom: 1rem;
-    font-family: KaiTi;
-    font-size: 3rem;
+    margin-bottom: 3rem;
+    font-family: MV Boli;
+    font-size: 2.5rem;
     color: orange;
   }
 
@@ -44,4 +46,38 @@
       }
     }
   }
+
+  div {
+    ul {
+      position: absolute;
+      right: 15px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      background-color: steelblue;
+      display: flex;
+      border-radius: 15px;
+
+      li {
+        margin-right: 1rem;
+        float: left;
+        a {
+          display: block;
+          width: 70px;
+          color: white;
+          padding: 12px 14px;
+          line-height: 30px;
+          text-decoration: none;
+          text-align: center;
+          font-size: 15px;
+          &:hover {
+            text-decoration: underline;
+            background-color: lightblue;
+          }
+        }
+      }
+    }
+  }
+
 }
