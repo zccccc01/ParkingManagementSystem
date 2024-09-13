@@ -32,8 +32,14 @@ config = {
 7. 建violationrecord表
 8. 建paymentrecord表
 
-在命令行中运行`add_data_*.py`脚本.
+在命令行中运行`add_all_data.py`脚本添加数据
 
 ```bash
-python add_data_*.py
+python add_all_data.py
+```
+
+在命令行中运行`remove_data_script.py`脚本删库跑路
+
+```bash
+python remove_data_script.py
 ```
