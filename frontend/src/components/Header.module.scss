@@ -8,7 +8,9 @@
 
   h1 {
     margin: 0;
-    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: KaiTi;
+    font-size: 3rem;
     color: orange;
   }
 
@@ -17,25 +19,26 @@
       list-style-type: none;
       padding: 0;
       margin: 0;
+      overflow: hidden;
+      background-color: #333;
       display: flex;
+      border-radius: 20px;
 
       li {
         margin-right: 1rem;
+        float: left;
         a {
           display: block;
           width: 100px;
-          color: #343a40;
+          color: white;
+          padding: 14px 16px;
           line-height: 45px;
           text-decoration: none;
           text-align: center;
           font-size: 15px;
-          border-style: solid;
-          border-radius: 50px;
-          border-width: 1px;
-          border-color: black;
-          background-color: white;
           &:hover {
             text-decoration: underline;
+            background-color: #111;
           }
         }
       }
