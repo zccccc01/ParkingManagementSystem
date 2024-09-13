@@ -1,10 +1,13 @@
 // components/Loading.js
 import React from 'react';
+import './Loading.scss';
 
 const Loading = () => {
   return (
-    <div className="loading">
-      <p>加载中...</p>
+    <div className="loadingPage">
+      <div className="loadingCenter">
+        <div className="loading" />
+      </div>
     </div>
   );
 };
