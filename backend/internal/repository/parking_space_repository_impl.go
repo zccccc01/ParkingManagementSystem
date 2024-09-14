@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 )
@@ -52,4 +54,51 @@ func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.Parking
 		return false, gorm.ErrRecordNotFound
 	}
 	return true, nil
+}
+func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNumber string) (int, int, error) {
+	var spaces models.ParkingSpace
+	// select LotID, SpaceID from parkingrecord where VehicleID in (select VehicleID from vehicle where plateNumber = ?)
+	query := `
+			SELECT LotID, SpaceID
+			FROM parkingrecord
+			WHERE VehicleID IN (
+				SELECT VehicleID
+				FROM vehicle
+				WHERE plateNumber = ?
+			)
+	`
+	result := r.DB.Raw(query, plateNumber).Row().Scan(&spaces.ParkingLotID, &spaces.SpaceID)
+	if result != nil {
+		return -1, -1, fmt.Errorf("error executing query: %w", result)
+	}
+	return spaces.ParkingLotID, spaces.SpaceID, nil
+}
+
+func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[int]int, error) {
+	var spaces []struct {
+		LotID   int `gorm:"column:LotID"`
+		SpaceID int `gorm:"column:SpaceID"`
+	}
+	// select LotID, SpaceID from parkingrecord where VehicleID in (select VehicleID from vehicle where UserID = ?)
+	query := `
+			SELECT LotID, SpaceID
+			FROM parkingrecord
+			WHERE VehicleID IN (
+				SELECT VehicleID
+				FROM vehicle
+				WHERE UserID = ?
+			)
+	`
+	result := r.DB.Raw(query, id).Scan(&spaces)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	var ans = make(map[int]int)
+	for _, record := range spaces {
+		ans[record.LotID] = record.SpaceID
+	}
+	return ans, nil
 }

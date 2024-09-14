@@ -11,4 +11,8 @@ type ParkingSpaceRepository interface {
 	GetStatusBySpaceID(id int) (string, error)
 	// 根据车位id更新状态
 	UpdateStatusBySpaceID(space *models.ParkingSpace, id int) (bool, error)
+	// 根据车牌号查看停车位置
+	FindVehicleSpaceInLotByPlateNumber(plateNumber string) (lotID int, spaceID int, err error)
+	// 根据UserID查看停车位置
+	FindVehicleSpaceInLotByUserID(id int) (map[int]int, error)
 }
