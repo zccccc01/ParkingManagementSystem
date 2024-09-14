@@ -82,3 +82,42 @@ func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByPaymentTimeStamp(timesta
 	}
 	return "PAY", nil
 }
+
+func (r *PaymentRecordRepositoryImpl) GetPaymentFeeByPlateNumber(plateNumber string) ([]float64, error) {
+	/**
+	select Amount from paymentrecord where RecordID in (
+		select RecordID from parkingrecord where RecordID in (
+			select VehicleID from vehicle where PlateNumber = ?
+		)
+	)
+	*/
+	type Amount struct {
+		Amount float64 `gorm:"column:Amount"`
+	}
+	var amounts []Amount
+	var fees []float64
+	query := `
+	SELECT Amount 
+	FROM paymentrecord 
+	WHERE RecordID IN (
+		SELECT RecordID 
+		FROM parkingrecord 
+		WHERE RecordID IN (
+			SELECT VehicleID 
+			FROM vehicle 
+			WHERE PlateNumber = ?
+		)
+	)
+	`
+	result := r.DB.Raw(query, plateNumber).Scan(&amounts)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	for _, amount := range amounts {
+		fees = append(fees, amount.Amount)
+	}
+	return fees, nil
+}
