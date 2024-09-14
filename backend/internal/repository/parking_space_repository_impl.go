@@ -55,6 +55,7 @@ func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.Parking
 	}
 	return true, nil
 }
+
 func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNumber string) (int, int, error) {
 	var spaces models.ParkingSpace
 	// select LotID, SpaceID from parkingrecord where VehicleID in (select VehicleID from vehicle where plateNumber = ?)
