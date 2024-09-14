@@ -15,8 +15,12 @@ func NewPaymentRecordRepository(db *gorm.DB) PaymentRecordRepository {
 	return &PaymentRecordRepositoryImpl{DB: db}
 }
 
-func (r *PaymentRecordRepositoryImpl) Create(payment *models.PaymentRecord) error {
-	return r.DB.Create(&payment).Error
+func (r *PaymentRecordRepositoryImpl) Create(payment *models.PaymentRecord) (bool, error) {
+	result := r.DB.Create(&payment)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *PaymentRecordRepositoryImpl) GetAmountByRecordID(id int) (float64, error) {

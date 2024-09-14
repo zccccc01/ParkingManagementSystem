@@ -8,7 +8,7 @@ import (
 
 type PaymentRecordRepository interface {
 	//创建一条记录
-	Create(payment *models.PaymentRecord) error
+	Create(payment *models.PaymentRecord) (bool, error)
 	//根据记录ID获取金额
 	GetAmountByRecordID(id int) (float64, error)
 	//根据预约ID获取金额
