@@ -13,8 +13,12 @@ func NewParkingSpaceRepository(db *gorm.DB) ParkingSpaceRepository {
 	return &ParkingSpaceRepositoryImpl{DB: db}
 }
 
-func (r *ParkingSpaceRepositoryImpl) Create(space *models.ParkingSpace) error {
-	return r.DB.Create(space).Error
+func (r *ParkingSpaceRepositoryImpl) Create(space *models.ParkingSpace) (bool, error) {
+	result := r.DB.Create(&space)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *ParkingSpaceRepositoryImpl) GetAllStatusByLotID(id int) ([]models.ParkingSpace, error) {
@@ -38,14 +42,14 @@ func (r *ParkingSpaceRepositoryImpl) GetStatusBySpaceID(id int) (string, error) 
 	return space.Status, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, id int) error {
+func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, id int) (bool, error) {
 	var existingSpace models.ParkingSpace
 	result := r.DB.Model(&existingSpace).Where("SpaceID = ?", id).Updates(space)
 	if result.Error != nil {
-		return result.Error
+		return false, result.Error
 	}
 	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
+		return false, gorm.ErrRecordNotFound
 	}
-	return nil
+	return true, nil
 }
