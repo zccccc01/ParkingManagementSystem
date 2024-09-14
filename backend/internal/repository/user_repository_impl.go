@@ -96,3 +96,27 @@ func (r *UserRepositoryImpl) UpdateUserName(id int, tel string, newname string) 
 	}
 	return true, nil
 }
+
+func (r *UserRepositoryImpl) FindUserByID(id int) (*models.User, error) {
+	var user models.User
+	result := r.DB.First(&user, "UserID = ?", id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return &user, nil
+}
+
+func (r *UserRepositoryImpl) FindUserByTel(tel string) (*models.User, error) {
+	var user models.User
+	result := r.DB.First(&user, "Tel = ?", tel)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return &user, nil
+}

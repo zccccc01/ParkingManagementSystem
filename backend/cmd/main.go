@@ -19,21 +19,16 @@ func main() {
 	db = db.Debug()
 	// 实例一个接口
 	userRepo := repository.NewUserRepository(db)
-	ans1, _ := userRepo.HasUserByID(1)
-	ans2, _ := userRepo.HasUserByID(1000)
-	ans3, _ := userRepo.HasUserByTel("15126192562")
-	ans4, _ := userRepo.HasUserByTel("1122545")
-	if ans1 {
-		fmt.Println("has user1")
+	// ans, err := userRepo.UpdateUserName(1, "123456789", "CLzz")
+	// fmt.Println(ans, err)
+	ans1, err1 := userRepo.FindUserByTel("123456789")
+	if err1 != nil {
+		fmt.Println(err1)
 	}
-	if !ans2 {
-		fmt.Println("no has")
+	fmt.Println(ans1)
+	ans2, err2 := userRepo.FindUserByTel("1")
+	if err2 != nil {
+		fmt.Println(err2)
 	}
-	if ans3 {
-		fmt.Println("has tel ...")
-	}
-	if !ans4 {
-		fmt.Println("no has")
-	}
-
+	fmt.Println(ans2)
 }

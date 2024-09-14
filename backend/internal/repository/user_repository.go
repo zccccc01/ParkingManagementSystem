@@ -19,4 +19,8 @@ type UserRepository interface {
 	HasUserByTel(tel string) (bool, error)
 	// 根据Tel和ID查记录,更改userName
 	UpdateUserName(id int, tel string, newname string) (bool, error)
+	// 根据ID查记录,用于登录
+	FindUserByID(id int) (*models.User, error)
+	// 根据Tel查记录,用于登录
+	FindUserByTel(tel string) (*models.User, error)
 }
