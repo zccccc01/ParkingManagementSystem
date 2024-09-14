@@ -13,8 +13,12 @@ func NewReservationRepository(db *gorm.DB) *ReservationRepositoryImpl {
 	return &ReservationRepositoryImpl{DB: db}
 }
 
-func (r *ReservationRepositoryImpl) Create(reservation *models.Reservation) error {
-	return r.DB.Create(reservation).Error
+func (r *ReservationRepositoryImpl) Create(reservation *models.Reservation) (bool, error) {
+	result := r.DB.Create(&reservation)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *ReservationRepositoryImpl) UpdateStatusByReservationID(id int, status string) error {

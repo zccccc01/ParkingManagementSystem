@@ -13,8 +13,12 @@ func NewViolationRecordRepository(db *gorm.DB) *ViolationRecordRepositoryImpl {
 	return &ViolationRecordRepositoryImpl{DB: db}
 }
 
-func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord) error {
-	return r.DB.Create(violation).Error
+func (r *ViolationRecordRepositoryImpl) Create(violation *models.ViolationRecord) (bool, error) {
+	result := r.DB.Create(&violation)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]models.ViolationRecord, error) {
