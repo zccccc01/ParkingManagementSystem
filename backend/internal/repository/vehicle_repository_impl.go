@@ -13,8 +13,12 @@ func NewVehicleRepository(db *gorm.DB) *VehicleRepositoryImpl {
 	return &VehicleRepositoryImpl{DB: db}
 }
 
-func (r *VehicleRepositoryImpl) Create(vehicle *models.Vehicle) error {
-	return r.DB.Create(vehicle).Error
+func (r *VehicleRepositoryImpl) Create(vehicle *models.Vehicle) (bool, error) {
+	result := r.DB.Create(&vehicle)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *VehicleRepositoryImpl) GetAllByVehicleID(id int) (*models.Vehicle, error) {

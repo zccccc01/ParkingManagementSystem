@@ -17,8 +17,12 @@ func NewParkingLotRepository(db *gorm.DB) ParkingLotRepository {
 	return &ParkingLotRepositoryImpl{DB: db}
 }
 
-func (r *ParkingLotRepositoryImpl) Create(lot *models.ParkingLot) error {
-	return r.DB.Create(lot).Error
+func (r *ParkingLotRepositoryImpl) Create(lot *models.ParkingLot) (bool, error) {
+	result := r.DB.Create(&lot)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *ParkingLotRepositoryImpl) FindByID(id int) (*models.ParkingLot, error) {
