@@ -21,28 +21,28 @@ func (r *UserRepositoryImpl) Create(user *models.User) (bool, error) {
 	return true, nil
 }
 
-func (r *UserRepositoryImpl) UpdatePasswordByID(id int, password string) error {
+func (r *UserRepositoryImpl) UpdatePasswordByID(id int, password string) (bool, error) {
 	var existingUser models.User
 	result := r.DB.Model(&existingUser).Where("UserID = ?", id).Update("Password", password)
 	if result.Error != nil {
-		return result.Error
+		return false, result.Error
 	}
 	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
+		return false, gorm.ErrRecordNotFound
 	}
-	return nil
+	return true, nil
 }
 
-func (r *UserRepositoryImpl) UpdateTelByID(id int, tel string) error {
+func (r *UserRepositoryImpl) UpdateTelByID(id int, tel string) (bool, error) {
 	var existingUser models.User
 	result := r.DB.Model(&existingUser).Where("UserID = ?", id).Update("Tel", tel)
 	if result.Error != nil {
-		return result.Error
+		return false, result.Error
 	}
 	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
+		return false, gorm.ErrRecordNotFound
 	}
-	return nil
+	return true, nil
 }
 
 func (r *UserRepositoryImpl) GetTelByID(id int) (string, error) {
@@ -57,8 +57,12 @@ func (r *UserRepositoryImpl) GetTelByID(id int) (string, error) {
 	return user.Tel, nil
 }
 
-func (r *UserRepositoryImpl) Delete(id int) error {
-	return r.DB.Delete(&models.User{}, "UserID = ?", id).Error
+func (r *UserRepositoryImpl) Delete(id int) (bool, error) {
+	result := r.DB.Delete(&models.User{}, "UserID = ?", id)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *UserRepositoryImpl) HasUserByID(id int) (bool, error) {
