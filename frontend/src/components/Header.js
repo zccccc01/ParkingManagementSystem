@@ -24,17 +24,26 @@ const Header = () => {
   return (
     <StyledHeader className={styles.header}>
       <HeaderTitle>Parking Management System</HeaderTitle>
-      <br />
-      <HeaderNav>
+      <div>
         <ul>
-          <li>
-            <a href="/">首页</a>
-          </li>
           <li>
             <a href="/register">注册</a>
           </li>
           <li>
             <a href="/login">登录</a>
+          </li>
+        </ul>
+        <br />
+        <br />
+        <br />
+      </div>
+      <br />
+      <br />
+      <br />
+      <HeaderNav>
+        <ul>
+          <li>
+            <a href="/">首页</a>
           </li>
           <li>
             <a href="/dashboard">仪表盘</a>
