@@ -13,8 +13,12 @@ func NewUserRepository(db *gorm.DB) *UserRepositoryImpl {
 	return &UserRepositoryImpl{DB: db}
 }
 
-func (r *UserRepositoryImpl) Create(user *models.User) error {
-	return r.DB.Create(user).Error
+func (r *UserRepositoryImpl) Create(user *models.User) (bool, error) {
+	result := r.DB.Create(user)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	return true, nil
 }
 
 func (r *UserRepositoryImpl) UpdatePasswordByID(id int, password string) error {
@@ -55,4 +59,40 @@ func (r *UserRepositoryImpl) GetTelByID(id int) (string, error) {
 
 func (r *UserRepositoryImpl) Delete(id int) error {
 	return r.DB.Delete(&models.User{}, "UserID = ?", id).Error
+}
+
+func (r *UserRepositoryImpl) HasUserByID(id int) (bool, error) {
+	var existingUser models.User
+	result := r.DB.First(&existingUser, "UserID = ?", id)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return false, gorm.ErrRecordNotFound
+	}
+	return true, nil
+}
+
+func (r *UserRepositoryImpl) HasUserByTel(tel string) (bool, error) {
+	var existingUser models.User
+	result := r.DB.Find(&existingUser, "Tel = ?", tel)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return false, gorm.ErrRecordNotFound
+	}
+	return true, nil
+}
+
+func (r *UserRepositoryImpl) UpdateUserName(id int, tel string, newname string) (bool, error) {
+	var existingUser models.User
+	result := r.DB.Model(&existingUser).Where("UserID = ? AND Tel = ?", id, tel).Update("UserName", newname)
+	if result.Error != nil {
+		return false, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return false, gorm.ErrRecordNotFound
+	}
+	return true, nil
 }
