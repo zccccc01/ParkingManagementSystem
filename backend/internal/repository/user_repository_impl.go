@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+
 	"github.com/jinzhu/gorm"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 )
@@ -125,6 +127,27 @@ func (r *UserRepositoryImpl) FindUserByTel(tel string) (*models.User, error) {
 	return &user, nil
 }
 
-func (r *UserRepositoryImpl) UpdateUserNameByID(id int) (bool, error) {
-	return false, nil
+func (r *UserRepositoryImpl) UpdateUserNameByID(id int, newName string) (bool, error) {
+
+	// 首先，从数据库中查找对应的用户
+	var user models.User
+	result := r.DB.First(&user, id)
+	if result.Error != nil {
+		// 如果没有找到用户或者发生其他错误，返回错误
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return false, nil // 可以选择返回 nil 错误表示用户不存在
+		}
+		return false, result.Error
+	}
+
+	// 更新用户名
+	user.UserName = newName
+	result = r.DB.Save(&user)
+	if result.Error != nil {
+		// 如果更新失败，返回错误
+		return false, result.Error
+	}
+
+	// 如果一切顺利，返回 true 表示成功
+	return true, nil
 }
