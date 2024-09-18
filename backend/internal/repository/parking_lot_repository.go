@@ -7,7 +7,7 @@ import (
 // ParkingLotRepository 定义停车场仓库接口
 type ParkingLotRepository interface {
 	// 创建一条记录
-	Create(lot *models.ParkingLot) error
+	Create(lot *models.ParkingLot) (bool, error)
 	// 根据ID查找一条记录
 	FindByID(id int) (*models.ParkingLot, error)
 	// 根据名称查找一条记录
@@ -20,6 +20,4 @@ type ParkingLotRepository interface {
 	Delete(id int) error
 	//获取停车场的总收入
 	FindAllIncomeByLotID(id int) (float64, error)
-	//获取停车场违规停车统计
-	FindAllViolationByLotID(id int) (int, error)
 }

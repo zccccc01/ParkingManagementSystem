@@ -82,3 +82,10 @@ func (r *ParkingRecordRepositoryImpl) GetFeeByVehicleID(id int) (float64, error)
 	rate, _ := existingLot.Rates.Float64()
 	return float64(timeDiff.Hours()) * rate, nil
 }
+
+func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (userID int, vehicleID int, inTime time.Time, outTime time.Time, Amount float64, err error) {
+	// select RecordID, VehicleID, StartTime, EndTime from parkingrecord where VehicleID in (
+	// 	  select VehicleID from vehicle where UserID = ?)
+	// select Amount from paymentrecord where RecordID in 上面那个查询的结果
+	return 0, 0, time.Now(), time.Now(), 0, nil
+}

@@ -77,3 +77,10 @@ func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]mo
 	}
 	return details, nil
 }
+
+func (r *ViolationRecordRepositoryImpl) FindViolationRecordByUserID(id int) ([]models.ViolationRecord, error) {
+	//select * from violationrecord where RecordID in (
+	//	select RecordID from parkingrecord where VehicleID in (
+	//  	select VehicleID from vehicle where UserID = ?))
+	return nil, nil
+}

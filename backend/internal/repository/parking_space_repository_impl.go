@@ -111,3 +111,8 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[
 	}
 	return ans, nil
 }
+
+func (r *ParkingSpaceRepositoryImpl) FindFreeSpaceInLot(id int) ([][]int, error) {
+	// select lotID,SpaceID from parkingspace where Status = "FREE"
+	return nil, nil
+}

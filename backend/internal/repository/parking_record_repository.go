@@ -15,4 +15,6 @@ type ParkingRecordRepository interface {
 	GetFeeByRecordID(id int) (float64, error)
 	// 根据车辆ID获取费用
 	GetFeeByVehicleID(id int) (float64, error)
+	// 根据UserID查历史记录 TODO:返回值怪怪的?函数内建结构体,再返回?
+	FindHistoryRecordByUserID(id int) (userID int, vehicleID int, inTime time.Time, outTime time.Time, Amount float64, err error)
 }
