@@ -17,12 +17,10 @@ type UserRepository interface {
 	HasUserByID(id int) (bool, error)
 	// 根据Tel查有无此人,用于查询是否被注册
 	HasUserByTel(tel string) (bool, error)
-	// 根据Tel和ID查记录,更改userName
-	UpdateUserName(id int, tel string, newname string) (bool, error)
 	// 根据ID查记录,用于登录
 	FindUserByID(id int) (*models.User, error)
 	// 根据Tel查记录,用于登录
 	FindUserByTel(tel string) (*models.User, error)
 	// 根据ID更新用户名
-	UpdateUserNameByID(id int) (bool, error)
+	UpdateUserNameByID(id int, newName string) (bool, error)
 }
