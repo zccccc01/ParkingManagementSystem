@@ -23,4 +23,6 @@ type UserRepository interface {
 	FindUserByID(id int) (*models.User, error)
 	// 根据Tel查记录,用于登录
 	FindUserByTel(tel string) (*models.User, error)
+	// 根据ID更新用户名
+	UpdateUserNameByID(id int) (bool, error)
 }

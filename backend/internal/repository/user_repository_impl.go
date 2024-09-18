@@ -124,3 +124,7 @@ func (r *UserRepositoryImpl) FindUserByTel(tel string) (*models.User, error) {
 	}
 	return &user, nil
 }
+
+func (r *UserRepositoryImpl) UpdateUserNameByID(id int) (bool, error) {
+	return false, nil
+}
