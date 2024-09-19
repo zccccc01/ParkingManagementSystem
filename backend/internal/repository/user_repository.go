@@ -23,4 +23,5 @@ type UserRepository interface {
 	FindUserByTel(tel string) (*models.User, error)
 	// 根据ID更新用户名
 	UpdateUserNameByID(id int, newName string) (bool, error)
+	// TODO:按照密码一致,登录
 }
