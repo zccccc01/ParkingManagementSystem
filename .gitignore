@@ -1,0 +1,4 @@
+# ignore some dir
+nginx-1.26.2(pkms)/
+
+test/
