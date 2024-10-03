@@ -1,26 +1,23 @@
 // HomePage.module.scss
-.home-page {
+.HomePage {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
-  &__header {
-    background-color: #f8f9fa;
-  }
-
-  &__content {
-    flex: 1;
-    padding: 20px;
-    text-align: center;
-  }
-
-  &__footer {
-    background-color: #e9ecef;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  
+  .image-slider {
+    width: 100%; /* 设置图片宽度为100% */
+    height: auto; /* 高度自动调整以保持宽高比 */
+    max-width: 800px; /* 设置最大宽度 */
+    max-height: 600px; /* 设置最大高度 */
   }
 }
 
-p{
-  font-size: 20px;
+
+p {
+  font-family: KaiTi;
+  font-display: swap;
+  font-weight: bold;
+  font-size: 50px;
   color: #007BFF;
   text-align: center;
 }

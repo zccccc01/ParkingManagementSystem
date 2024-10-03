@@ -13,13 +13,24 @@
 }
 
 .modal {
-  background: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  z-index: 10;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
   width: 300px; /* 设置弹窗宽度 */
   text-align: center; /* 内容居中 */
   position: relative; /* 使 .close-btn 相对于 .modal 定位 */
+  -webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+}
+
+.shape2 {
+  position: absolute;
+  width: 150px;
+  top: 4rem;
+  left: 38rem;
 }
 
 .close-btn {
@@ -43,7 +54,7 @@
   background: #e0e0e0; /* 鼠标悬停时的颜色 */
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],input[type="tel"], input[type="password"] {
   width: 80%;
   height: 40px;
   border-radius: 20px;
