@@ -1,15 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
+	"github.com/zccccc01/ParkingManagementSystem/backend/internal/routes"
 )
 
 func main() {
+	// 创建 Fiber 实例
+	app := fiber.New()
+
 	// 连接数据库
 	db, err := gorm.Open("mysql", "root:123456@/chao_db?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
@@ -17,18 +20,12 @@ func main() {
 	}
 	// 开db的debug模式
 	db = db.Debug()
-	// 实例一个接口
-	userRepo := repository.NewUserRepository(db)
-	// ans, err := userRepo.UpdateUserName(1, "123456789", "CLzz")
-	// fmt.Println(ans, err)
-	ans1, err1 := userRepo.FindUserByTel("123456789")
-	if err1 != nil {
-		fmt.Println(err1)
-	}
-	fmt.Println(ans1)
-	ans2, err2 := userRepo.FindUserByTel("1")
-	if err2 != nil {
-		fmt.Println(err2)
-	}
-	fmt.Println(ans2)
+
+	defer db.Close()
+
+	// 设置路由
+	routes.SetupParkingLotRoutes(app, db)
+
+	// 启动服务器
+	log.Fatal(app.Listen(":8000"))
 }
