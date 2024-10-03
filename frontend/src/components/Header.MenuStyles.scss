@@ -1,0 +1,59 @@
+
+/*
+    A~B 选择前面有A元素的每个 B 元素，即选择 A 之后出现的所有 B，两种元素必须拥有相同的父元素，但 B 不必紧随 A。
+*/
+ 
+.menu-box > input#menu-btn:checked ~ .menu{
+    width: 0;
+}
+ 
+.menu-title{
+    text-align: center;
+    margin-bottom: 10px;
+}
+ 
+.menu-item>label{
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-radius: var(--border-radius-mi);
+    align-items: center;
+}
+ 
+.menu-item>label:hover{
+    color: var(--font-color-mi-hover);
+}
+ 
+.menu-item>label>i:first-child{
+    flex: none;
+    margin-right: 6px;
+    font-size: 24px;
+}
+ 
+.menu-item>label>span{
+    flex: 1;
+}
+ 
+.menu-item>label>i:last-child{
+    flex: none;
+    font-size: 20px;
+    font-weight: 900;
+    transform: rotate(0deg);
+    transition: transform var(--transition-menu-time);
+}
+ 
+.menu-item>input:checked+label>i:last-child{
+    transform: rotate(180deg);
+}
+ 
+.menu-content{
+    height: 0;
+    overflow: hidden;
+    /*清除浮动*/
+    transition: height var(--transition-menu-time);
+    display: flex;
+    /*规定弹性项目会在需要时换行。*/
+    flex-wrap: wrap;
+    background-color: var(--color-zidingyi);
+}

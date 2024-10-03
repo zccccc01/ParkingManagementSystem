@@ -9,7 +9,7 @@ const ParkingSpotDetailPage = ({ match }) => {
   return (
     <div className="parking-spot-detail-page">
       <Header />
-      <h1>停车位详情：{id}</h1>
+      <h1>停车位详情:{id}</h1>
       <p>单个停车位的详细信息和预定选项</p>
       <Footer />
     </div>

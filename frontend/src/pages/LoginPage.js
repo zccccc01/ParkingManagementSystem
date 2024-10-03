@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 导入 useNavigate 钩子
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.scss';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // 获取导航函数
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // 阻止表单默认提交行为
 
-    // 示例逻辑：直接模拟登录成功
-    localStorage.setItem('token', 'dummy-token'); // 存储 dummy token 到本地
-    navigate('/dashboard'); // 登录成功后跳转到 dashboard 页面
+    setError(''); // 清除之前的错误信息
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/login', {
+        userID,
+        password,
+      });
+
+      if (response.status === 200) {
+        navigate('/dashboard'); // 登录成功后跳转到 dashboard 页面
+      } else {
+        setError('登录失败，请检查用户名和密码');
+      }
+    } catch (apiError) {
+      // 移除 console.error 语句
+      setError('登录失败，请检查用户名和密码');
+    }
   };
 
   const handleCloseClick = () => {
@@ -21,12 +37,13 @@ const LoginPage = () => {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleCloseClick();
+      handleSubmit(event);
     }
   };
 
   return (
     <div className="login-page">
+      <img className="shape1" src="https://s3.us-east-2.amazonaws.com/ui.glass/shape.svg" alt="" />
       <div className="container">
         <div className="modal">
           <button
@@ -39,22 +56,23 @@ const LoginPage = () => {
           >
             x
           </button>
-          <h1>用户登录</h1>
+          <h1>登录帐户</h1>
+          {error && <p className="error-message">{error}</p>}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username">
-              用户名：
+            <label htmlFor="userID">
+              用户ID:
               <input
-                type="text" // 将 type="username" 改为 type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                id="userID"
+                name="userID"
+                value={userID}
+                onChange={(e) => setUserID(e.target.value)}
               />
             </label>
             <br />
             <br />
             <label htmlFor="password">
-              密码：
+              密码:
               <input
                 type="password"
                 id="password"

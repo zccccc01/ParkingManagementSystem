@@ -1,7 +1,23 @@
 import axios from 'axios';
 
-const apiBaseUrl = 'http://your-backend-api-url.com/api';
+const apiBaseUrl = 'http://localhost:8000/api';
 
+// 注册函数
+const register = async (userID, tel, password, confirmPassword) => {
+  try {
+    const response = await axios.post(`${apiBaseUrl}/register`, {
+      userID,
+      tel,
+      password,
+      confirmPassword,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message || '注册失败，请检查输入的信息');
+  }
+};
+
+// 登录函数
 const login = async (username, password) => {
   try {
     const response = await axios.post(`${apiBaseUrl}/auth/login`, {
@@ -14,4 +30,4 @@ const login = async (username, password) => {
   }
 };
 
-export default login; // 使用默认导出
+export { register, login }; // 使用命名导出
