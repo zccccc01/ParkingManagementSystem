@@ -3,6 +3,8 @@
 ## 前端
 + react
 ## 后端
-+ gin框架
++ fiter框架
++ grom
++ air
 ## 数据库
 + mysql
