@@ -45,3 +45,51 @@ h1 {
     transform: rotate(360deg);
   }
 }
+
+/* 自动轮播样式 */
+.banner-container {
+  width: 1200px;
+  height: 400px;
+  /* 轮播图居中 */
+  margin: 1rem auto;
+  /* 隐藏超出展示容器的内容 */
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-img-container {
+  width: 6000px; // 5张图片，每张1200px
+  height: 400px;
+  overflow: hidden;
+  position: absolute;
+  /* 开启弹性盒，让图片横向排列 */
+  display: flex;
+  animation: run 10s ease infinite;
+}
+
+.banner-img-container img {
+  width: 1200px;
+  height: 100%;
+}
+
+/* 动画关键帧 */
+@keyframes run {
+  0%, 10% {
+    transform: translateX(0);
+  }
+  20%, 30% {
+    transform: translateX(-1200px);
+  }
+  40%, 50% {
+    transform: translateX(-2400px);
+  }
+  60%, 70% {
+    transform: translateX(-3600px);
+  }
+  80%, 90% {
+    transform: translateX(-4800px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
