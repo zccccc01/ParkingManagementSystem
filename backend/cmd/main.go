@@ -25,6 +25,7 @@ func main() {
 
 	// 设置路由
 	routes.SetupParkingLotRoutes(app, db)
+	routes.SetupUserRoutes(app, db)
 
 	// 启动服务器
 	log.Fatal(app.Listen(":8000"))

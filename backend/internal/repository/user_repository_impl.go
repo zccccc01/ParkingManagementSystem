@@ -79,13 +79,19 @@ func (r *UserRepositoryImpl) HasUserByID(id int) (bool, error) {
 
 func (r *UserRepositoryImpl) HasUserByTel(tel string) (bool, error) {
 	var existingUser models.User
-	result := r.DB.Find(&existingUser, "Tel = ?", tel)
-	if result.Error != nil {
+	result := r.DB.First(&existingUser, "Tel = ?", tel)
+
+	// 检查是否发生了数据库错误，但忽略记录未找到的情况
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
 		return false, result.Error
 	}
+	// 如果没有找到任何记录，result.RowsAffected 会是 0
+	// TODO:全部要修改这个RowsAffected
+	// 如果没有找到任何记录，则返回 false，没有错误
 	if result.RowsAffected == 0 {
-		return false, gorm.ErrRecordNotFound
+		return false, nil
 	}
+
 	return true, nil
 }
 
