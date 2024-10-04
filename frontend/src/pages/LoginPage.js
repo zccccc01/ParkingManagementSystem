@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './LoginPage.scss';
 
 const LoginPage = () => {
-  const [userID, setUserID] = useState('');
+  const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -15,10 +15,16 @@ const LoginPage = () => {
     setError(''); // 清除之前的错误信息
 
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        userID,
-        password,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/login', // 'http://localhost:8000/api/user/login'
+        {
+          tel,
+          password,
+        },
+        {
+          withCredentials: true, // 发送带有cookie的请求
+        }
+      );
 
       if (response.status === 200) {
         navigate('/dashboard'); // 登录成功后跳转到 dashboard 页面
@@ -26,8 +32,7 @@ const LoginPage = () => {
         setError('登录失败，请检查用户名和密码');
       }
     } catch (apiError) {
-      // 移除 console.error 语句
-      setError('登录失败，请检查用户名和密码');
+      setError(apiError.response?.data?.message || '登录失败，请检查用户名和密码');
     }
   };
 
@@ -47,7 +52,7 @@ const LoginPage = () => {
       <div className="container">
         <div className="modal">
           <button
-            type="button" // 添加 type 属性
+            type="button"
             className="close-btn"
             onClick={handleCloseClick}
             onKeyDown={handleKeyDown}
@@ -59,14 +64,14 @@ const LoginPage = () => {
           <h1>登录帐户</h1>
           {error && <p className="error-message">{error}</p>}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="userID">
-              用户ID:
+            <label htmlFor="tel">
+              电话号码:
               <input
                 type="text"
-                id="userID"
-                name="userID"
-                value={userID}
-                onChange={(e) => setUserID(e.target.value)}
+                id="tel"
+                name="tel"
+                value={tel}
+                onChange={(e) => setTel(e.target.value)}
               />
             </label>
             <br />
