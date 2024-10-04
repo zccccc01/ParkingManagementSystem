@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './RegisterPage.scss';
 
 const RegisterPage = () => {
@@ -14,22 +14,29 @@ const RegisterPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // 阻止表单默认提交行为
 
+    setError(''); // 清除之前的错误信息
+
     try {
-      const response = await axios.post('http://localhost:8000/api/register', {
-        userID,
-        tel,
-        password,
-        confirmPassword,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/register', // 'http://localhost:8000/api/user/register'
+        {
+          userID,
+          tel,
+          password,
+          confirmPassword,
+        },
+        {
+          withCredentials: true, // 发送带有cookie的请求
+        }
+      );
 
       if (response.status === 201) {
-        localStorage.setItem('token', 'dummy-token'); // 存储 dummy token 到本地
-        navigate('/dashboard'); // 注册成功后跳转到 dashboard 页面
+        navigate('/login'); // 注册成功后跳转到登录页面
       } else {
         setError('注册失败，请检查输入的信息');
       }
     } catch (registrationError) {
-      setError(registrationError.response.data.message || '注册失败，请检查输入的信息');
+      setError(registrationError.response?.data?.message || '注册失败，请检查输入的信息');
     }
   };
 
@@ -44,7 +51,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="register-page">
       <img className="shape2" src="https://s3.us-east-2.amazonaws.com/ui.glass/shape.svg" alt="" />
       <div className="container">
         <div className="modal">

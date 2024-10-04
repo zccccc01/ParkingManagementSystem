@@ -5,7 +5,7 @@ const apiBaseUrl = 'http://localhost:8000/api';
 // 注册函数
 const register = async (userID, tel, password, confirmPassword) => {
   try {
-    const response = await axios.post(`${apiBaseUrl}/register`, {
+    const response = await axios.post(`${apiBaseUrl}/user/register`, {
       userID,
       tel,
       password,
@@ -20,7 +20,7 @@ const register = async (userID, tel, password, confirmPassword) => {
 // 登录函数
 const login = async (username, password) => {
   try {
-    const response = await axios.post(`${apiBaseUrl}/auth/login`, {
+    const response = await axios.post(`${apiBaseUrl}/user/login`, {
       username,
       password,
     });
