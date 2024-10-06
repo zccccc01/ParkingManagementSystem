@@ -5,85 +5,85 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/service"
+	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
 type ParkingLotController struct {
-	service *service.ParkingLotService
+	ParkingLotRepo repository.ParkingLotRepository
 }
 
-func NewParkingLotController(service *service.ParkingLotService) *ParkingLotController {
-	return &ParkingLotController{service: service}
+func NewParkingLotController(repo repository.ParkingLotRepository) *ParkingLotController {
+	return &ParkingLotController{ParkingLotRepo: repo}
 }
 
 // CreateParkingLot 创建停车场
-func (c *ParkingLotController) CreateParkingLot(ctx *fiber.Ctx) error {
+func (plc *ParkingLotController) CreateParkingLot(c *fiber.Ctx) error {
 	var lot models.ParkingLot
-	if err := ctx.BodyParser(&lot); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
+	if err := c.BodyParser(&lot); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	success, err := c.service.CreateParkingLot(&lot)
+	success, err := plc.ParkingLotRepo.Create(&lot)
 	if err != nil || !success {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot created successfully"})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot created successfully"})
 }
 
 // GetParkingLotByID 根据ID获取停车场
-func (c *ParkingLotController) GetParkingLotByID(ctx *fiber.Ctx) error {
-	id, err := strconv.Atoi(ctx.Params("id"))
+func (plc *ParkingLotController) GetParkingLotByID(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
 	}
 
-	lot, err := c.service.GetParkingLotByID(id)
+	lot, err := plc.ParkingLotRepo.FindByID(id)
 	if err != nil {
-		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Parking lot not found"})
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Parking lot not found"})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(lot)
+	return c.Status(fiber.StatusOK).JSON(lot)
 }
 
 // GetAllParkingLots 获取所有停车场
-func (c *ParkingLotController) GetAllParkingLots(ctx *fiber.Ctx) error {
-	lots, err := c.service.GetAllParkingLots()
+func (plc *ParkingLotController) GetAllParkingLots(c *fiber.Ctx) error {
+	lots, err := plc.ParkingLotRepo.FindAll()
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(lots)
+	return c.Status(fiber.StatusOK).JSON(lots)
 }
 
 // UpdateParkingLot 更新停车场信息
-func (c *ParkingLotController) UpdateParkingLot(ctx *fiber.Ctx) error {
-	id, err := strconv.Atoi(ctx.Params("id"))
+func (plc *ParkingLotController) UpdateParkingLot(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
 	}
 
 	var lot models.ParkingLot
-	if err := ctx.BodyParser(&lot); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
+	if err := c.BodyParser(&lot); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	if err := c.service.UpdateParkingLot(&lot, id); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	if err := plc.ParkingLotRepo.Update(&lot, id); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot updated successfully"})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot updated successfully"})
 }
 
 // DeleteParkingLot 删除停车场
-func (c *ParkingLotController) DeleteParkingLot(ctx *fiber.Ctx) error {
-	id, err := strconv.Atoi(ctx.Params("id"))
+func (plc *ParkingLotController) DeleteParkingLot(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
 	}
 
-	if err := c.service.DeleteParkingLot(id); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	if err := plc.ParkingLotRepo.Delete(id); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot deleted successfully"})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot deleted successfully"})
 }

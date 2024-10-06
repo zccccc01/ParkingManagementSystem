@@ -5,7 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/controllers"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/service"
 )
 
 // GET对应资源获取
@@ -16,8 +15,7 @@ import (
 func SetupParkingLotRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 service
 	parkingLotRepo := repository.NewParkingLotRepository(db)
-	parkingLotService := service.NewParkingLotService(parkingLotRepo)
-	parkingLotController := controllers.NewParkingLotController(parkingLotService)
+	parkingLotController := controllers.NewParkingLotController(parkingLotRepo)
 
 	// 定义路由
 	app.Post("/api/parking_lots", parkingLotController.CreateParkingLot)

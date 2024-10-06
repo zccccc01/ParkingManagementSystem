@@ -23,6 +23,8 @@ func main() {
 
 	defer db.Close()
 
+	// MVC
+
 	// 设置路由
 	routes.SetupParkingLotRoutes(app, db)
 	routes.SetupUserRoutes(app, db)
