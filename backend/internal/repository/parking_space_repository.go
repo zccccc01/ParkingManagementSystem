@@ -9,11 +9,11 @@ type ParkingSpaceRepository interface {
 	GetAllStatusByLotID(id int) ([]models.ParkingSpace, error)
 	// 根据车位id获取状态 TODO:(前提是知道LotID),需要修改/删除
 	GetStatusBySpaceID(id int) (string, error)
-	// 根据车位id更新状态
+	// 根据车位id更新状态 TODO:两个参数lotID,spaceID
 	UpdateStatusBySpaceID(space *models.ParkingSpace, id int) (bool, error)
-	// 根据车牌号查看停车位置(LotID,SpaceID)
+	// 根据车牌号查看停车位置(LotID,SpaceID) TODO:想改一下返回值
 	FindVehicleSpaceInLotByPlateNumber(plateNumber string) (map[int]int, error)
-	// 根据UserID查看停车位置(LotID,SpaceID)
+	// 根据UserID查看停车位置(LotID,SpaceID) TODO:想改一下返回值
 	FindVehicleSpaceInLotByUserID(id int) (map[int]int, error)
 	// 查看空闲车位 TODO:返回值二维切片?
 	FindFreeSpaceInLot(id int) ([][]int, error)

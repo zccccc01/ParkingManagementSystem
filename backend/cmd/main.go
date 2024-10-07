@@ -30,6 +30,7 @@ func main() {
 	routes.SetupParkingLotRoutes(app, db)
 	routes.SetupUserRoutes(app, db)
 	routes.SetupParkingRecordRoutes(app, db)
+	routes.SetupParkingSpaceRoutes(app, db)
 
 	// 启动服务器
 	log.Fatal(app.Listen(":8000"))
