@@ -7,21 +7,18 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
-// GET对应资源获取
-// POST对应创造新的
-// PUT对应更新资源
-// DELETE对应删除
-
 func SetupParkingLotRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 service
 	parkingLotRepo := repository.NewParkingLotRepository(db)
 	parkingLotController := controllers.NewParkingLotController(parkingLotRepo)
 
+	parkingLot := app.Group("/api/parkinglot")
+
 	// 定义路由
-	app.Post("/api/parking_lots", parkingLotController.CreateParkingLot)
-	app.Get("/api/parking_lots/:id", parkingLotController.GetParkingLotByID)
-	app.Get("/api/parking_lots", parkingLotController.GetAllParkingLots)
-	app.Put("/api/parking_lots/:id", parkingLotController.UpdateParkingLot)
+	parkingLot.Post("/", parkingLotController.CreateParkingLot)
+	parkingLot.Get("/:id", parkingLotController.GetParkingLotByID)
+	parkingLot.Get("/", parkingLotController.GetAllParkingLots)
+	parkingLot.Put("/:id", parkingLotController.UpdateParkingLot)
 	// 这个有外键约束
-	// app.Delete("/api/parking_lots/:id", parkingLotController.DeleteParkingLot)
+	// parkingLot.Delete("/:id", parkingLotController.DeleteParkingLot)
 }
