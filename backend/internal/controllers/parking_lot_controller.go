@@ -30,7 +30,7 @@ func (plc *ParkingLotController) CreateParkingLot(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot created successfully"})
 }
 
-// GetParkingLotByID 根据ID获取停车场
+// GetParkingLotByID 根据ID获取停车场信息
 func (plc *ParkingLotController) GetParkingLotByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

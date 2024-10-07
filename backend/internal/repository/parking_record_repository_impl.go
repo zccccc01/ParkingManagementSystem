@@ -39,7 +39,8 @@ func (r *ParkingRecordRepositoryImpl) UpdateRecordExitByRecordID(id int, now tim
 		return gorm.ErrRecordNotFound
 	}
 	existingRecord.EndTime = now
-	result = r.DB.Model(&existingRecord).Update("EndTime", now)
+	result = r.DB.Model(&existingRecord).Where("RecordID = ?", id).Update("EndTime", now)
+
 	return result.Error
 }
 
@@ -83,9 +84,22 @@ func (r *ParkingRecordRepositoryImpl) GetFeeByVehicleID(id int) (float64, error)
 	return float64(timeDiff.Hours()) * rate, nil
 }
 
-func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (userID int, vehicleID int, inTime time.Time, outTime time.Time, Amount float64, err error) {
-	// select RecordID, VehicleID, StartTime, EndTime from parkingrecord where VehicleID in (
+func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (records []models.ParkingRecord, err error) {
+	// select * from parkingrecord where VehicleID in (
 	// 	  select VehicleID from vehicle where UserID = ?)
 	// select Amount from paymentrecord where RecordID in 上面那个查询的结果
-	return 0, 0, time.Now(), time.Now(), 0, nil
+	var tmp []models.ParkingRecord
+	query := `
+		SELECT * 
+		FROM parkingrecord WHERE VehicleID IN (
+			SELECT VehicleID 
+			FROM vehicle 
+			WHERE UserID = ?
+		)
+	`
+	result := r.DB.Raw(query, id).Scan(&tmp)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return tmp, nil
 }

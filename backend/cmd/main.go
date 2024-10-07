@@ -24,10 +24,12 @@ func main() {
 	defer db.Close()
 
 	// MVC
+	// Get取资源,Post新建资源,Put更新资源,Delete删除资源
 
 	// 设置路由
 	routes.SetupParkingLotRoutes(app, db)
 	routes.SetupUserRoutes(app, db)
+	routes.SetupParkingRecordRoutes(app, db)
 
 	// 启动服务器
 	log.Fatal(app.Listen(":8000"))

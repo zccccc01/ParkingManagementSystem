@@ -7,8 +7,8 @@ type ParkingRecord struct {
 	VehicleID int       `gorm:"column:VehicleID;foreignKey:VEID"`
 	SpaceID   int       `gorm:"column:SpaceID;foreignKey:PSID"`
 	LotID     int       `gorm:"column:LotID;foreignKey:PALID"`
-	StartTime time.Time `gorm:"column:StartTime"`
-	EndTime   time.Time `gorm:"column:EndTime"`
+	StartTime time.Time `gorm:"column:StartTime" json:"StartTime"`
+	EndTime   time.Time `gorm:"column:EndTime" json:"EndTime"`
 	Fee       float64   `gorm:"column:Fee"`
 }
 
