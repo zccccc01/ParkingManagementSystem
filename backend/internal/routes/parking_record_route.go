@@ -17,8 +17,8 @@ func SetupParkingRecordRoutes(app *fiber.App, db *gorm.DB) {
 
 	// 定义路由
 	parkingRecord.Post("/", parkingRecordController.CreateParkingRecord)
-	parkingRecord.Get("/userid/:id", parkingRecordController.GetParkingRecordByUserID)
-	parkingRecord.Get("/vehicleid/:id", parkingRecordController.GetParkingRecordFeeByVehicleID)
+	parkingRecord.Get("/user/:id", parkingRecordController.GetParkingRecordByUserID)
+	parkingRecord.Get("/vehicle/:id", parkingRecordController.GetParkingRecordFeeByVehicleID)
 	parkingRecord.Get("/:id", parkingRecordController.GetParkingRecordFee)
 	parkingRecord.Put("/:id", parkingRecordController.UpdateParkingRecord)
 
