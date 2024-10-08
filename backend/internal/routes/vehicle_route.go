@@ -13,12 +13,12 @@ func SetupVehicleRoutes(app *fiber.App, db *gorm.DB) {
 	vehicleController := controllers.NewVehicleController(vehicleRepo)
 
 	// 定义路由组
-	reservation := app.Group("/api/vehicle")
+	vehicle := app.Group("/api/vehicle")
 
 	// 定义路由
-	// reservation.Post("/", vehicleController.CreateVehicle)
-	// reservation.Get("/vehicleid/:id", vehicleController.GetByVehicleID)
-	// reservation.Get("/userid/:id", vehicleController.GetByUserID)
-	// reservation.Put("/vehicleid/:id", vehicleController.UpdateByVehicleID)
-	// reservation.Delete("/vehicleid/:id", vehicleController.DeleteByVehicleID)
+	vehicle.Post("/", vehicleController.CreateVehicle)
+	vehicle.Get("/vehicleid/:id", vehicleController.GetByVehicleID)
+	vehicle.Get("/userid/:id", vehicleController.GetByUserID)
+	vehicle.Put("/vehicleid/:id", vehicleController.UpdateVehicle)
+	vehicle.Delete("/vehicleid/:id", vehicleController.DeleteVehicle)
 }

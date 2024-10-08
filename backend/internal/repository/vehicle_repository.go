@@ -4,7 +4,7 @@ import "github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 
 type VehicleRepository interface {
 	//创建一条记录
-	Create(vehicle *models.Vehicle) error
+	Create(vehicle *models.Vehicle) (bool, error)
 	//根据车辆id获取一条记录
 	GetAllByVehicleID(id int) (*models.Vehicle, error)
 	//根据用户id获取所有记录
