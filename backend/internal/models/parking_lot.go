@@ -18,6 +18,10 @@ type ParkingLot struct {
 }
 
 // 设置ParkingLot表名为`parkinglot`
+// TableName方法是sql.Scanner接口的一部分,
+// 允许为模型指定一个自定义的表名.
+// 在结构体上定义了这个方法,
+// GORM 会在执行数据库操作时使用这个方法返回的字符串作为表名.
 func (p *ParkingLot) TableName() string {
 	return "parkinglot"
 }

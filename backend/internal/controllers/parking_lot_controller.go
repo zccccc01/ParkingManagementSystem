@@ -45,6 +45,18 @@ func (plc *ParkingLotController) GetParkingLotByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(lot)
 }
 
+// GetParkingLotsByName 根据名称获取停车场信息
+func (plc *ParkingLotController) GetParkingLotsByName(c *fiber.Ctx) error {
+	name := c.Params("name")
+
+	lots, err := plc.ParkingLotRepo.FindByName(name)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Parking lot not found"})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(lots)
+}
+
 // GetAllParkingLots 获取所有停车场
 func (plc *ParkingLotController) GetAllParkingLots(c *fiber.Ctx) error {
 	lots, err := plc.ParkingLotRepo.FindAll()
@@ -53,6 +65,21 @@ func (plc *ParkingLotController) GetAllParkingLots(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(lots)
+}
+
+// GetAllIncome 获取所有停车场收入
+func (plc *ParkingLotController) GetAllIncomeByID(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+	}
+
+	income, err := plc.ParkingLotRepo.FindAllIncomeByLotID(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(income)
 }
 
 // UpdateParkingLot 更新停车场信息

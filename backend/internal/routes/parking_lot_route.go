@@ -16,9 +16,11 @@ func SetupParkingLotRoutes(app *fiber.App, db *gorm.DB) {
 
 	// 定义路由
 	parkingLot.Post("/", parkingLotController.CreateParkingLot)
-	parkingLot.Get("/:id", parkingLotController.GetParkingLotByID)
+	parkingLot.Get("/id/:id", parkingLotController.GetParkingLotByID)
+	parkingLot.Get("/name/:name", parkingLotController.GetParkingLotsByName)
 	parkingLot.Get("/", parkingLotController.GetAllParkingLots)
-	parkingLot.Put("/:id", parkingLotController.UpdateParkingLot)
+	parkingLot.Get("/income/:id", parkingLotController.GetAllIncomeByID)
+	parkingLot.Put("/id/:id", parkingLotController.UpdateParkingLot)
 	// 这个有外键约束
 	// parkingLot.Delete("/:id", parkingLotController.DeleteParkingLot)
 }
