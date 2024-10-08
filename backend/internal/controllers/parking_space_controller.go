@@ -9,11 +9,11 @@ import (
 )
 
 type ParkingSpaceController struct {
-	parkingSpaceRepo repository.ParkingSpaceRepository
+	ParkingSpaceRepo repository.ParkingSpaceRepository
 }
 
 func NewParkingSpaceController(repo repository.ParkingSpaceRepository) *ParkingSpaceController {
-	return &ParkingSpaceController{parkingSpaceRepo: repo}
+	return &ParkingSpaceController{ParkingSpaceRepo: repo}
 }
 
 // 创建停车位
@@ -23,7 +23,7 @@ func (psc *ParkingSpaceController) CreateParkingSpace(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	success, err := psc.parkingSpaceRepo.Create(&parkingSpace)
+	success, err := psc.ParkingSpaceRepo.Create(&parkingSpace)
 	if err != nil || !success {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -38,7 +38,7 @@ func (psc *ParkingSpaceController) GetParkingSpaceByParkingLotId(c *fiber.Ctx) e
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid parking lot id"})
 	}
 
-	parkingSpaces, err := psc.parkingSpaceRepo.GetAllStatusByLotID(parkingLotId)
+	parkingSpaces, err := psc.ParkingSpaceRepo.GetAllStatusByLotID(parkingLotId)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Space not found"})
 	}
@@ -58,7 +58,7 @@ func (psc *ParkingSpaceController) UpdateParkingSpaceStatus(c *fiber.Ctx) error 
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	success, err := psc.parkingSpaceRepo.UpdateStatusBySpaceID(&parkingSpace, parkingSpaceId)
+	success, err := psc.ParkingSpaceRepo.UpdateStatusBySpaceID(&parkingSpace, parkingSpaceId)
 	if err != nil || !success {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -70,7 +70,7 @@ func (psc *ParkingSpaceController) UpdateParkingSpaceStatus(c *fiber.Ctx) error 
 func (psc *ParkingSpaceController) GetParkingSpaceByLicensePlate(c *fiber.Ctx) error {
 	plateNumber := c.Params("plateNumber") //车牌号是通过 URL 参数传递的
 
-	spaces, err := psc.parkingSpaceRepo.FindVehicleSpaceInLotByPlateNumber(plateNumber)
+	spaces, err := psc.ParkingSpaceRepo.FindVehicleSpaceInLotByPlateNumber(plateNumber)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -85,7 +85,7 @@ func (psc *ParkingSpaceController) GetParkingSpaceByUserID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user id"})
 	}
 
-	spaces, err := psc.parkingSpaceRepo.FindVehicleSpaceInLotByUserID(userID)
+	spaces, err := psc.ParkingSpaceRepo.FindVehicleSpaceInLotByUserID(userID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -100,7 +100,7 @@ func (psc *ParkingSpaceController) GetParkingSpaceStatusById(c *fiber.Ctx) error
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid parking space id"})
 	}
 
-	status, err := psc.parkingSpaceRepo.GetStatusBySpaceID(parkingSpaceId)
+	status, err := psc.ParkingSpaceRepo.GetStatusBySpaceID(parkingSpaceId)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Space not found"})
 	}

@@ -10,11 +10,11 @@ import (
 )
 
 type ParkingRecordController struct {
-	parkingRecordRepo repository.ParkingRecordRepository
+	ParkingRecordRepo repository.ParkingRecordRepository
 }
 
 func NewParkingRecordController(repo repository.ParkingRecordRepository) *ParkingRecordController {
-	return &ParkingRecordController{parkingRecordRepo: repo}
+	return &ParkingRecordController{ParkingRecordRepo: repo}
 }
 
 // 创建停车记录
@@ -24,7 +24,7 @@ func (prc *ParkingRecordController) CreateParkingRecord(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	err := prc.parkingRecordRepo.CreateRecordEntry(&parkingRecord)
+	err := prc.ParkingRecordRepo.CreateRecordEntry(&parkingRecord)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -40,7 +40,7 @@ func (prc *ParkingRecordController) GetParkingRecordFee(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid record ID"})
 	}
 
-	fee, err := prc.parkingRecordRepo.GetFeeByRecordID(recordID)
+	fee, err := prc.ParkingRecordRepo.GetFeeByRecordID(recordID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Record not found"})
 	}
@@ -56,7 +56,7 @@ func (prc *ParkingRecordController) GetParkingRecordFeeByVehicleID(c *fiber.Ctx)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid vehicle ID"})
 	}
 
-	fee, err := prc.parkingRecordRepo.GetFeeByVehicleID(vehicleID)
+	fee, err := prc.ParkingRecordRepo.GetFeeByVehicleID(vehicleID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Record not found"})
 	}
@@ -71,7 +71,7 @@ func (prc *ParkingRecordController) GetParkingRecordByUserID(c *fiber.Ctx) error
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	records, err := prc.parkingRecordRepo.FindHistoryRecordByUserID(userID)
+	records, err := prc.ParkingRecordRepo.FindHistoryRecordByUserID(userID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -91,7 +91,7 @@ func (prc *ParkingRecordController) UpdateParkingRecord(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	if err := prc.parkingRecordRepo.UpdateRecordExitByRecordID(recordID, time.Now()); err != nil {
+	if err := prc.ParkingRecordRepo.UpdateRecordExitByRecordID(recordID, time.Now()); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
