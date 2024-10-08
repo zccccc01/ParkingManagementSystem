@@ -19,4 +19,5 @@ func SetupReservationRoutes(app *fiber.App, db *gorm.DB) {
 	reservation.Post("/", reservationController.CreateReservation)
 	reservation.Put("/id/:id", reservationController.UpdateReservationStatus)
 	reservation.Delete("/id/:id", reservationController.CancelReservation)
+	// reservation.Get("/id/:id", reservationController.GetReservationByID) TODO:未完成
 }
