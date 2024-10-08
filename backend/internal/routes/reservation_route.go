@@ -17,7 +17,7 @@ func SetupReservationRoutes(app *fiber.App, db *gorm.DB) {
 
 	// 定义路由
 	reservation.Post("/", reservationController.CreateReservation)
-	reservation.Put("/id/:id", reservationController.UpdateReservationStatus)
-	reservation.Delete("/id/:id", reservationController.CancelReservation)
+	reservation.Put("/id/:id", reservationController.UpdateReservationStatus) //TODO:有问题 "error": "Error 1265: Data truncated for column 'Status' at row 1"
+	reservation.Delete("/id/:id", reservationController.CancelReservation)    //TODO:应该是改status,post方法才对
 	// reservation.Get("/id/:id", reservationController.GetReservationByID) TODO:未完成
 }

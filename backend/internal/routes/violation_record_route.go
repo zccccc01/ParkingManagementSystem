@@ -17,8 +17,8 @@ func SetupViolationRecordRoutes(app *fiber.App, db *gorm.DB) {
 
 	// 定义路由
 	violationRecord.Post("/", violationRecordController.CreateViolationRecord)
-	violationRecord.Get("/fineamount/recordid/:id", violationRecordController.GetFineAmountByRecordId)
-	violationRecord.Get("/status/recordid/:id", violationRecordController.GetStatusByRecordId)
-	violationRecord.Get("/type/recordid/:id", violationRecordController.GetViolationTypeByRecordId)
-	violationRecord.Get("/record/userid/:id", violationRecordController.GetViolationRecordsByUserID)
+	violationRecord.Get("/fineamount/record/:id", violationRecordController.GetFineAmountByRecordId)
+	violationRecord.Get("/status/record/:id", violationRecordController.GetStatusByRecordId)
+	violationRecord.Get("/type/record/:id", violationRecordController.GetViolationTypeByRecordId)
+	violationRecord.Get("/user/:id", violationRecordController.GetViolationRecordsByUserID) // TODO:未完成
 }

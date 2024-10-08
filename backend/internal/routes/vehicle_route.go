@@ -17,8 +17,8 @@ func SetupVehicleRoutes(app *fiber.App, db *gorm.DB) {
 
 	// 定义路由
 	vehicle.Post("/", vehicleController.CreateVehicle)
-	vehicle.Get("/vehicleid/:id", vehicleController.GetByVehicleID)
-	vehicle.Get("/userid/:id", vehicleController.GetByUserID)
-	vehicle.Put("/vehicleid/:id", vehicleController.UpdateVehicle)
-	vehicle.Delete("/vehicleid/:id", vehicleController.DeleteVehicle)
+	vehicle.Get("/:id", vehicleController.GetByVehicleID)
+	vehicle.Get("/user/:id", vehicleController.GetByUserID)
+	vehicle.Put("/:id", vehicleController.UpdateVehicle) //TODO:数据库update有错
+	vehicle.Delete("/:id", vehicleController.DeleteVehicle)
 }

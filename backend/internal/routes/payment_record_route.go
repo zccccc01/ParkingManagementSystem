@@ -15,7 +15,7 @@ func SetupPaymentRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 定义路由组
 	paymentRecord := app.Group("/api/paymentrecord")
 
-	// 定义路由
+	// 定义路由,TODO:前三个有点怪
 	paymentRecord.Get("/vehicle/:plateNumber", paymentController.GetParkingSpaceByLicensePlate)
 	paymentRecord.Get("/user/:id", paymentController.GetParkingSpaceByUserID)
 	paymentRecord.Get("/lot/:id", paymentController.GetParkingSpaceByParkingLotId)
