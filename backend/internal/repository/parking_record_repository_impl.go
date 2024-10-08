@@ -84,7 +84,6 @@ func (r *ParkingRecordRepositoryImpl) GetFeeByVehicleID(id int) (float64, error)
 func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (records []models.ParkingRecord, err error) {
 	// select * from parkingrecord where VehicleID in (
 	// 	  select VehicleID from vehicle where UserID = ?)
-	// select Amount from paymentrecord where RecordID in 上面那个查询的结果
 	var tmp []models.ParkingRecord
 	query := `
 		SELECT * 

@@ -6,10 +6,10 @@
 - [ ] 数据库parkinglot能否正常
 
 ## parkingrecord
-- [ ] 数据库parkingrecord能否正常c
-- [ ] 数据库parkingrecord能否正常r
-- [ ] 数据库parkingrecord能否正常u
-- [ ] 数据库parkingrecord能否正常d
+- [x] 数据库parkingrecord能否正常c
+- [x] 数据库parkingrecord能否正常r
+- [x] 数据库parkingrecord能否正常u
+- [x] 数据库parkingrecord能否正常d
 
 ## user
 - [ ] 数据库user能否正常c
