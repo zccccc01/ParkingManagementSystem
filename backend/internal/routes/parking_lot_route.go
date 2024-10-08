@@ -8,10 +8,11 @@ import (
 )
 
 func SetupParkingLotRoutes(app *fiber.App, db *gorm.DB) {
-	// 初始化 repository 和 service
+	// 初始化 repository 和 controller
 	parkingLotRepo := repository.NewParkingLotRepository(db)
 	parkingLotController := controllers.NewParkingLotController(parkingLotRepo)
 
+	// 定义路由组
 	parkingLot := app.Group("/api/parkinglot")
 
 	// 定义路由

@@ -8,7 +8,7 @@ import (
 )
 
 func SetupParkingSpaceRoutes(app *fiber.App, db *gorm.DB) {
-	// 初始化 repository 和 service
+	// 初始化 repository 和 controller
 	parkingSpaceRepo := repository.NewParkingSpaceRepository(db)
 	parkingSpaceController := controllers.NewParkingSpaceController(parkingSpaceRepo)
 

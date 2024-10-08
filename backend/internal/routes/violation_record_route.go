@@ -8,7 +8,7 @@ import (
 )
 
 func SetupViolationRecordRoutes(app *fiber.App, db *gorm.DB) {
-	// 初始化 repository 和 service
+	// 初始化 repository 和 controller
 	violationRecordRepo := repository.NewViolationRecordRepository(db)
 	violationRecordController := controllers.NewViolationRecordController(violationRecordRepo)
 

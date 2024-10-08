@@ -8,11 +8,14 @@ import (
 )
 
 func SetupUserRoutes(app *fiber.App, db *gorm.DB) {
+	// 初始化 repository 和 controller
 	userRepo := repository.NewUserRepository(db)
 	userController := controllers.NewUserController(userRepo)
 
-	// 当你使用app.Group("/api/user")时,所有路由都会以/api/user开头
+	// 定义路由组
 	user := app.Group("/api/user")
+
+	// 定义路由
 	user.Post("/register", userController.Register)
 	user.Post("/login", userController.Login)
 	user.Get("/user", userController.AuthenticatedUser)

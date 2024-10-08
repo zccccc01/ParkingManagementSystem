@@ -8,7 +8,7 @@ import (
 )
 
 func SetupReservationRoutes(app *fiber.App, db *gorm.DB) {
-	// 初始化 repository 和 service
+	// 初始化 repository 和 controller
 	reservationRepo := repository.NewReservationRepository(db)
 	reservationController := controllers.NewReservationController(reservationRepo)
 

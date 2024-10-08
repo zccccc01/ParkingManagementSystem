@@ -8,7 +8,7 @@ import (
 )
 
 func SetupVehicleRoutes(app *fiber.App, db *gorm.DB) {
-	// 初始化 repository 和 service
+	// 初始化 repository 和 controller
 	vehicleRepo := repository.NewVehicleRepository(db)
 	vehicleController := controllers.NewVehicleController(vehicleRepo)
 
