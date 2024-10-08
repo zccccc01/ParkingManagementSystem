@@ -27,9 +27,6 @@ func (r *ReservationRepositoryImpl) UpdateStatusByReservationID(id int, status s
 	if result.Error != nil {
 		return result.Error
 	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
-	}
 	return nil
 }
 

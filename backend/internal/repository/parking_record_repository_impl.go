@@ -35,9 +35,6 @@ func (r *ParkingRecordRepositoryImpl) UpdateRecordExitByRecordID(id int, now tim
 	if result.Error != nil {
 		return result.Error
 	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
-	}
 	existingRecord.EndTime = now
 	result = r.DB.Model(&existingRecord).Where("RecordID = ?", id).Update("EndTime", now)
 

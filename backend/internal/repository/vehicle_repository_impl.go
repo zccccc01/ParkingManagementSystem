@@ -56,9 +56,6 @@ func (r *VehicleRepositoryImpl) UpdateVehicleByVehicleID(id int, vehicle *models
 	if result.Error != nil {
 		return result.Error
 	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
-	}
 	existingVehicle.PlateNumber = vehicle.PlateNumber
 	existingVehicle.Color = vehicle.Color
 	result = r.DB.Model(&existingVehicle).Updates(existingVehicle)
@@ -70,9 +67,6 @@ func (r *VehicleRepositoryImpl) DeleteByVehicleID(id int) error {
 	result := r.DB.Delete(&existingVehicle, "VehicleID = ?", id)
 	if result.Error != nil {
 		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
 	}
 	return nil
 }

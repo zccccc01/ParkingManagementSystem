@@ -31,9 +31,6 @@ func (r *ParkingLotRepositoryImpl) FindByID(id int) (*models.ParkingLot, error) 
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
-	}
 	return &lot, nil
 }
 
@@ -42,9 +39,6 @@ func (r *ParkingLotRepositoryImpl) FindByName(name string) (*models.ParkingLot, 
 	result := r.DB.First(&lot, "ParkingName = ?", name)
 	if result.Error != nil {
 		return nil, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
 	}
 	return &lot, nil
 }
@@ -85,9 +79,6 @@ func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error 
 	result = r.DB.Model(&existingLot).Where("ParkingLotID = ?", id).Updates(updates)
 	if result.Error != nil {
 		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
 	}
 	return nil
 
