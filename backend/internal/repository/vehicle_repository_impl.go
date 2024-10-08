@@ -27,9 +27,6 @@ func (r *VehicleRepositoryImpl) GetAllByVehicleID(id int) (*models.Vehicle, erro
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
-	}
 	return &vehicle, nil
 }
 
@@ -38,9 +35,6 @@ func (r *VehicleRepositoryImpl) GetAllByUserID(id int) ([]*models.Vehicle, error
 	result := r.DB.Where("UserID = ?", id).Find(&vehicles)
 	if result.Error != nil {
 		return nil, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
 	}
 	// 将车辆列表转换为指向车辆的指针列表
 	var vehiclePointers []*models.Vehicle

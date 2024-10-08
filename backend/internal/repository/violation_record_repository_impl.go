@@ -27,9 +27,6 @@ func (r *ViolationRecordRepositoryImpl) GetFineAmountByRecordID(id int) ([]model
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
-	}
 	var details []models.ViolationRecord
 	for _, record := range violationRecords {
 		details = append(details, models.ViolationRecord{
@@ -46,9 +43,6 @@ func (r *ViolationRecordRepositoryImpl) GetStatusByRecordID(id int) ([]models.Vi
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
-	}
 	var details []models.ViolationRecord
 	for _, record := range violationRecords {
 		details = append(details, models.ViolationRecord{
@@ -64,9 +58,6 @@ func (r *ViolationRecordRepositoryImpl) GetViolationTypeByRecordID(id int) ([]mo
 	result := r.DB.Where("RecordID = ?", id).Find(&violationRecords)
 	if result.Error != nil {
 		return nil, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
 	}
 	var details []models.ViolationRecord
 	for _, record := range violationRecords {

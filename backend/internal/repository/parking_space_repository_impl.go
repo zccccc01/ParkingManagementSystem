@@ -36,9 +36,6 @@ func (r *ParkingSpaceRepositoryImpl) GetStatusBySpaceID(id int) (string, error) 
 	if result.Error != nil {
 		return "", result.Error
 	}
-	if result.RowsAffected == 0 {
-		return "", gorm.ErrRecordNotFound
-	}
 	return space.Status, nil
 }
 
@@ -47,9 +44,6 @@ func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.Parking
 	result := r.DB.Model(&existingSpace).Where("SpaceID = ?", id).Updates(space)
 	if result.Error != nil {
 		return false, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return false, gorm.ErrRecordNotFound
 	}
 	return true, nil
 }
@@ -72,9 +66,6 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNum
 	result := r.DB.Raw(query, plateNumber).Scan(&space)
 	if result.Error != nil {
 		return nil, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
 	}
 	var ans = make(map[int]int)
 	for _, record := range space {
@@ -101,9 +92,6 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[
 	result := r.DB.Raw(query, id).Scan(&spaces)
 	if result.Error != nil {
 		return nil, result.Error
-	}
-	if result.RowsAffected == 0 {
-		return nil, gorm.ErrRecordNotFound
 	}
 	var ans = make(map[int]int)
 	for _, record := range spaces {
