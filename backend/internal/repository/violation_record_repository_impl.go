@@ -82,5 +82,6 @@ func (r *ViolationRecordRepositoryImpl) FindViolationRecordByUserID(id int) ([]m
 	//select * from violationrecord where RecordID in (
 	//	select RecordID from parkingrecord where VehicleID in (
 	//  	select VehicleID from vehicle where UserID = ?))
+	// TODO
 	return nil, nil
 }

@@ -7,7 +7,7 @@ import "github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 
 type ViolationRecordRepository interface {
 	//创建一条记录
-	Create(violation *models.ViolationRecord) error
+	Create(violation *models.ViolationRecord) (bool, error)
 	//根据记录id获取罚款金额
 	GetFineAmountByRecordID(id int) ([]models.ViolationRecord, error)
 	//根据记录id获取状态
