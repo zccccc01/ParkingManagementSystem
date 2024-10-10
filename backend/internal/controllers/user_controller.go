@@ -35,20 +35,6 @@ func (uc *UserController) Register(c *fiber.Ctx) error {
 		})
 	}
 
-	// 检查手机号是否已注册
-	exists, err := uc.UserRepo.HasUserByTel(data.Tel)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Database error",
-		})
-	}
-
-	if exists {
-		return c.Status(fiber.StatusConflict).JSON(fiber.Map{
-			"message": "Tel already registered",
-		})
-	}
-
 	// 加密密码
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), 14)
 	if err != nil {
