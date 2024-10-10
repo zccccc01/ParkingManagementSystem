@@ -29,6 +29,18 @@ const Header = () => {
           <li>
             <a href="/dashboard">仪表盘</a>
           </li>
+          {/* <li>
+            <a href="/parking-spots/:id">停车位详情</a>
+          </li> */}
+          <li>
+            <a href="/bookings">停车位预约</a>
+          </li>
+          <li>
+            <a href="/violations">违章停车</a>
+          </li>
+          <li>
+            <a href="/parking-records">停车记录</a>
+          </li>
           <li>
             <a href="/parking-lots">停车场列表</a>
           </li>
