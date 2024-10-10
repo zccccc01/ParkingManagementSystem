@@ -7,7 +7,7 @@ type ParkingSpaceRepository interface {
 	Create(space *models.ParkingSpace) (bool, error)
 	// 根据停车场id获取该停车场车位空余情况
 	GetAllStatusByLotID(id int) ([]models.ParkingSpace, error)
-	// 根据车位id获取状态 TODO:(前提是知道LotID),需要修改/删除
+	// 根据车位id获取状态
 	GetStatusByLotIDAndSpaceID(l_id int, s_id int) (string, error)
 	// 根据车位id更新状态 TODO:两个参数lotID,spaceID
 	UpdateStatusBySpaceID(space *models.ParkingSpace, id int) (bool, error)

@@ -95,12 +95,16 @@ func (psc *ParkingSpaceController) GetParkingSpaceByUserID(c *fiber.Ctx) error {
 
 // 根据车位id获取状态
 func (psc *ParkingSpaceController) GetParkingSpaceStatusById(c *fiber.Ctx) error {
-	parkingSpaceId, err := strconv.Atoi(c.Params("id"))
+	parkingLotID, err := strconv.Atoi(c.Params("lotid"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid parking lot id"})
+	}
+	parkingSpaceId, err := strconv.Atoi(c.Params("spaceid"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid parking space id"})
 	}
 
-	status, err := psc.ParkingSpaceRepo.GetStatusBySpaceID(parkingSpaceId)
+	status, err := psc.ParkingSpaceRepo.GetStatusByLotIDAndSpaceID(parkingLotID, parkingSpaceId)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Space not found"})
 	}

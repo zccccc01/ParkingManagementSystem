@@ -32,7 +32,7 @@ func (r *ParkingSpaceRepositoryImpl) GetAllStatusByLotID(id int) ([]models.Parki
 
 func (r *ParkingSpaceRepositoryImpl) GetStatusByLotIDAndSpaceID(l_id int, s_id int) (string, error) {
 	var space models.ParkingSpace
-	result := r.DB.First(&space, "LotID = ? and SpaceID = ?", l_id, s_id)
+	result := r.DB.First(&space, "ParkingLotID = ? and SpaceID = ?", l_id, s_id)
 	if result.Error != nil {
 		return "", result.Error
 	}
