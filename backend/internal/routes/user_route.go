@@ -18,6 +18,6 @@ func SetupUserRoutes(app *fiber.App, db *gorm.DB) {
 	// 定义路由
 	user.Post("/register", userController.Register)
 	user.Post("/login", userController.Login)
-	user.Get("/user", userController.AuthenticatedUser)
+	user.Get("/", userController.AuthenticatedUser)
 	user.Post("/logout", userController.Logout)
 }

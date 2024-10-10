@@ -18,7 +18,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/register', // 'http://localhost:8000/api/user/register'
+        'http://localhost:8000/api/user/register',
         {
           userID,
           tel,
