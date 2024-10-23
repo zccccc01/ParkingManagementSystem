@@ -14,6 +14,13 @@ func NewReservationRepository(db *gorm.DB) *ReservationRepositoryImpl {
 }
 
 func (r *ReservationRepositoryImpl) Create(reservation *models.Reservation) (bool, error) {
+	reservation.Status = "Doing"
+	lotID := reservation.LotID
+	spaceID := reservation.SpaceID
+	// update parkingspace set Status = "Reserved" where ParkingLotID = ? and SpaceID = ?
+	query := "UPDATE parkingspace SET Status = 'Reserved' WHERE ParkingLotID = ? AND SpaceID = ?"
+	// Exec这个方法是直接执行sql语句
+	r.DB.Exec(query, lotID, spaceID)
 	result := r.DB.Create(&reservation)
 	if result.Error != nil {
 		return false, result.Error

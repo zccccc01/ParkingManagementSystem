@@ -73,6 +73,24 @@ func (r *ViolationRecordRepositoryImpl) FindViolationRecordByUserID(id int) ([]m
 	//select * from violationrecord where RecordID in (
 	//	select RecordID from parkingrecord where VehicleID in (
 	//  	select VehicleID from vehicle where UserID = ?))
-	// TODO
-	return nil, nil
+	var violationRecords []models.ViolationRecord
+	query := `
+		SELECT *
+		FROM violationrecord 
+		WHERE RecordID IN (
+			SELECT RecordID
+			FROM parkingrecord 
+			WHERE VehicleID IN (
+				SELECT VehicleID
+				FROM vehicle 
+				WHERE UserID = ?
+			)
+		)`
+	result := r.DB.Raw(query, id).Scan(&violationRecords)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return violationRecords, nil
+
 }
