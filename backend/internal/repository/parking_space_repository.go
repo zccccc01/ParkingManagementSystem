@@ -15,6 +15,6 @@ type ParkingSpaceRepository interface {
 	FindVehicleSpaceInLotByPlateNumber(plateNumber string) (map[int]int, error)
 	// 根据UserID查看停车位置(LotID,SpaceID) TODO:想改一下返回值
 	FindVehicleSpaceInLotByUserID(id int) (map[int]int, error)
-	// 查看空闲车位 TODO:返回值二维切片?
-	FindFreeSpaceInLot(id int) ([][]int, error)
+	// 查看空闲车位
+	FindFreeSpaceInAllLots() ([]models.ParkingSpace, error)
 }

@@ -100,7 +100,12 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[
 	return ans, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) FindFreeSpaceInLot(id int) ([][]int, error) {
+func (r *ParkingSpaceRepositoryImpl) FindFreeSpaceInAllLots() ([]models.ParkingSpace, error) {
 	// select lotID,SpaceID from parkingspace where Status = "FREE"
-	return nil, nil
+	var spaces []models.ParkingSpace
+	result := r.DB.Where("Status = ?", "FREE").Find(&spaces)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return spaces, nil
 }

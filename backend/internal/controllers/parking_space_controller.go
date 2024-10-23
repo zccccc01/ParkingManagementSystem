@@ -111,3 +111,13 @@ func (psc *ParkingSpaceController) GetParkingSpaceStatusById(c *fiber.Ctx) error
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": status})
 }
+
+// 查看空闲车位
+func (psc *ParkingSpaceController) GetFreeParkingSpace(c *fiber.Ctx) error {
+	spaces, err := psc.ParkingSpaceRepo.FindFreeSpaceInAllLots()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"spaces": spaces})
+}
