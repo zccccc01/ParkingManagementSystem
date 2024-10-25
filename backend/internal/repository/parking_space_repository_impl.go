@@ -30,18 +30,18 @@ func (r *ParkingSpaceRepositoryImpl) GetAllStatusByLotID(id int) ([]models.Parki
 	return spaces, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) GetStatusByLotIDAndSpaceID(l_id int, s_id int) (string, error) {
+func (r *ParkingSpaceRepositoryImpl) GetStatusByLotIDAndSpaceID(lotID int, spaceID int) (string, error) {
 	var space models.ParkingSpace
-	result := r.DB.First(&space, "ParkingLotID = ? and SpaceID = ?", l_id, s_id)
+	result := r.DB.First(&space, "ParkingLotID = ? and SpaceID = ?", lotID, spaceID)
 	if result.Error != nil {
 		return "", result.Error
 	}
 	return space.Status, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, id int) (bool, error) {
+func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.ParkingSpace, lotID int, spaceID int) (bool, error) {
 	var existingSpace models.ParkingSpace
-	result := r.DB.Model(&existingSpace).Where("SpaceID = ?", id).Updates(space)
+	result := r.DB.Model(&existingSpace).Where("SpaceID = ? and ParkingLotID = ?", lotID, spaceID).Updates(space)
 	if result.Error != nil {
 		return false, result.Error
 	}

@@ -22,5 +22,5 @@ func SetupParkingSpaceRoutes(app *fiber.App, db *gorm.DB) {
 	parkingSpace.Get("/status/lot/:lotid/space/:spaceid", parkingSpaceController.GetParkingSpaceStatusById) //TODO:传两个参数
 	parkingSpace.Get("/status/free", parkingSpaceController.GetFreeParkingSpace)
 	parkingSpace.Post("/", parkingSpaceController.CreateParkingSpace)
-	parkingSpace.Put("/status/lot/:lotid/space/:spaceid", parkingSpaceController.UpdateParkingSpaceStatus) //TODO:传两个参数
+	parkingSpace.Put("/status/lot/:lotid/space/:spaceid", parkingSpaceController.UpdateParkingSpaceStatus)
 }
