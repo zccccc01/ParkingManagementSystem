@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/shopspring/decimal"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 )
 
@@ -54,30 +53,10 @@ func (r *ParkingLotRepositoryImpl) FindAll() ([]models.ParkingLot, error) {
 }
 
 func (r *ParkingLotRepositoryImpl) Update(lot *models.ParkingLot, id int) error {
-	// 先查询记录
 	var existingLot models.ParkingLot
-	result := r.DB.First(&existingLot, "ParkingLotID = ?", id)
-	if result.Error != nil {
-		return result.Error
-	}
-	var updates = map[string]interface{}{}
-	if lot.ParkingName != existingLot.ParkingName {
-		updates["ParkingName"] = lot.ParkingName
-	}
-	if lot.Longitude != existingLot.Longitude && !lot.Longitude.Equal(decimal.RequireFromString("0")) {
-		updates["Longitude"] = lot.Longitude
-	}
-	if lot.Latitude != existingLot.Latitude && !lot.Latitude.Equal(decimal.RequireFromString("0")) {
-		updates["Latitude"] = lot.Latitude
-	}
-	if lot.Capacity != existingLot.Capacity {
-		updates["Capacity"] = lot.Capacity
-	}
-	if lot.Rates != existingLot.Rates && !lot.Rates.Equal(decimal.RequireFromString("0")) {
-		updates["Rates"] = lot.Rates
-	}
+
 	// 使用 Model 和 Updates 方法
-	result = r.DB.Model(&existingLot).Where("ParkingLotID = ?", id).Updates(updates)
+	result := r.DB.Model(&existingLot).Where("ParkingLotID = ?", id).Updates(lot)
 	if result.Error != nil {
 		return result.Error
 	}
