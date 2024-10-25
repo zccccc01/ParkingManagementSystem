@@ -110,3 +110,25 @@ func (r *ParkingLotRepositoryImpl) FindAllIncomeByLotID(id int) (float64, error)
 	}
 	return 0, nil
 }
+
+func (r *ParkingLotRepositoryImpl) FindOccupancyRateByLotID(id int) (float64, error) {
+	var occupancyRate sql.NullFloat64
+	var totalCapacity int
+	var totalOccupied int
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE `Status` != 'Free' AND ParkingLotID = 1)
+	result := r.DB.Table("parkingspace").Where("Status != ? AND ParkingLotID = ?", "Free", id).Count(&totalOccupied)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE ParkingLotID = ?
+	result = r.DB.Table("parkingspace").Where("ParkingLotID = ?", id).Count(&totalCapacity)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	if totalCapacity == 0 {
+		return 0, nil
+	}
+	occupancyRate.Float64 = float64(totalOccupied) / float64(totalCapacity)
+	return occupancyRate.Float64, nil
+}

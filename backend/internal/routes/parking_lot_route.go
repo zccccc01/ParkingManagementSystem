@@ -21,6 +21,7 @@ func SetupParkingLotRoutes(app *fiber.App, db *gorm.DB) {
 	parkingLot.Get("/name/:name", parkingLotController.GetParkingLotsByName)
 	parkingLot.Get("/", parkingLotController.GetAllParkingLots)
 	parkingLot.Get("/income/:id", parkingLotController.GetAllIncomeByID)
+	parkingLot.Get("/occupancy-rate/:id", parkingLotController.GetOccupancyRateByID)
 	parkingLot.Put("/id/:id", parkingLotController.UpdateParkingLot)
 	// 这个有外键约束
 	// parkingLot.Delete("/:id", parkingLotController.DeleteParkingLot)

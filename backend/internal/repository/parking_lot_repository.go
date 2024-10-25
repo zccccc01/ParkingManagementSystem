@@ -20,4 +20,6 @@ type ParkingLotRepository interface {
 	Delete(id int) error
 	//获取停车场的总收入
 	FindAllIncomeByLotID(id int) (float64, error)
+	//获取停车场的占用率
+	FindOccupancyRateByLotID(id int) (float64, error)
 }

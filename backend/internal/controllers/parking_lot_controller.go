@@ -114,3 +114,18 @@ func (plc *ParkingLotController) DeleteParkingLot(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot deleted successfully"})
 }
+
+// GetOccupancyRateByID 获取停车场占有率
+func (plc *ParkingLotController) GetOccupancyRateByID(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+	}
+
+	occupancyRate, err := plc.ParkingLotRepo.FindOccupancyRateByLotID(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(occupancyRate)
+}
