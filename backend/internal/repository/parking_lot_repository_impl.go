@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	"github.com/shopspring/decimal"
@@ -131,4 +132,23 @@ func (r *ParkingLotRepositoryImpl) FindOccupancyRateByLotID(id int) (float64, er
 	}
 	occupancyRate.Float64 = float64(totalOccupied) / float64(totalCapacity)
 	return occupancyRate.Float64, nil
+}
+
+// 注意时区(要选北京时区)
+func (r *ParkingLotRepositoryImpl) FindOccupancyByLotIDAndTime(id int, start time.Time, end time.Time) ([]models.ParkingSpace, error) {
+	var parkingSpaces []models.ParkingSpace
+	// SELECT * FROM parkingspace WHERE ParkingLotID IN (SELECT LotID FROM parkingrecord WHERE StartTime > '?' AND EndTime < '?')
+	query := `
+		SELECT * 
+        FROM parkingspace 
+        WHERE ParkingLotID IN (
+            SELECT LotID 
+            FROM parkingrecord 
+            WHERE StartTime > ? AND EndTime < ?
+        )`
+	result := r.DB.Raw(query, start, end).Scan(&parkingSpaces)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return parkingSpaces, nil
 }

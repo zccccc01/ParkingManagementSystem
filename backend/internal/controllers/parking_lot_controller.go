@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
@@ -128,4 +129,33 @@ func (plc *ParkingLotController) GetOccupancyRateByID(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(occupancyRate)
+}
+
+// GetOccupancyByIDAndTime 获取停车场占用情况
+func (plc *ParkingLotController) GetOccupancyByIDAndTime(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+	}
+
+	startStr := c.Params("start")
+	endStr := c.Params("end")
+
+	beijingLocation, _ := time.LoadLocation("Asia/Shanghai")
+
+	start, err := time.ParseInLocation("2006-01-02T15:04:05", startStr, beijingLocation)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid start time format; expected YYYY-MM-DDTHH:MM:SS"})
+	}
+	end, err := time.ParseInLocation("2006-01-02T15:04:05", endStr, beijingLocation)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid end time format; expected YYYY-MM-DDTHH:MM:SS"})
+	}
+
+	occupancy, err := plc.ParkingLotRepo.FindOccupancyByLotIDAndTime(id, start, end)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(occupancy)
 }
