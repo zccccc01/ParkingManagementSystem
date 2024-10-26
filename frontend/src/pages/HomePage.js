@@ -13,9 +13,6 @@ const HomePage = () => {
     '//p3.dcarimg.com/img/tos-cn-i-dcdx/8c6e1943c2094ec2a14fd460d2c0ba4d~360x0.webp',
   ];
 
-  const [userInfo, setUserInfo] = useState(null);
-  const [logoutMessage, setLogoutMessage] = useState('');
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage(currentImage === images.length - 1 ? 0 : currentImage + 1);
@@ -23,45 +20,6 @@ const HomePage = () => {
 
     return () => clearInterval(interval); // 清除定时器，防止内存泄漏
   }, [currentImage, images.length]); // 添加 images.length 到依赖数组
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/user', {
-        method: 'GET',
-        credentials: 'include', // 确保请求带上 cookie
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserInfo(`User ID: ${data.id}, Phone: ${data.tel}, Name: ${data.name}`);
-      } else {
-        setUserInfo('Failed to retrieve user info');
-      }
-    } catch (error) {
-      setUserInfo('An error occurred');
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // 发送带有cookie的请求
-      });
-
-      if (response.ok) {
-        setLogoutMessage('Logout successful');
-        window.location.href = ''; // 登出后返回主页
-      } else {
-        setLogoutMessage('Logout failed');
-      }
-    } catch (error) {
-      setLogoutMessage('An error occurred');
-    }
-  };
 
   return (
     <div className="HomePage">
@@ -72,14 +30,6 @@ const HomePage = () => {
         <img id="image-slider" width="540" height="340" src={images[currentImage]} alt="slider" />
       </div>
       <hr />
-      <button type="button" onClick={fetchUserInfo}>
-        获取用户信息
-      </button>
-      <p id="userInfo">{userInfo}</p>
-      <button type="button" onClick={handleLogout}>
-        登出
-      </button>
-      <p id="logoutMessage">{logoutMessage}</p>
       <Footer />
     </div>
   );

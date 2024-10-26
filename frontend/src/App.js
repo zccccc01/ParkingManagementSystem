@@ -15,6 +15,12 @@ import ViolationsPage from './pages/ViolationsPage';
 import NotFoundPage from './pages/NotFoundPage'; // 新增的 404 页面
 import Loading from './components/Loading'; // 引入 Loading 组件
 import AboutUsPage from './pages/AboutUsPage'; // 引入 AboutUsPage 组件
+import VehicleInfoPage from './pages/VehicleInfoPage'; // 引入 VehicleInfoPage 组件
+import ParkingSpacePage from './pages/ParkingSpacePage'; // 引入 ParkingSpacePage 组件
+import UserPage from './pages/UserPage'; // 引入 UserPage 组件
+import Sidebar from './components/Sidebar.tsx'; // 引入 Sidebar 组件
+import SpaceStatusPage from './pages/SpaceStatusPage'; // 引入 SpaceStatusPage 组件
+import CheckSpacePage from './pages/CheckSpacePage';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +60,12 @@ const App = () => {
           <Route path="/parking-records" element={<ParkingRecordPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/violations" element={<ViolationsPage />} />
+          <Route path="/vehicle-info" element={<VehicleInfoPage />} />
+          <Route path="/parking-space" element={<ParkingSpacePage />} />
+          <Route path="/user" element={<UserPage />} /> {/* 添加用户页面路由 */}
+          <Route path="/sidebar" element={<Sidebar />} /> {/* 添加 Sidebar 组件路由 */}
+          <Route path="/space-status" element={<SpaceStatusPage />} />
+          <Route path="/check-space" element={<CheckSpacePage />} />
           {/* 404 页面 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

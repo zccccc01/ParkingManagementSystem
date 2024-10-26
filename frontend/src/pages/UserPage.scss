@@ -1,0 +1,38 @@
+.user-page {
+    white-space: pre-wrap;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平居中 */
+    justify-content: center; /* 垂直居中 */
+    padding: 20px; /* 可选：添加一些内边距 */
+    #userInfo,
+    #logoutMessage {
+        white-space: pre-wrap; /* 保留换行符 */
+        font-family: MV Boli; /* 设置字体 */
+        font-size: 32px; /* 设置字体大小 */
+        color: #333; /* 设置字体颜色 */
+        line-height: 1.5; /* 设置行高 */
+        margin: 10px 0; /* 设置外边距 */
+        padding: 10px; /* 设置内边距 */
+        background-color: rgba(255, 255, 255, 0.4); /* 设置背景颜色 */
+        border-radius: 5px; /* 设置圆角 */
+      }
+
+        button {
+        background-color: #4ba9e3;
+        color: #53e3a6;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-top: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+        button:hover {
+        background-color: #1aa97d; /* 鼠标悬停时的颜色 */
+      }
+      
+}
