@@ -26,4 +26,8 @@ type ParkingLotRepository interface {
 	FindOccupancyRateByLotID(id int) (float64, error)
 	// 按时间获取停车场的停车情况
 	FindOccupancyByLotIDAndTime(id int, start time.Time, end time.Time) ([]models.ParkingSpace, error)
+	// 可视化返回的三个状态的停车位占用饼图
+	GetFreeSpaceByLotID(id int) (int, error)
+	GetOccupiedSpaceByLotID(id int) (int, error)
+	GetReservedSpaceByLotID(id int) (int, error)
 }

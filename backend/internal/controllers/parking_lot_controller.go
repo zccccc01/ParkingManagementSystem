@@ -159,3 +159,15 @@ func (plc *ParkingLotController) GetOccupancyByIDAndTime(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(occupancy)
 }
+
+func (plc *ParkingLotController) GetStatusByID(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+	}
+	free, _ := plc.ParkingLotRepo.GetFreeSpaceByLotID(id)
+	occupied, _ := plc.ParkingLotRepo.GetOccupiedSpaceByLotID(id)
+	reserved, _ := plc.ParkingLotRepo.GetReservedSpaceByLotID(id)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"free": free, "occupied": occupied, "reserved": reserved})
+}
