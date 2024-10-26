@@ -131,3 +131,33 @@ func (r *ParkingLotRepositoryImpl) FindOccupancyByLotIDAndTime(id int, start tim
 	}
 	return parkingSpaces, nil
 }
+
+func (r *ParkingLotRepositoryImpl) GetFreeSpaceByLotID(id int) (int, error) {
+	var freeSpace int
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status = 'Free' AND ParkingLotID = ?
+	result := r.DB.Table("parkingspace").Where("Status = ? AND ParkingLotID = ?", "Free", id).Count(&freeSpace)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return freeSpace, nil
+
+}
+
+func (r *ParkingLotRepositoryImpl) GetOccupiedSpaceByLotID(id int) (int, error) {
+	var occupiedSpace int
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status != 'Free' AND ParkingLotID = ?
+	result := r.DB.Table("parkingspace").Where("Status != ? AND ParkingLotID = ?", "Free", id).Count(&occupiedSpace)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return occupiedSpace, nil
+}
+func (r *ParkingLotRepositoryImpl) GetReservedSpaceByLotID(id int) (int, error) {
+	var reservedSpace int
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status = 'Reserved' AND ParkingLotID = ?
+	result := r.DB.Table("parkingspace").Where("Status = ? AND ParkingLotID = ?", "Reserved", id).Count(&reservedSpace)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return reservedSpace, nil
+}
