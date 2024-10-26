@@ -24,6 +24,9 @@ module.exports = {
     'jsx-a11y',
   ],
   rules: {
+    'jsx-a11y/label-has-associated-control': ["error", {
+      "assert": "either"
+    }],
     'prettier/prettier': 'error', // 确保这里正确配置
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
