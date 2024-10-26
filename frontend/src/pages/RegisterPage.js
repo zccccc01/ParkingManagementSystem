@@ -16,14 +16,26 @@ const RegisterPage = () => {
 
     setError(''); // 清除之前的错误信息
 
+    // 验证 UserID
+    const parsedUserID = parseInt(userID, 10);
+    if (!parsedUserID || parsedUserID <= 0) {
+      setError('用户ID必须是一个有效的正整数');
+      return;
+    }
+
+    // 验证密码
+    if (password !== confirmPassword) {
+      setError('密码和确认密码不一致');
+      return;
+    }
+
     try {
       const response = await axios.post(
         'http://localhost:8000/api/user/register',
         {
-          userID,
+          id: parsedUserID,
           tel,
           password,
-          confirmPassword,
         },
         {
           withCredentials: true, // 发送带有cookie的请求
@@ -52,7 +64,24 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      <img className="shape2" src="https://s3.us-east-2.amazonaws.com/ui.glass/shape.svg" alt="" />
+      <div className="square">
+        <ul>
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
+      </div>
+      <div className="circle">
+        <ul>
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
+      </div>
       <div className="container">
         <div className="modal">
           <button
@@ -71,11 +100,13 @@ const RegisterPage = () => {
             <label htmlFor="userID">
               用户ID:
               <input
-                type="text"
+                type="number"
                 id="userID"
                 name="userID"
                 value={userID}
                 onChange={(e) => setUserID(e.target.value)}
+                required
+                min="1"
               />
             </label>
             <br />
@@ -88,6 +119,7 @@ const RegisterPage = () => {
                 name="tel"
                 value={tel}
                 onChange={(e) => setTel(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -100,6 +132,7 @@ const RegisterPage = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
             <br />
@@ -112,11 +145,16 @@ const RegisterPage = () => {
                 name="confirm-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </label>
             <br />
             <br />
             <button type="submit">注册</button>
+            <footer>
+              <br />
+              Already have an account? <a href="/login">Sign in now</a>
+            </footer>
           </form>
         </div>
       </div>

@@ -1,3 +1,6 @@
+// TODO: 添加一个例如https://im.qq.com/index/一样的宣传页面，添加“开始使用”的按钮，点击跳转登陆页面
+// TODO: 宣传页面就相当于游客功能，登陆后才能使用完整功能
+// TODO: 登录成功跳转首页
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +30,7 @@ const LoginPage = () => {
       );
 
       if (response.status === 200) {
-        navigate('/dashboard'); // 登录成功后跳转到 dashboard 页面
+        navigate('/'); // 登录成功后跳转到首页
       } else {
         setError('登录失败，请检查用户名和密码');
       }
@@ -48,7 +51,24 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
-      <img className="shape1" src="https://s3.us-east-2.amazonaws.com/ui.glass/shape.svg" alt="" />
+      <div className="square">
+        <ul>
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
+      </div>
+      <div className="circle">
+        <ul>
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
+      </div>
       <div className="container">
         <div className="modal">
           <button
@@ -89,6 +109,10 @@ const LoginPage = () => {
             <br />
             <br />
             <button type="submit">登录</button>
+            <footer>
+              <br />
+              Not a member? <a href="/register">Sign up now</a>
+            </footer>
           </form>
         </div>
       </div>

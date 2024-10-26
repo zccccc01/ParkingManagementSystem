@@ -1,3 +1,5 @@
+/* LoginPage.scss */
+
 .login-page {
   display: flex;
   justify-content: center; /* 水平居中 */
@@ -12,7 +14,7 @@
   z-index: 1000; /* 确保弹窗在最上层 */
 }
 
-.modal {
+.login-page .modal {
   background-color: rgba(255, 255, 255, 0.5);
   overflow: hidden;
   z-index: 10;
@@ -23,17 +25,17 @@
   text-align: center; /* 内容居中 */
   position: relative; /* 使 .close-btn 相对于 .modal 定位 */
   -webkit-backdrop-filter: blur(10px);
-	backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
-.shape1 {
+.login-page .shape1 {
   position: absolute;
   width: 150px;
   top: 11rem;
   left: 38rem;
 }
 
-.close-btn {
+.login-page .close-btn {
   position: absolute; /* 绝对定位 */
   top: 10px; /* 距离顶部 10px */
   right: 10px; /* 距离右侧 10px */
@@ -50,31 +52,133 @@
   color: #333;
 }
 
-.close-btn:hover {
+.login-page .close-btn:hover {
   background: #e0e0e0; /* 鼠标悬停时的颜色 */
 }
 
-input[type="text"], input[type="password"] {
+.login-page input[type="text"], .login-page input[type="password"] {
+  background-color: rgba(255, 255, 255, 0.2);
+  ::placeholder {
+    color: #fff;
+  }
   width: 80%;
   height: 40px;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 6px 12px;
   font-size: 16px;
   margin: 10px 0;
 }
 
-button {
-  background-color: #4169E1;
-  color: white;
+.login-page input:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.login-page button {
+  background-color: #fff;
+  color: #53e3a6;
   border: none;
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 10px 20px;
   margin-top: 10px;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #3a5ba0; /* 鼠标悬停时的颜色 */
+.login-page button:hover {
+  background-color: #1aa97d; /* 鼠标悬停时的颜色 */
+}
+
+.login-page ul li {
+  position: absolute;
+  border: 1px solid #fff;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  list-style: none;
+}
+
+.login-page .square li {
+  top: 40vh;
+  left: 60vw;
+  animation: square 20s linear infinite; /* 修改动画持续时间为 20 秒 */
+}
+
+.login-page .square li:nth-child(2) {
+  top: 80vh;
+  left: 10vh;
+  animation-delay: 4s; /* 修改延迟时间为 4 秒 */
+}
+
+.login-page .square li:nth-child(3) {
+  top: 80vh;
+  left: 85vw;
+  animation-delay: 8s; /* 修改延迟时间为 8 秒 */
+}
+
+.login-page .square li:nth-child(4) {
+  top: 10vh;
+  left: 70vw;
+  animation-delay: 12s; /* 修改延迟时间为 12 秒 */
+}
+
+.login-page .square li:nth-child(5) {
+  top: 10vh;
+  left: 10vw;
+  animation-delay: 16s; /* 修改延迟时间为 16 秒 */
+}
+
+.login-page .circle li {
+  bottom: 0;
+  left: 15vw;
+  animation: circle 20s linear infinite; /* 修改动画持续时间为 20 秒 */
+}
+
+.login-page .circle li:nth-child(2) {
+  left: 35vw;
+  animation-delay: 4s; /* 修改延迟时间为 4 秒 */
+}
+
+.login-page .circle li:nth-child(3) {
+  left: 55vw;
+  animation-delay: 8s; /* 修改延迟时间为 8 秒 */
+}
+
+.login-page .circle li:nth-child(4) {
+  left: 75vw;
+  animation-delay: 12s; /* 修改延迟时间为 12 秒 */
+}
+
+.login-page .circle li:nth-child(5) {
+  left: 90vw;
+  animation-delay: 16s; /* 修改延迟时间为 16 秒 */
+}
+
+@keyframes square {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(5) rotate(3600deg); /* 旋转 10 圈 */
+    opacity: 0;
+  }
+}
+
+@keyframes circle {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+    bottom: 0;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: scale(5) rotate(3600deg); /* 旋转 10 圈 */
+    opacity: 0;
+    bottom: 120vh;
+    border-radius: 50%;
+  }
 }
