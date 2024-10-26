@@ -1,10 +1,17 @@
+// TODO: 将Sidebar组件与Header组件分割开来，使得Header组件只包含导航栏的内容
+// TODO: 将用户接口移动到Header组件中，使得用户信息可以在任何页面中获取，展示出用户头像（和用户名）
+// TODO: Sidebar组件如应用antd样式，可能需要将js文件改为tsx文件
+// TODO: Header组件应包含项目Logo名称（，以及用户登录/注册按钮）
 import React from 'react';
 import styles from './Header.module.scss';
+import Sidebar from './Sidebar.tsx';
 
 const Header = () => {
   return (
     <header className={styles.header}>
+      <Sidebar />
       <h1>Parking Management System</h1>
+      <br />
       <div>
         <ul>
           <li>
@@ -21,34 +28,6 @@ const Header = () => {
       <br />
       <br />
       <br />
-      <nav className="sidebar">
-        <ul>
-          <li>
-            <a href="/">首页</a>
-          </li>
-          <li>
-            <a href="/dashboard">仪表盘</a>
-          </li>
-          {/* <li>
-            <a href="/parking-spots/:id">停车位详情</a>
-          </li> */}
-          <li>
-            <a href="/bookings">停车位预约</a>
-          </li>
-          <li>
-            <a href="/violations">违章停车</a>
-          </li>
-          <li>
-            <a href="/parking-records">停车记录</a>
-          </li>
-          <li>
-            <a href="/parking-lots">停车场列表</a>
-          </li>
-          <li>
-            <a href="/admin-dashboard">管理员仪表盘</a>
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 };

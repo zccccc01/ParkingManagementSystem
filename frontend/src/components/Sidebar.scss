@@ -1,0 +1,44 @@
+.sidebar {
+  width: 256px;
+  height: 100%;
+  color: white;
+  background-color: #024583;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  h2 {
+    font-family: 'Mv Boli';
+    padding: 16px;
+    font-size: 25px;
+    text-align: center;
+  }
+
+  .ant-menu {
+    border-right: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(132, 119, 116, 1);
+    padding: .675rem 0 .675rem 1.8rem;
+    position: relative;
+    display: block;
+  }
+
+  .ant-menu-item {
+    color: rgba(255, 255, 255, 0.65);
+
+    &.ant-menu-item-selected {
+      background-color: #1890ff;
+      color: white;
+    }
+
+    &:hover {
+      color: white; /* 鼠标悬停时字体颜色为白色 */
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 25px;
+    }
+  }
+}

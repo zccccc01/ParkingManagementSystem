@@ -8,12 +8,22 @@
 
   h1 {
     position: absolute;
-    left: 200px;
+    top: 15px;
+    left: 300px;
     margin: 0;
     margin-bottom: 3rem;
     font-family: MV Boli;
     font-size: 2.5rem;
     color: orange;
+  }
+
+  .slide-menu {
+    display: block;
+    height: 290.469px;
+    padding-top: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
   }
 
   nav {
@@ -62,7 +72,7 @@
       padding: 0;
       margin: 0;
       overflow: hidden;
-      background-color: steelblue;
+      background-color: #022a52;
       display: flex;
       border-radius: 15px;
 
