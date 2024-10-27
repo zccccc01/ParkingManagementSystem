@@ -21,6 +21,8 @@ import UserPage from './pages/UserPage'; // 引入 UserPage 组件
 import Sidebar from './components/Sidebar.tsx'; // 引入 Sidebar 组件
 import SpaceStatusPage from './pages/SpaceStatusPage'; // 引入 SpaceStatusPage 组件
 import CheckSpacePage from './pages/CheckSpacePage';
+import UpdateSpacePage from './pages/UpdateSpacePage';
+import CreateVehiclePage from './pages/CreateVehiclePage';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +68,8 @@ const App = () => {
           <Route path="/sidebar" element={<Sidebar />} /> {/* 添加 Sidebar 组件路由 */}
           <Route path="/space-status" element={<SpaceStatusPage />} />
           <Route path="/check-space" element={<CheckSpacePage />} />
+          <Route path="/update-space" element={<UpdateSpacePage />} />
+          <Route path="/create-vehicle" element={<CreateVehiclePage />} />
           {/* 404 页面 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

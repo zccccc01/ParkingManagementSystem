@@ -1,5 +1,5 @@
 // pages/AdminDashboard.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -35,11 +35,11 @@ const AdminDashboard = () => {
     }
   };
 
-  useEffect(() => {
+  const handleQueryClick = () => {
     if (selectedId) {
       fetchData(selectedId);
     }
-  }, [selectedId]);
+  };
 
   return (
     <div className="admin-dashboard">
@@ -55,6 +55,9 @@ const AdminDashboard = () => {
           value={selectedId}
           onChange={(e) => setSelectedId(e.target.value)}
         />
+        <button type="button" onClick={handleQueryClick}>
+          查询
+        </button>
       </div>
 
       {loading ? (

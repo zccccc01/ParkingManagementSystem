@@ -30,7 +30,9 @@ const menuList = [
   { value: '/parking-lots', label: '停车场列表', icon: '' },
   { value: '/admin-dashboard', label: '管理员仪表盘', icon: '' },
   { value: '/space-status', label: '查询车位状态', icon: '' },
+  { value: '/update-space', label: '更新车位状态', icon: '' },
   { value: '/check-space', label: '查看车位', icon: '' },
+  { value: '/create-vehicle', label: '创建车位', icon: '' },
   { value: '/user', label: '用户页面', icon: '' },
 ];
 

@@ -21,7 +21,7 @@
 
   table {
     width: 100%;
-    max-width: 800px;
+    max-width: auto;
     border-collapse: collapse;
     margin-top: 20px;
 
@@ -42,6 +42,16 @@
 
     tr:hover {
       background-color: #e3f2fd;
+    }
+
+    // 添加列间距
+    td:nth-child(6) {
+      padding-left: 1px; // 根据需要调整间距
+    }
+
+    .vertical-line {
+      border-left: 1px solid #0d0d0d;
+      width: 1px;
     }
   }
 }
