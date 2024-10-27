@@ -152,6 +152,7 @@ func (r *ParkingLotRepositoryImpl) GetOccupiedSpaceByLotID(id int) (int, error) 
 	}
 	return occupiedSpace, nil
 }
+
 func (r *ParkingLotRepositoryImpl) GetReservedSpaceByLotID(id int) (int, error) {
 	var reservedSpace int
 	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status = 'Reserved' AND ParkingLotID = ?
