@@ -145,8 +145,8 @@ func (r *ParkingLotRepositoryImpl) GetFreeSpaceByLotID(id int) (int, error) {
 
 func (r *ParkingLotRepositoryImpl) GetOccupiedSpaceByLotID(id int) (int, error) {
 	var occupiedSpace int
-	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status != 'Free' AND ParkingLotID = ?
-	result := r.DB.Table("parkingspace").Where("Status != ? AND ParkingLotID = ?", "Free", id).Count(&occupiedSpace)
+	// SELECT COUNT(SpaceID) FROM parkingspace WHERE Status = 'Occupied' AND ParkingLotID = ?
+	result := r.DB.Table("parkingspace").Where("Status = ? AND ParkingLotID = ?", "Occupied", id).Count(&occupiedSpace)
 	if result.Error != nil {
 		return 0, result.Error
 	}
