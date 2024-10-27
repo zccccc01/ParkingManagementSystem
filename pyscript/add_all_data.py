@@ -15,39 +15,50 @@ config = {
 conn = mysql.connector.connect(**config)
 cursor = conn.cursor()
 
+# 统一的哈希密码(123456对应的哈希密码)
+hashed_password = '$2a$14$CiAORhxAjL/xJMczSFhP.utXyEFIQ0gIIC6dM0TQP2bvNGoLgCKB.'
+
 
 # 插入users表数据的函数
 def insert_users():
-    for i in range(1, 101):
+    for i in range(1, 51):
         username = ''.join(random.choices(string.ascii_uppercase, k=3))
-        password = ''.join(random.choices(string.digits, k=6)) + ''.join(random.choices(string.ascii_lowercase, k=3))
         tel = "1" + ''.join(random.choices(string.digits, k=10))
         query = "INSERT INTO users (UserID, Username, Password, Tel) VALUES (%s, %s, %s, %s)"
-        values = (i, username, password, tel)
+        values = (i, username, hashed_password, tel)
         cursor.execute(query, values)
 
 
 # 插入vehicle表数据的函数
 def insert_vehicles():
-    cursor.execute("SELECT UserID FROM users")
-    user_ids = [row[0] for row in cursor.fetchall()]
-    for i in range(1, 101):
-        user_id = random.choice(user_ids)
+    for i in range(1, 51):
         plate_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
         color = random.choice(['Red', 'Blue', 'Green', 'Black', 'White'])
         query = "INSERT INTO vehicle (VehicleID, UserID, PlateNumber, Color) VALUES (%s, %s, %s, %s)"
-        values = (i, user_id, plate_number, color)
+        values = (i, i, plate_number, color)  # 这里确保每个用户对应一个车辆
         cursor.execute(query, values)
 
 
 # 插入parkinglot表数据的函数
 def insert_parkinglots():
-    for i in range(1, 101):
-        parking_name = random.choice(string.ascii_uppercase) + 'CityLot'
-        longitude = random.uniform(-180, 180)
-        latitude = random.uniform(-90, 90)
-        capacity = random.randint(50, 500)
-        rates = round(random.uniform(1.0, 10.0), 2)
+    # 中国城市及其对应的经纬度
+    cities = {
+        'BJ': (39.9042, 116.4074),  # 北京
+        'SH': (31.2304, 121.4737),  # 上海
+        'GZ': (23.1291, 113.2644),  # 广州
+        'SZ': (22.5431, 114.0579),  # 深圳
+        'CD': (30.5728, 104.0668),  # 成都
+        'HZ': (30.2741, 120.1551),  # 杭州
+        'WH': (30.5928, 114.3055),  # 武汉
+        'NJ': (32.0617, 118.7778),  # 南京
+        'TJ': (39.3434, 117.3616),  # 天津
+        'XA': (34.3416, 108.9398)  # 西安
+    }
+
+    for i, (abbreviation, (latitude, longitude)) in enumerate(cities.items(), start=1):
+        parking_name = abbreviation + '-CityLot'
+        capacity = 50  # 每个停车场的容量
+        rates = round(random.uniform(8.0, 18.0), 2)
         query = "INSERT INTO parkinglot (ParkingLotID, ParkingName, Longitude, Latitude, Capacity, Rates) VALUES (%s, %s, %s, %s, %s, %s)"
         values = (i, parking_name, longitude, latitude, capacity, rates)
         cursor.execute(query, values)
@@ -55,14 +66,13 @@ def insert_parkinglots():
 
 # 插入parkingspace表数据的函数
 def insert_parkingspaces():
-    cursor.execute("SELECT ParkingLotID FROM parkinglot")
-    parking_lot_ids = [row[0] for row in cursor.fetchall()]
-    for i in range(1, 101):
-        parking_lot_id = random.choice(parking_lot_ids)
-        status = random.choice(['FREE', 'OCCUPIED', 'RESERVED'])
-        query = "INSERT INTO parkingspace (SpaceID, Status, ParkingLotID) VALUES (%s, %s, %s)"
-        values = (i, status, parking_lot_id)
-        cursor.execute(query, values)
+    for parking_lot_id in range(1, 11):  # 对于每个停车场
+        for i in range(1, 51):  # 每个停车场50个车位
+            space_id = (parking_lot_id - 1) * 50 + i  # 计算车位ID
+            status = random.choice(['FREE', 'OCCUPIED', 'RESERVED'])
+            query = "INSERT INTO parkingspace (SpaceID, Status, ParkingLotID) VALUES (%s, %s, %s)"
+            values = (space_id, status, parking_lot_id)
+            cursor.execute(query, values)
 
 
 # 插入parkingrecord表数据的函数
@@ -76,7 +86,7 @@ def insert_parkingrecords():
     for i in range(1, 101):
         space_id = random.choice(space_ids)
         vehicle_id = random.choice(vehicle_ids)
-        lot_id = random.choice(lot_ids)
+        lot_id = (space_id - 1) // 50 + 1  # 根据SpaceID计算ParkingLotID
         start_time = datetime.now() - timedelta(days=random.randint(1, 30), hours=random.randint(0, 23),
                                                 minutes=random.randint(0, 59))
         end_time = start_time + timedelta(hours=random.randint(1, 12), minutes=random.randint(0, 59))
