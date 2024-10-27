@@ -34,20 +34,46 @@ const ParkingLotListPage = () => {
             <th>名称</th>
             <th>经度</th>
             <th>纬度</th>
-            <th>剩余车位</th>
-            <th>费率</th>
+            <th>总容量</th>
+            <th>收费标准（元/h）</th>
+            <th className="vertical-line" />
+            <th>名称</th>
+            <th>经度</th>
+            <th>纬度</th>
+            <th>总容量</th>
+            <th>收费标准（元/h）</th>
           </tr>
         </thead>
         <tbody>
-          {parkingLots.map((lot) => (
-            <tr key={lot.id}>
-              <td>{lot.ParkingName}</td>
-              <td>{lot.Longitude}</td>
-              <td>{lot.Latitude}</td>
-              <td>{lot.Capacity}</td>
-              <td>{lot.Rates}</td>
-            </tr>
-          ))}
+          {parkingLots.map((lot, index) =>
+            index % 2 === 0 ? (
+              <tr key={lot.id}>
+                <td>{lot.ParkingName}</td>
+                <td>{lot.Longitude}</td>
+                <td>{lot.Latitude}</td>
+                <td>{lot.Capacity}</td>
+                <td>{lot.Rates}</td>
+                <td className="vertical-line" />
+                {parkingLots[index + 1] ? (
+                  <>
+                    <td>{parkingLots[index + 1].ParkingName}</td>
+                    <td>{parkingLots[index + 1].Longitude}</td>
+                    <td>{parkingLots[index + 1].Latitude}</td>
+                    <td>{parkingLots[index + 1].Capacity}</td>
+                    <td>{parkingLots[index + 1].Rates}</td>
+                  </>
+                ) : (
+                  <>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </>
+                )}
+              </tr>
+            ) : null
+          )}
         </tbody>
       </table>
       <Footer />

@@ -60,12 +60,12 @@ const ParkingRecordPage = () => {
         <table>
           <thead>
             <tr>
-              <th>空间ID</th>
+              <th>车位 ID</th>
               <th>车辆 ID</th>
-              <th>批号</th>
-              <th>开始时间</th>
-              <th>结束时间</th>
-              <th>费用</th>
+              <th>停车场 ID</th>
+              <th>进场时间</th>
+              <th>离场时间</th>
+              <th>停车费</th>
             </tr>
           </thead>
           <tbody>

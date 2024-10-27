@@ -47,7 +47,7 @@
 
   table {
     width: 100%;
-    max-width: 800px;
+    max-width: auto;
     border-collapse: collapse;
     margin-top: 20px;
 
@@ -68,6 +68,16 @@
 
     tr:hover {
       background-color: #e3f2fd;
+    }
+
+    // 添加列间距
+    td:nth-child(4) {
+      padding-left: 2px; // 根据需要调整间距
+    }
+
+    .vertical-line {
+      border-left: 1px solid black; /* 将切割线颜色设置为黑色 */
+      width: 1px;
     }
   }
 

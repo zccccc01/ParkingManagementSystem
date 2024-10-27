@@ -53,7 +53,7 @@ const VehicleInfoPage = () => {
         <table>
           <thead>
             <tr>
-              <th>用户身份</th>
+              <th>用户 ID</th>
               <th>车牌号</th>
               <th>颜色</th>
             </tr>

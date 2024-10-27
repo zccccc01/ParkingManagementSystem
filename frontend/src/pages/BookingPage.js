@@ -124,7 +124,7 @@ const BookingPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="vehicleID">车辆:</label>
+          <label htmlFor="vehicleID">车辆 ID:</label>
           <input
             type="number"
             id="vehicleID"

@@ -29,7 +29,6 @@ const ParkingSpacePage = () => {
     <div className="ParkingSpacePage">
       <Header />
       <h1>空闲车位信息页面</h1>
-      <p>点击按钮查询空闲状态车位</p>
       <button type="button" onClick={fetchParkingSpaces}>
         查询
       </button>
@@ -42,16 +41,30 @@ const ParkingSpacePage = () => {
               <th>车位 ID</th>
               <th>状态</th>
               <th>停车场 ID</th>
+              <th className="vertical-line" />
+              <th>车位 ID</th>
+              <th>状态</th>
+              <th>停车场 ID</th>
             </tr>
           </thead>
           <tbody>
-            {parkingSpaces.map((space) => (
-              <tr key={space.SpaceID}>
-                <td>{space.SpaceID}</td>
-                <td>{space.Status}</td>
-                <td>{space.ParkingLotID}</td>
-              </tr>
-            ))}
+            {parkingSpaces.map((space, index) =>
+              index % 2 === 0 ? (
+                <tr key={space.SpaceID}>
+                  <td>{space.SpaceID}</td>
+                  <td>{space.Status}</td>
+                  <td>{space.ParkingLotID}</td>
+                  <td className="vertical-line" />
+                  {parkingSpaces[index + 1] ? (
+                    <>
+                      <td>{parkingSpaces[index + 1].SpaceID}</td>
+                      <td>{parkingSpaces[index + 1].Status}</td>
+                      <td>{parkingSpaces[index + 1].ParkingLotID}</td>
+                    </>
+                  ) : null}
+                </tr>
+              ) : null
+            )}
           </tbody>
         </table>
       )}
