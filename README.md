@@ -6,6 +6,19 @@ go mod tidy
 go install github.com/air-verse/air@v1.60.0
 ```
 
+## 前端运行
+```bash
+cd ./frontend
+npm run build
+npx serve -s build
+```
+
+## 后端运行
+```bash
+cd ./backend/cmd
+air
+```
+
 ## 前端
 + react
 ## 后端
