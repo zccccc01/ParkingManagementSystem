@@ -171,3 +171,38 @@ func (plc *ParkingLotController) GetStatusByID(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"free": free, "occupied": occupied, "reserved": reserved})
 }
+
+func (plc *ParkingLotController) GetAllIncomeByLotID(c *fiber.Ctx) error {
+	var lotsInfo []fiber.Map
+
+	for id := 1; id <= 10; id++ {
+		// 查询停车场信息
+		lot, err := plc.ParkingLotRepo.FindByID(id)
+		if err != nil {
+			// 如果找不到停车场，跳过并继续下一个
+			continue
+		}
+
+		// 查询停车场收入
+		income, err := plc.ParkingLotRepo.FindAllIncomeByLotID(id)
+		if err != nil {
+			// 如果找不到收入信息，跳过并继续下一个
+			continue
+		}
+
+		// 准备响应数据
+		lotsInfo = append(lotsInfo, fiber.Map{
+			"ParkingLotID": lot.ParkingLotID,
+			"ParkingName":  lot.ParkingName,
+			"Longitude":    lot.Longitude,
+			"Latitude":     lot.Latitude,
+			"income":       income,
+		})
+	}
+
+	// 返回所有停车场信息和收入
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"total":       len(lotsInfo),
+		"parkingLots": lotsInfo,
+	})
+}
