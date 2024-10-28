@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>停车场收入可视化</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> 
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:8000/api/parkinglot/allincome/all');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        function initMap(data) {
+            const map = L.map('map').setView([35.0, 105.0], 4); // 中心在中国
+
+            // 使用 OpenStreetMap 作为底图
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            // 手动设置中国的边界
+            const bounds = [
+                [53.55, 73.66], // 北西
+                [3.86, 135.05]  // 南东
+            ];
+            L.rectangle(bounds, { color: "#ff7800", weight: 1 }).addTo(map);
+
+            // 添加标记
+            data.parkingLots.forEach(item => {
+                L.circle([item.Latitude, item.Longitude], {
+                    radius: 500, // 增加半径以提高可见性
+                    color: 'red',
+                    fillColor: '#ff5733', // 使用更亮的填充颜色
+                    fillOpacity: 0.8
+                }).addTo(map)
+                .bindPopup(`
+                    <div style='text-align: center;'>
+                        <strong>停车场ID:</strong> ${item.ParkingLotID}<br/>
+                        <strong>名称:</strong> ${item.ParkingName}<br/>
+                        <strong>经纬度:</strong> (${item.Longitude}, ${item.Latitude})<br/>
+                        <strong>总收入:</strong> ${item.income}
+                    </div>
+                `);
+            });
+
+            // 将地图视野设置为中国范围
+            map.fitBounds(bounds);
+        }
+
+        fetchData().then(initMap);
+    </script>
+</body>
+</html>

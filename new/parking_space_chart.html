@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Status</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        #main {
+            width: 600px;
+            height: 400px;
+            margin: auto;
+        }
+        #inputContainer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="inputContainer">
+    <input type="text" id="lotIdInput" placeholder="Enter Parking Lot ID" />
+    <button id="fetchButton">Fetch Status</button>
+</div>
+<div id="main"></div>
+
+<script>
+    document.getElementById('fetchButton').addEventListener('click', fetchData);
+
+    async function fetchData() {
+        const lotId = document.getElementById('lotIdInput').value;
+        const response = await fetch(`http://localhost:8000/api/parkinglot/status/lot/${lotId}`); // 替换为实际的API路径
+        const data = await response.json();
+
+        if (response.ok) {
+            renderChart(data);
+        } else {
+            console.error(data.error);
+        }
+    }
+
+    function renderChart(data) {
+        const chartDom = document.getElementById('main');
+        const myChart = echarts.init(chartDom);
+
+        const option = {
+            title: {
+                text: 'Parking Lot Status',
+                subtext: 'Free, Occupied, Reserved',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [{
+                name: 'Status',
+                type: 'pie',
+                radius: '50%',
+                data: [
+                    { value: data.free, name: 'Free' },
+                    { value: data.occupied, name: 'Occupied' },
+                    { value: data.reserved, name: 'Reserved' }
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }],
+            animation: true
+        };
+
+        myChart.setOption(option);
+    }
+</script>
+
+</body>
+</html>
