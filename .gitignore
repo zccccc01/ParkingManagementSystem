@@ -1,7 +1,8 @@
 # ignore some dir
-nginx-1.26.2(pkms)/
-
+nginx/logs/
+nginx/html/
+nginx/docs/
+nginx/contrib/
 test/
 
-
-main.exe
+backend/cmd/tmp/main.exe
