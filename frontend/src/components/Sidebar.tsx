@@ -29,6 +29,8 @@ const menuList = [
   { value: '/bookings', label: '停车位预约', icon: '' },
   { value: '/parking-lots', label: '停车场列表', icon: '' },
   { value: '/admin-dashboard', label: '管理员仪表盘', icon: '' },
+  { value: '/chart', label: '可视化状态', icon: '' },
+  { value: '/parking-lot-income', label: '收入图', icon: '' },
   { value: '/space-status', label: '查询车位状态', icon: '' },
   { value: '/update-space', label: '更新车位状态', icon: '' },
   { value: '/check-space', label: '查看车位', icon: '' },

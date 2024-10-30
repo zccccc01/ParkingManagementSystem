@@ -35,38 +35,53 @@ const ParkingSpacePage = () => {
       {loading && <p>加载中...</p>}
       {error && <p>加载失败: {error.message}</p>}
       {!loading && !error && (
-        <table>
-          <thead>
-            <tr>
-              <th>车位 ID</th>
-              <th>状态</th>
-              <th>停车场 ID</th>
-              <th className="vertical-line" />
-              <th>车位 ID</th>
-              <th>状态</th>
-              <th>停车场 ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {parkingSpaces.map((space, index) =>
-              index % 2 === 0 ? (
-                <tr key={space.SpaceID}>
-                  <td>{space.SpaceID}</td>
-                  <td>{space.Status}</td>
-                  <td>{space.ParkingLotID}</td>
-                  <td className="vertical-line" />
-                  {parkingSpaces[index + 1] ? (
-                    <>
-                      <td>{parkingSpaces[index + 1].SpaceID}</td>
-                      <td>{parkingSpaces[index + 1].Status}</td>
-                      <td>{parkingSpaces[index + 1].ParkingLotID}</td>
-                    </>
-                  ) : null}
+        <div className="two-column-table">
+          <div className="column left">
+            <table>
+              <thead>
+                <tr>
+                  <th>车位 ID</th>
+                  <th>状态</th>
+                  <th>停车场 ID</th>
                 </tr>
-              ) : null
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {parkingSpaces
+                  .filter((_, index) => index % 2 === 0)
+                  .map((space) => (
+                    <tr key={space.SpaceID}>
+                      <td>{space.SpaceID}</td>
+                      <td>{space.Status}</td>
+                      <td>{space.ParkingLotID}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="column right">
+            <table>
+              <thead>
+                <tr>
+                  <th>车位 ID</th>
+                  <th>状态</th>
+                  <th>停车场 ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {parkingSpaces
+                  .filter((_, index) => index % 2 !== 0)
+                  .map((space) => (
+                    <tr key={space.SpaceID}>
+                      <td>{space.SpaceID}</td>
+                      <td>{space.Status}</td>
+                      <td>{space.ParkingLotID}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="vertical-divider" />
+        </div>
       )}
       <Footer />
     </div>

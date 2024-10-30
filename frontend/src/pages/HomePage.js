@@ -25,6 +25,9 @@ const HomePage = () => {
     <div className="HomePage">
       <Header />
       <SearchBar />
+      <br />
+      <br />
+      <br />
       <p>欢迎来到停车管理系统！</p>
       <div>
         <img id="image-slider" width="540" height="340" src={images[currentImage]} alt="slider" />

@@ -28,54 +28,61 @@ const ParkingLotListPage = () => {
     <div className="parking-lot-list-page">
       <Header />
       <h1>停车场列表</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>名称</th>
-            <th>经度</th>
-            <th>纬度</th>
-            <th>总容量</th>
-            <th>收费标准（元/h）</th>
-            <th className="vertical-line" />
-            <th>名称</th>
-            <th>经度</th>
-            <th>纬度</th>
-            <th>总容量</th>
-            <th>收费标准（元/h）</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parkingLots.map((lot, index) =>
-            index % 2 === 0 ? (
-              <tr key={lot.id}>
-                <td>{lot.ParkingName}</td>
-                <td>{lot.Longitude}</td>
-                <td>{lot.Latitude}</td>
-                <td>{lot.Capacity}</td>
-                <td>{lot.Rates}</td>
-                <td className="vertical-line" />
-                {parkingLots[index + 1] ? (
-                  <>
-                    <td>{parkingLots[index + 1].ParkingName}</td>
-                    <td>{parkingLots[index + 1].Longitude}</td>
-                    <td>{parkingLots[index + 1].Latitude}</td>
-                    <td>{parkingLots[index + 1].Capacity}</td>
-                    <td>{parkingLots[index + 1].Rates}</td>
-                  </>
-                ) : (
-                  <>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </>
-                )}
+      <div className="two-column-table">
+        <div className="column left">
+          <table>
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>经度</th>
+                <th>纬度</th>
+                <th>总容量</th>
+                <th>收费标准（元/h）</th>
               </tr>
-            ) : null
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {parkingLots
+                .filter((_, index) => index % 2 === 0)
+                .map((lot) => (
+                  <tr key={lot.id}>
+                    <td>{lot.ParkingName}</td>
+                    <td>{lot.Longitude}</td>
+                    <td>{lot.Latitude}</td>
+                    <td>{lot.Capacity}</td>
+                    <td>{lot.Rates}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="column right">
+          <table>
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>经度</th>
+                <th>纬度</th>
+                <th>总容量</th>
+                <th>收费标准（元/h）</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parkingLots
+                .filter((_, index) => index % 2 !== 0)
+                .map((lot) => (
+                  <tr key={lot.id}>
+                    <td>{lot.ParkingName}</td>
+                    <td>{lot.Longitude}</td>
+                    <td>{lot.Latitude}</td>
+                    <td>{lot.Capacity}</td>
+                    <td>{lot.Rates}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="vertical-divider" />
+      </div>
       <Footer />
     </div>
   );

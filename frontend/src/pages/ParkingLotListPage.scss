@@ -19,21 +19,34 @@
     }
   }
 
-  table {
-    width: 100%;
-    max-width: auto;
-    border-collapse: collapse;
-    margin-top: 20px;
-
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+  .two-column-table {
+    display: flex;
+    justify-content: space-between;
+  
+    .column {
+      height: auto;
+      width: 100%;
+      margin: 0 2%; /* 每列左右各 2% 的间距 */
+  
+      table {
+        border-collapse: collapse;
+  
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+  
+        th {
+          background-color: #f2f2f2;
+        }
+      }
     }
-
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold;
+  
+    .vertical-divider {
+      width: 2px;
+      background-color: #ddd;
+      height: 100%;
     }
 
     tr:nth-child(even) {

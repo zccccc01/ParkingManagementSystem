@@ -23,6 +23,8 @@ import SpaceStatusPage from './pages/SpaceStatusPage'; // 引入 SpaceStatusPage
 import CheckSpacePage from './pages/CheckSpacePage';
 import UpdateSpacePage from './pages/UpdateSpacePage';
 import CreateVehiclePage from './pages/CreateVehiclePage';
+import ChartPage from './pages/ChartPage';
+import ParkingLotIncome from './pages/ParkingLotIncome';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +72,8 @@ const App = () => {
           <Route path="/check-space" element={<CheckSpacePage />} />
           <Route path="/update-space" element={<UpdateSpacePage />} />
           <Route path="/create-vehicle" element={<CreateVehiclePage />} />
+          <Route path="/chart" element={<ChartPage />} />
+          <Route path="/parking-lot-income" element={<ParkingLotIncome />} />
           {/* 404 页面 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
