@@ -1,3 +1,5 @@
+// src/pages/ParkingLotMap.scss
+
 .sidebar {
   width: 256px;
   height: 100%;
@@ -15,10 +17,11 @@
   }
 
   .ant-menu {
+    width: 272px;
     border-right: none;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #024583;
     color: rgba(132, 119, 116, 1);
-    padding: .675rem 0 .675rem 1.8rem;
+    padding: 0.675rem 0 0.675rem 1.8rem;
     position: relative;
     display: block;
   }
@@ -39,6 +42,81 @@
       color: white;
       text-decoration: none;
       font-size: 25px;
+    }
+  }
+
+  // 特定菜单项的样式调整
+  .ant-menu-item[data-value='/update-space'],
+  .ant-menu-item[data-value='/check-space'],
+  .ant-menu-item[data-value='/create-vehicle'],
+  .ant-menu-item[data-value='/user'] {
+    font-size: 20px; // 调整字体大小
+    padding: 10px 16px; // 调整内边距
+  }
+
+  // 响应式设计
+  @media (max-width: 1024px) {
+    width: 200px; // 在中等屏幕设备上减小宽度
+
+    h2 {
+      font-size: 20px; // 减小标题字体大小
+    }
+
+    .ant-menu-item {
+      font-size: 20px; // 减小菜单项字体大小
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 18px; // 进一步减小字体大小
+      padding: 8px 12px; // 调整内边距
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 150px; // 在平板设备上进一步减小宽度
+
+    h2 {
+      font-size: 18px; // 进一步减小标题字体大小
+    }
+
+    .ant-menu-item {
+      font-size: 18px; // 进一步减小菜单项字体大小
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 16px; // 进一步减小字体大小
+      padding: 6px 10px; // 调整内边距
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 100%; // 在手机设备上占据全屏宽度
+    position: static; // 改变位置属性，使其不再固定在左侧
+    height: auto; // 自动高度
+
+    h2 {
+      font-size: 16px; // 进一步减小标题字体大小
+    }
+
+    .ant-menu-item {
+      font-size: 16px; // 进一步减小菜单项字体大小
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 14px; // 进一步减小字体大小
+      padding: 4px 8px; // 调整内边距
     }
   }
 }
