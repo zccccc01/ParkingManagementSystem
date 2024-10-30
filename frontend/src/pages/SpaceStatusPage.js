@@ -63,24 +63,53 @@ const ParkingSpacePage = () => {
       {parkingSpaces && (
         <div>
           <h1>车位状态</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>车位 ID</th>
-                <th>状态</th>
-                <th>停车场 ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {parkingSpaces.map((space) => (
-                <tr key={space.SpaceID}>
-                  <td>{space.SpaceID}</td>
-                  <td>{space.Status}</td>
-                  <td>{space.ParkingLotID}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="two-column-table">
+            <div className="column left">
+              <table>
+                <thead>
+                  <tr>
+                    <th>车位 ID</th>
+                    <th>状态</th>
+                    <th>停车场 ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {parkingSpaces
+                    .filter((_, index) => index % 2 === 0)
+                    .map((space) => (
+                      <tr key={space.SpaceID}>
+                        <td>{space.SpaceID}</td>
+                        <td>{space.Status}</td>
+                        <td>{space.ParkingLotID}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="column right">
+              <table>
+                <thead>
+                  <tr>
+                    <th>车位 ID</th>
+                    <th>状态</th>
+                    <th>停车场 ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {parkingSpaces
+                    .filter((_, index) => index % 2 !== 0)
+                    .map((space) => (
+                      <tr key={space.SpaceID}>
+                        <td>{space.SpaceID}</td>
+                        <td>{space.Status}</td>
+                        <td>{space.ParkingLotID}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="vertical-divider" />
+          </div>
         </div>
       )}
       <Footer />

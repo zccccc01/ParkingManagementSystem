@@ -12,6 +12,8 @@ const Header = () => {
       <Sidebar />
       <h1>Parking Management System</h1>
       <br />
+      <br />
+      <br />
       <div>
         <ul>
           <li>

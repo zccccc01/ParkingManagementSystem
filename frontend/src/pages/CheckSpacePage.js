@@ -96,24 +96,53 @@ const CheckSpacePage = () => {
       {loading && <p>加载中...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {occupancyData.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>车位ID</th>
-              <th>状态</th>
-              <th>停车场ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {occupancyData.map((item) => (
-              <tr key={item.SpaceID}>
-                <td>{item.SpaceID}</td>
-                <td>{item.Status}</td>
-                <td>{item.ParkingLotID}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="two-column-table">
+          <div className="column left">
+            <table>
+              <thead>
+                <tr>
+                  <th>车位ID</th>
+                  <th>状态</th>
+                  <th>停车场ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {occupancyData
+                  .filter((_, index) => index % 2 === 0)
+                  .map((item) => (
+                    <tr key={item.SpaceID}>
+                      <td>{item.SpaceID}</td>
+                      <td>{item.Status}</td>
+                      <td>{item.ParkingLotID}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="column right">
+            <table>
+              <thead>
+                <tr>
+                  <th>车位ID</th>
+                  <th>状态</th>
+                  <th>停车场ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {occupancyData
+                  .filter((_, index) => index % 2 !== 0)
+                  .map((item) => (
+                    <tr key={item.SpaceID}>
+                      <td>{item.SpaceID}</td>
+                      <td>{item.Status}</td>
+                      <td>{item.ParkingLotID}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="vertical-divider" />
+        </div>
       )}
       <Footer />
     </div>
