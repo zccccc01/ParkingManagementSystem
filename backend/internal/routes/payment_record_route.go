@@ -9,17 +9,16 @@ import (
 
 func SetupPaymentRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
-	paymentRepo := repository.NewParkingSpaceRepository(db)
-	paymentController := controllers.NewParkingSpaceController(paymentRepo)
+	paymentRepo := repository.NewPaymentRecordRepository(db)
+	paymentController := controllers.NewPaymentRecordController(paymentRepo)
 
 	// 定义路由组
 	paymentRecord := app.Group("/api/paymentrecord")
 
-	// 定义路由,TODO:前三个有点怪
-	paymentRecord.Get("/vehicle/:plateNumber", paymentController.GetParkingSpaceByLicensePlate)
-	paymentRecord.Get("/user/:id", paymentController.GetParkingSpaceByUserID)
-	paymentRecord.Get("/lot/:id", paymentController.GetParkingSpaceByParkingLotId)
-	paymentRecord.Get("/status/lot/:lotid/space/:spaceid", paymentController.GetParkingSpaceStatusById) //TODO:传两个参数
-	paymentRecord.Post("/", paymentController.CreateParkingSpace)
-	paymentRecord.Put("/status/lot/:lotid/space/:spaceid", paymentController.UpdateParkingSpaceStatus) //TODO:传两个参数
+	// 定义路由
+	paymentRecord.Get("/reservation/:id", paymentController.GetFeeByReservationID)
+	paymentRecord.Get("/status/reservation/:id", paymentController.GetPaymentStatusByReservationID)
+	paymentRecord.Get("/record/:id", paymentController.GetFeeByRecordID)
+	paymentRecord.Get("/status/record/:id", paymentController.GetPaymentStatusByRecordID)
+	paymentRecord.Get("/plate/:plate", paymentController.GetFeeByPlate)
 }

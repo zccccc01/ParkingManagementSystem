@@ -17,9 +17,10 @@ type PaymentRecordRepository interface {
 	GetPaymentMethodByPaymentID(id int) (string, error)
 	//根据支付ID获取支付时间戳
 	GetPaymentTimeStampByPaymentID(id int) (time.Time, error)
-	//根据支付时间戳获取支付状态
-	//TODO:感觉有点怪,我这里的逻辑是查到传入的时间戳对应信息就return pay, 没有查到就nopay
-	GetPaymentStatusByPaymentTimeStamp(timestamp time.Time) (string, error)
+	//根据预定ID获取支付状态
+	GetPaymentStatusByReservationID(id int) (string, error)
+	//根据记录ID获取支付状态
+	GetPaymentStatusByRecordID(id int) (string, error)
 	//根据车牌号查支付车费
 	GetPaymentFeeByPlateNumber(plateNumber string) ([]float64, error)
 }

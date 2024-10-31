@@ -53,7 +53,7 @@ def insert_parkinglots():
         'WH': (30.5928, 114.3055),  # 武汉
         'NJ': (32.0617, 118.7778),  # 南京
         'TJ': (39.3434, 117.3616),  # 天津
-        'XA': (34.3416, 108.9398)   # 西安
+        'XA': (34.3416, 108.9398)  # 西安
     }
 
     # 各城市的固定费率
@@ -64,10 +64,10 @@ def insert_parkinglots():
         'SZ': 15.0,  # 深圳
         'CD': 12.5,  # 成都
         'HZ': 14.5,  # 杭州
-        'WH': 13.0,   # 武汉
+        'WH': 13.0,  # 武汉
         'NJ': 10.0,  # 南京
-        'TJ': 12.0,   # 天津
-        'XA': 11.5    # 西安
+        'TJ': 12.0,  # 天津
+        'XA': 11.5  # 西安
     }
 
     for i, (abbreviation, (latitude, longitude)) in enumerate(cities.items(), start=1):
@@ -161,37 +161,42 @@ def insert_violations():
 
 # 插入paymentrecord表数据的函数
 def insert_payments():
-    cursor.execute("SELECT RecordID, Fee FROM parkingrecord")  # 获取记录和费用
-    records = cursor.fetchall()  # 记录包括 RecordID 和 Fee
+    cursor.execute("SELECT RecordID, Fee FROM parkingrecord")
+    records = cursor.fetchall()
     cursor.execute("SELECT ReservationID, StartTime, EndTime, LotID FROM reservation")
-    reservations = cursor.fetchall()  # 获取所有预订记录
+    reservations = cursor.fetchall()
     cursor.execute("SELECT ParkingLotID, Rates FROM parkinglot")
-    rates = {row[0]: row[1] for row in cursor.fetchall()}  # 创建停车场ID到费率的映射
+    rates = {row[0]: row[1] for row in cursor.fetchall()}
+
+    used_record_ids = set()
+    used_reservation_ids = set()
 
     for i in range(1, 101):
-        # 随机选择使用 RecordID 或 ReservationID
-        if random.choice([True, False]) and records:  # 选择使用 RecordID
+        if random.choice([True, False]) and records:
             record = random.choice(records)
             record_id = record[0]
-            amount = record[1]  # 从 parkingrecord 中获取费用
-            reservation_id = None  # 置空
-        elif reservations:  # 否则选择使用 ReservationID
+            if record_id in used_record_ids:
+                continue  # 跳过已使用的 RecordID
+            used_record_ids.add(record_id)
+            amount = record[1]
+            reservation_id = None
+        elif reservations:
             reservation = random.choice(reservations)
             reservation_id = reservation[0]
+            if reservation_id in used_reservation_ids:
+                continue  # 跳过已使用的 ReservationID
+            used_reservation_ids.add(reservation_id)
             start_time = reservation[1]
             end_time = reservation[2]
             lot_id = reservation[3]
 
-            # 计算总占用时间（小时）
             total_hours = (end_time - start_time).total_seconds() / 3600
-            # 获取停车场费率
-            rate = rates.get(lot_id, Decimal('0'))  # 确保费率为Decimal类型
-            # 计算费用
+            rate = rates.get(lot_id, Decimal('0'))
             amount = round(rate * Decimal(total_hours), 2) if total_hours > 0 else 0
 
-            record_id = None  # 置空
+            record_id = None
         else:
-            continue  # 如果没有可用的 ID，跳过此次插入
+            continue
 
         payment_timestamp = datetime.now() - timedelta(days=random.randint(0, 365), hours=random.randint(0, 23),
                                                        minutes=random.randint(0, 59))

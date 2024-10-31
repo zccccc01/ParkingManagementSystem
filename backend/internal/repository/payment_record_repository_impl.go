@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -59,16 +60,36 @@ func (r *PaymentRecordRepositoryImpl) GetPaymentTimeStampByPaymentID(id int) (ti
 	return payment.PaymentTimestamp, nil
 }
 
-func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByPaymentTimeStamp(timestamp time.Time) (string, error) {
+func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByReservationID(id int) (string, error) {
 	var payment models.PaymentRecord
-	result := r.DB.Find(&payment, "PaymentTimestamp=?", timestamp)
+	result := r.DB.Select("PaymentTimestamp").Find(&payment, "ReservationID = ?", id)
 	if result.Error != nil {
-		if result.Error == gorm.ErrRecordNotFound {
-			return "NOPAY", nil
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return "NoRecord", nil
 		}
 		return "", result.Error
 	}
-	return "PAY", nil
+
+	if payment.PaymentTimestamp.Before(time.Now()) {
+		return "PAY", nil
+	}
+	return "NoPAY", nil
+}
+
+func (r *PaymentRecordRepositoryImpl) GetPaymentStatusByRecordID(id int) (string, error) {
+	var payment models.PaymentRecord
+	result := r.DB.Select("PaymentTimestamp").Find(&payment, "RecordID = ?", id)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return "NoRecord", nil
+		}
+		return "", result.Error
+	}
+
+	if payment.PaymentTimestamp.Before(time.Now()) {
+		return "PAY", nil
+	}
+	return "NoPAY", nil
 }
 
 func (r *PaymentRecordRepositoryImpl) GetPaymentFeeByPlateNumber(plateNumber string) ([]float64, error) {
