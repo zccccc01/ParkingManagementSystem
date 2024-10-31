@@ -1,6 +1,7 @@
 import mysql.connector
 import random
 import string
+from decimal import Decimal
 from datetime import datetime, timedelta
 
 # 数据库连接配置
@@ -15,7 +16,7 @@ config = {
 conn = mysql.connector.connect(**config)
 cursor = conn.cursor()
 
-# 统一的哈希密码(123456对应的哈希密码)
+# 统一的密码哈希
 hashed_password = '$2a$14$CiAORhxAjL/xJMczSFhP.utXyEFIQ0gIIC6dM0TQP2bvNGoLgCKB.'
 
 
@@ -52,15 +53,29 @@ def insert_parkinglots():
         'WH': (30.5928, 114.3055),  # 武汉
         'NJ': (32.0617, 118.7778),  # 南京
         'TJ': (39.3434, 117.3616),  # 天津
-        'XA': (34.3416, 108.9398)  # 西安
+        'XA': (34.3416, 108.9398)   # 西安
+    }
+
+    # 各城市的固定费率
+    rates = {
+        'BJ': 18.0,  # 北京
+        'SH': 16.0,  # 上海
+        'GZ': 12.0,  # 广州
+        'SZ': 15.0,  # 深圳
+        'CD': 12.5,  # 成都
+        'HZ': 14.5,  # 杭州
+        'WH': 13.0,   # 武汉
+        'NJ': 10.0,  # 南京
+        'TJ': 12.0,   # 天津
+        'XA': 11.5    # 西安
     }
 
     for i, (abbreviation, (latitude, longitude)) in enumerate(cities.items(), start=1):
         parking_name = abbreviation + '-CityLot'
         capacity = 50  # 每个停车场的容量
-        rates = round(random.uniform(8.0, 18.0), 2)
+        rate = rates[abbreviation]  # 使用对应城市的费率
         query = "INSERT INTO parkinglot (ParkingLotID, ParkingName, Longitude, Latitude, Capacity, Rates) VALUES (%s, %s, %s, %s, %s, %s)"
-        values = (i, parking_name, longitude, latitude, capacity, rates)
+        values = (i, parking_name, longitude, latitude, capacity, rate)
         cursor.execute(query, values)
 
 
@@ -83,14 +98,27 @@ def insert_parkingrecords():
     vehicle_ids = [row[0] for row in cursor.fetchall()]
     cursor.execute("SELECT ParkingLotID FROM parkinglot")
     lot_ids = [row[0] for row in cursor.fetchall()]
+
+    # 获取停车场的费率
+    cursor.execute("SELECT ParkingLotID, Rates FROM parkinglot")
+    rates = {row[0]: row[1] for row in cursor.fetchall()}  # 停车场ID到费率的映射
+
     for i in range(1, 101):
         space_id = random.choice(space_ids)
         vehicle_id = random.choice(vehicle_ids)
         lot_id = (space_id - 1) // 50 + 1  # 根据SpaceID计算ParkingLotID
+
         start_time = datetime.now() - timedelta(days=random.randint(1, 30), hours=random.randint(0, 23),
                                                 minutes=random.randint(0, 59))
         end_time = start_time + timedelta(hours=random.randint(1, 12), minutes=random.randint(0, 59))
-        fee = round(random.uniform(5.0, 50.0), 2)
+
+        # 计算时间差（小时）
+        total_hours = Decimal((end_time - start_time).total_seconds()) / Decimal(3600.0)
+
+        # 获取停车场的费率
+        rate = rates.get(lot_id, Decimal(0))  # 默认费率为0
+        fee = round(rate * total_hours, 2)  # 计算费用
+
         query = "INSERT INTO parkingrecord (RecordID, SpaceID, VehicleID, LotID, StartTime, EndTime, Fee) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (i, space_id, vehicle_id, lot_id, start_time, end_time, fee)
         cursor.execute(query, values)
@@ -133,17 +161,42 @@ def insert_violations():
 
 # 插入paymentrecord表数据的函数
 def insert_payments():
-    cursor.execute("SELECT RecordID FROM parkingrecord")
-    record_ids = [row[0] for row in cursor.fetchall()]
-    cursor.execute("SELECT ReservationID FROM reservation")
-    reservation_ids = [row[0] for row in cursor.fetchall()]
+    cursor.execute("SELECT RecordID, Fee FROM parkingrecord")  # 获取记录和费用
+    records = cursor.fetchall()  # 记录包括 RecordID 和 Fee
+    cursor.execute("SELECT ReservationID, StartTime, EndTime, LotID FROM reservation")
+    reservations = cursor.fetchall()  # 获取所有预订记录
+    cursor.execute("SELECT ParkingLotID, Rates FROM parkinglot")
+    rates = {row[0]: row[1] for row in cursor.fetchall()}  # 创建停车场ID到费率的映射
+
     for i in range(1, 101):
-        record_id = random.choice(record_ids) if record_ids else None
-        reservation_id = random.choice(reservation_ids) if reservation_ids else None
-        amount = round(random.uniform(5.0, 500.0), 2)
+        # 随机选择使用 RecordID 或 ReservationID
+        if random.choice([True, False]) and records:  # 选择使用 RecordID
+            record = random.choice(records)
+            record_id = record[0]
+            amount = record[1]  # 从 parkingrecord 中获取费用
+            reservation_id = None  # 置空
+        elif reservations:  # 否则选择使用 ReservationID
+            reservation = random.choice(reservations)
+            reservation_id = reservation[0]
+            start_time = reservation[1]
+            end_time = reservation[2]
+            lot_id = reservation[3]
+
+            # 计算总占用时间（小时）
+            total_hours = (end_time - start_time).total_seconds() / 3600
+            # 获取停车场费率
+            rate = rates.get(lot_id, Decimal('0'))  # 确保费率为Decimal类型
+            # 计算费用
+            amount = round(rate * Decimal(total_hours), 2) if total_hours > 0 else 0
+
+            record_id = None  # 置空
+        else:
+            continue  # 如果没有可用的 ID，跳过此次插入
+
         payment_timestamp = datetime.now() - timedelta(days=random.randint(0, 365), hours=random.randint(0, 23),
                                                        minutes=random.randint(0, 59))
         payment_method = random.choice(['Credit Card', 'VX Pay', 'AliPay', 'Cash'])
+
         query = "INSERT INTO paymentrecord (PaymentID, RecordID, ReservationID, Amount, PaymentTimestamp, PaymentMethod) VALUES (%s, %s, %s, %s, %s, %s)"
         values = (i, record_id, reservation_id, amount, payment_timestamp, payment_method)
         cursor.execute(query, values)
