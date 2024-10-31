@@ -16,7 +16,7 @@ config = {
 conn = mysql.connector.connect(**config)
 cursor = conn.cursor()
 
-# 统一的密码哈希
+# 统一的密码哈希(123456)
 hashed_password = '$2a$14$CiAORhxAjL/xJMczSFhP.utXyEFIQ0gIIC6dM0TQP2bvNGoLgCKB.'
 
 
@@ -103,7 +103,7 @@ def insert_parkingrecords():
     cursor.execute("SELECT ParkingLotID, Rates FROM parkinglot")
     rates = {row[0]: row[1] for row in cursor.fetchall()}  # 停车场ID到费率的映射
 
-    for i in range(1, 101):
+    for i in range(1, 51):  # 修改为插入50条数据
         space_id = random.choice(space_ids)
         vehicle_id = random.choice(vehicle_ids)
         lot_id = (space_id - 1) // 50 + 1  # 根据SpaceID计算ParkingLotID
@@ -132,7 +132,7 @@ def insert_reservations():
     vehicle_ids = [row[0] for row in cursor.fetchall()]
     cursor.execute("SELECT SpaceID FROM parkingspace")
     space_ids = [row[0] for row in cursor.fetchall()]
-    for i in range(1, 101):
+    for i in range(1, 51):  # 修改为插入50条数据
         lot_id = random.choice(parking_lot_ids)
         vehicle_id = random.choice(vehicle_ids)
         space_id = random.choice(space_ids)
@@ -170,17 +170,21 @@ def insert_payments():
 
     used_record_ids = set()
     used_reservation_ids = set()
+    total_payments = 0  # 记录已插入的支付条数
 
-    for i in range(1, 101):
-        if random.choice([True, False]) and records:
+    while total_payments < 100:
+        # 随机选择使用 RecordID 或 ReservationID
+        if records and (not reservations or random.choice([True, False])):
+            # 从 parkingrecord 中选择
             record = random.choice(records)
             record_id = record[0]
             if record_id in used_record_ids:
                 continue  # 跳过已使用的 RecordID
             used_record_ids.add(record_id)
-            amount = record[1]
-            reservation_id = None
+            amount = record[1]  # 从 parkingrecord 中获取费用
+            reservation_id = None  # ReservationID 置空
         elif reservations:
+            # 从 reservation 中选择
             reservation = random.choice(reservations)
             reservation_id = reservation[0]
             if reservation_id in used_reservation_ids:
@@ -190,21 +194,24 @@ def insert_payments():
             end_time = reservation[2]
             lot_id = reservation[3]
 
+            # 计算费用
             total_hours = (end_time - start_time).total_seconds() / 3600
             rate = rates.get(lot_id, Decimal('0'))
             amount = round(rate * Decimal(total_hours), 2) if total_hours > 0 else 0
 
-            record_id = None
+            record_id = None  # RecordID 置空
         else:
-            continue
+            continue  # 如果没有可用的 ID，跳过此次插入
 
         payment_timestamp = datetime.now() - timedelta(days=random.randint(0, 365), hours=random.randint(0, 23),
                                                        minutes=random.randint(0, 59))
         payment_method = random.choice(['Credit Card', 'VX Pay', 'AliPay', 'Cash'])
 
         query = "INSERT INTO paymentrecord (PaymentID, RecordID, ReservationID, Amount, PaymentTimestamp, PaymentMethod) VALUES (%s, %s, %s, %s, %s, %s)"
-        values = (i, record_id, reservation_id, amount, payment_timestamp, payment_method)
+        values = (total_payments + 1, record_id, reservation_id, amount, payment_timestamp, payment_method)
         cursor.execute(query, values)
+
+        total_payments += 1  # 增加已插入支付条数
 
 
 # 执行插入数据
