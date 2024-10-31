@@ -127,3 +127,31 @@ func (r *PaymentRecordRepositoryImpl) GetPaymentFeeByPlateNumber(plateNumber str
 	}
 	return fees, nil
 }
+
+func (r *PaymentRecordRepositoryImpl) GetPaymentInfoByPlateNumber(plateNumber string) ([]models.PaymentRecord, error) {
+	var payments []models.PaymentRecord
+
+	query := `
+	SELECT * 
+	FROM paymentrecord 
+	WHERE RecordID IN (
+		SELECT pr.RecordID 
+		FROM parkingrecord pr
+		JOIN vehicle v ON pr.VehicleID = v.VehicleID
+		WHERE v.PlateNumber = ?
+	)
+	OR ReservationID IN (
+		SELECT res.ReservationID 
+		FROM reservation res
+		JOIN vehicle v ON res.VehicleID = v.VehicleID
+		WHERE v.PlateNumber = ?
+	)
+	`
+
+	result := r.DB.Raw(query, plateNumber, plateNumber).Scan(&payments)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return payments, nil
+}

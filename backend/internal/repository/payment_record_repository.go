@@ -23,4 +23,6 @@ type PaymentRecordRepository interface {
 	GetPaymentStatusByRecordID(id int) (string, error)
 	//根据车牌号查支付车费
 	GetPaymentFeeByPlateNumber(plateNumber string) ([]float64, error)
+	//根据车牌号查支付信息
+	GetPaymentInfoByPlateNumber(plateNumber string) ([]models.PaymentRecord, error)
 }

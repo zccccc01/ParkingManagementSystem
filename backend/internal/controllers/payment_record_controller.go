@@ -86,3 +86,15 @@ func (prc *PaymentRecordController) GetFeeByPlate(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(amount)
 }
+
+// 获取支付信息通过车牌号
+func (prc *PaymentRecordController) GetPaymentInfoByPlate(c *fiber.Ctx) error {
+	plate := c.Params("plate")
+
+	paymentInfo, err := prc.PaymentRecordRepo.GetPaymentInfoByPlateNumber(plate)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Not found"})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(paymentInfo)
+}

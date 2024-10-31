@@ -21,4 +21,5 @@ func SetupPaymentRecordRoutes(app *fiber.App, db *gorm.DB) {
 	paymentRecord.Get("/record/:id", paymentController.GetFeeByRecordID)
 	paymentRecord.Get("/status/record/:id", paymentController.GetPaymentStatusByRecordID)
 	paymentRecord.Get("/plate/:plate", paymentController.GetFeeByPlate)
+	paymentRecord.Get("/information/:plate", paymentController.GetPaymentInfoByPlate)
 }
