@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import './Chart.scss';
+import './ChartPage.scss';
 
 const Chart = () => {
   const [lotId, setLotId] = useState('');

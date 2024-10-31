@@ -68,9 +68,9 @@ const App = () => {
           <Route path="/parking-space" element={<ParkingSpacePage />} />
           <Route path="/user" element={<UserPage />} /> {/* 添加用户页面路由 */}
           <Route path="/sidebar" element={<Sidebar />} /> {/* 添加 Sidebar 组件路由 */}
-          <Route path="/space-status" element={<SpaceStatusPage />} />
+          <Route path="/check-status" element={<SpaceStatusPage />} />
           <Route path="/check-space" element={<CheckSpacePage />} />
-          <Route path="/update-space" element={<UpdateSpacePage />} />
+          <Route path="/update-status" element={<UpdateSpacePage />} />
           <Route path="/create-vehicle" element={<CreateVehiclePage />} />
           <Route path="/chart" element={<ChartPage />} />
           <Route path="/parking-lot-income" element={<ParkingLotIncome />} />
