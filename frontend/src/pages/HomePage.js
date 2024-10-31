@@ -24,6 +24,9 @@ const HomePage = () => {
   return (
     <div className="HomePage">
       <Header />
+      <br />
+      <br />
+      <br />
       <SearchBar />
       <br />
       <br />

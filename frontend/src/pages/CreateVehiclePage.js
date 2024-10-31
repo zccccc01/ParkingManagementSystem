@@ -1,5 +1,6 @@
 // pages/CreateVehiclePage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // 引入axios
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './CreateVehiclePage.scss';
@@ -7,7 +8,6 @@ import './CreateVehiclePage.scss';
 const CreateVehiclePage = () => {
   const [vehicle, setVehicle] = useState({
     VehicleID: '',
-    UserID: '',
     PlateNumber: '',
     Color: '',
   });
@@ -15,6 +15,37 @@ const CreateVehiclePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [userID, setUserID] = useState('');
+
+  const fetchUserID = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:8000/api/user', {
+        method: 'GET',
+        credentials: 'include', // 确保请求带上 cookie
+      });
+
+      if (response.ok) {
+        const userData = await response.json(); // 获取用户数据
+        if (!userData || !userData.id) {
+          throw new Error('User data is invalid or missing ID');
+        }
+
+        setUserID(userData.id);
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (fetchError) {
+      console.error('Failed to fetch user ID:', fetchError);
+      setError(fetchError.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserID();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,38 +59,30 @@ const CreateVehiclePage = () => {
     setSuccess(false);
 
     try {
-      const response = await fetch('http://localhost:8000/api/vehicle', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          VehicleID: parseInt(vehicle.VehicleID, 10),
-          UserID: parseInt(vehicle.UserID, 10),
-          PlateNumber: vehicle.PlateNumber,
-          Color: vehicle.Color,
-        }),
+      console.log('Submitting with UserID:', userID); // 添加日志输出
+      const response = await axios.post('http://localhost:8000/api/vehicle', {
+        VehicleID: parseInt(vehicle.VehicleID, 10),
+        UserID: parseInt(userID, 10),
+        PlateNumber: vehicle.PlateNumber,
+        Color: vehicle.Color,
       });
 
       console.log('Response:', response); // 绑定日志输出
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorData.message || '未知错误'}`
-        );
-      }
-
-      const data = await response.json();
-      console.log('Data:', data); // 绑定日志输出
-
-      if (data.message === 'Reservation created successfully' || data.VehicleID) {
-        setSuccess(true);
+      if (response.status === 200 || response.status === 201) {
+        // 处理 200 和 201 状态码
+        const { data } = response; // 使用对象解构
+        if (data.VehicleID) {
+          setSuccess(true);
+        } else {
+          setError('绑定失败，请稍后再试');
+        }
       } else {
-        setError('绑定失败，请稍后再试');
+        setError(`HTTP error! status: ${response.status}`);
       }
     } catch (err) {
-      setError(err.message);
+      console.error('Failed to submit form:', err);
+      setError(`提交失败: ${err.response ? err.response.data.message : err.message}`);
     } finally {
       setLoading(false);
     }
@@ -77,17 +100,6 @@ const CreateVehiclePage = () => {
             type="text"
             name="VehicleID"
             value={vehicle.VehicleID}
-            onChange={handleChange}
-            required
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="UserID">用户ID:</label>
-          <input
-            type="text"
-            name="UserID"
-            value={vehicle.UserID}
             onChange={handleChange}
             required
             className="form-input"

@@ -28,6 +28,7 @@
 
   .ant-menu-item {
     color: rgba(255, 255, 255, 0.65);
+    font-size: 25px;
 
     &.ant-menu-item-selected {
       background-color: #1890ff;
@@ -41,7 +42,32 @@
     a {
       color: white;
       text-decoration: none;
-      font-size: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+
+  .ant-menu-submenu-title {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; // 确保子菜单项标题居左
+
+    &:hover {
+      color: white; /* 鼠标悬停时字体颜色为白色 */
+    }
+  }
+
+  .ant-menu-sub {
+    background-color: #024583;
+  }
+
+  .ant-menu-submenu {
+    .ant-menu-item {
+      font-size: 20px;
+      padding-left: 40px; /* 调整子菜单项的内边距 */
     }
   }
 
@@ -62,7 +88,8 @@
       font-size: 20px; // 减小标题字体大小
     }
 
-    .ant-menu-item {
+    .ant-menu-item,
+    .ant-menu-submenu-title {
       font-size: 20px; // 减小菜单项字体大小
     }
 
@@ -83,7 +110,8 @@
       font-size: 18px; // 进一步减小标题字体大小
     }
 
-    .ant-menu-item {
+    .ant-menu-item,
+    .ant-menu-submenu-title {
       font-size: 18px; // 进一步减小菜单项字体大小
     }
 
@@ -106,7 +134,8 @@
       font-size: 16px; // 进一步减小标题字体大小
     }
 
-    .ant-menu-item {
+    .ant-menu-item,
+    .ant-menu-submenu-title {
       font-size: 16px; // 进一步减小菜单项字体大小
     }
 
