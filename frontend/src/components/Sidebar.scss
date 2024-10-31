@@ -24,50 +24,44 @@
     padding: 0.675rem 0 0.675rem 1.8rem;
     position: relative;
     display: block;
-  }
+    text-align: center;
 
-  .ant-menu-item {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 25px;
-
-    &.ant-menu-item-selected {
-      background-color: #1890ff;
-      color: white;
-    }
-
-    &:hover {
-      color: white; /* 鼠标悬停时字体颜色为白色 */
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
+    &-item,
+    &-submenu-title {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 25px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+
+      &:hover {
+        color: white;
+      }
     }
-  }
 
-  .ant-menu-submenu-title {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; // 确保子菜单项标题居左
+    &-item {
+      &.ant-menu-item-selected {
+        background-color: #1890ff;
+        color: white;
+      }
 
-    &:hover {
-      color: white; /* 鼠标悬停时字体颜色为白色 */
+      a {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
     }
-  }
 
-  .ant-menu-sub {
-    background-color: #024583;
-  }
+    &-submenu {
+      &-title {
+        font-size: 25px;
+      }
 
-  .ant-menu-submenu {
-    .ant-menu-item {
-      font-size: 20px;
-      padding-left: 40px; /* 调整子菜单项的内边距 */
+      & > .ant-menu-item {
+        font-size: 20px;
+        padding-left: 40px;
+      }
     }
   }
 
@@ -76,21 +70,21 @@
   .ant-menu-item[data-value='/check-space'],
   .ant-menu-item[data-value='/create-vehicle'],
   .ant-menu-item[data-value='/user'] {
-    font-size: 20px; // 调整字体大小
-    padding: 10px 16px; // 调整内边距
+    font-size: 20px;
+    padding: 10px 16px;
   }
 
   // 响应式设计
   @media (max-width: 1024px) {
-    width: 200px; // 在中等屏幕设备上减小宽度
+    width: 200px;
 
     h2 {
-      font-size: 20px; // 减小标题字体大小
+      font-size: 20px;
     }
 
     .ant-menu-item,
     .ant-menu-submenu-title {
-      font-size: 20px; // 减小菜单项字体大小
+      font-size: 20px;
     }
 
     // 特定菜单项的样式调整
@@ -98,21 +92,21 @@
     .ant-menu-item[data-value='/check-space'],
     .ant-menu-item[data-value='/create-vehicle'],
     .ant-menu-item[data-value='/user'] {
-      font-size: 18px; // 进一步减小字体大小
-      padding: 8px 12px; // 调整内边距
+      font-size: 18px;
+      padding: 8px 12px;
     }
   }
 
   @media (max-width: 768px) {
-    width: 150px; // 在平板设备上进一步减小宽度
+    width: 150px;
 
     h2 {
-      font-size: 18px; // 进一步减小标题字体大小
+      font-size: 18px;
     }
 
     .ant-menu-item,
     .ant-menu-submenu-title {
-      font-size: 18px; // 进一步减小菜单项字体大小
+      font-size: 18px;
     }
 
     // 特定菜单项的样式调整
@@ -120,23 +114,23 @@
     .ant-menu-item[data-value='/check-space'],
     .ant-menu-item[data-value='/create-vehicle'],
     .ant-menu-item[data-value='/user'] {
-      font-size: 16px; // 进一步减小字体大小
-      padding: 6px 10px; // 调整内边距
+      font-size: 16px;
+      padding: 6px 10px;
     }
   }
 
   @media (max-width: 480px) {
-    width: 100%; // 在手机设备上占据全屏宽度
-    position: static; // 改变位置属性，使其不再固定在左侧
-    height: auto; // 自动高度
+    width: 100%;
+    position: static;
+    height: auto;
 
     h2 {
-      font-size: 16px; // 进一步减小标题字体大小
+      font-size: 16px;
     }
 
     .ant-menu-item,
     .ant-menu-submenu-title {
-      font-size: 16px; // 进一步减小菜单项字体大小
+      font-size: 16px;
     }
 
     // 特定菜单项的样式调整
@@ -144,8 +138,8 @@
     .ant-menu-item[data-value='/check-space'],
     .ant-menu-item[data-value='/create-vehicle'],
     .ant-menu-item[data-value='/user'] {
-      font-size: 14px; // 进一步减小字体大小
-      padding: 4px 8px; // 调整内边距
+      font-size: 14px;
+      padding: 4px 8px;
     }
   }
 }

@@ -25,6 +25,7 @@ import UpdateSpacePage from './pages/UpdateSpacePage';
 import CreateVehiclePage from './pages/CreateVehiclePage';
 import ChartPage from './pages/ChartPage';
 import ParkingLotIncome from './pages/ParkingLotIncome';
+import StatisticPage from './pages/StatisticPage';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,6 +75,7 @@ const App = () => {
           <Route path="/create-vehicle" element={<CreateVehiclePage />} />
           <Route path="/chart" element={<ChartPage />} />
           <Route path="/parking-lot-income" element={<ParkingLotIncome />} />
+          <Route path="/statistic" element={<StatisticPage />} />
           {/* 404 页面 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

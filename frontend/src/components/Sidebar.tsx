@@ -22,6 +22,7 @@ function getItem(
 const menuList = [
   { value: '/', label: '首页', icon: '' },
   {
+    value: '/dashboard',
     label: '用户仪表盘',
     icon: '',
     children: [
@@ -32,14 +33,21 @@ const menuList = [
       { value: '/bookings', label: '停车位预约', icon: '' },
     ],
   },
-  { value: '/parking-space', label: '停车位', icon: '' },
+  { value: '/parking-space', label: '空闲车位', icon: '' },
   { value: '/parking-lots', label: '停车场列表', icon: '' },
-  { value: '/admin-dashboard', label: '管理员仪表盘', icon: '' },
-  { value: '/chart', label: '可视化状态', icon: '' },
-  { value: '/parking-lot-income', label: '收入图', icon: '' },
-  { value: '/check-status', label: '查询车位状态', icon: '' },
-  { value: '/update-status', label: '更新车位状态', icon: '' },
-  { value: '/check-space', label: '查看车位', icon: '' },
+  {
+    value: '/admin-dashboard',
+    label: '管理员面板',
+    icon: '',
+    children: [
+      { value: '/statistic', label: '统计信息', icon: '' },
+      { value: '/chart', label: '可视化状态', icon: '' },
+      { value: '/parking-lot-income', label: '收入图', icon: '' },
+      { value: '/check-status', label: '查询车位状态', icon: '' },
+      { value: '/update-status', label: '更新车位状态', icon: '' },
+      { value: '/check-space', label: '查看车位', icon: '' },
+    ],
+  },
   { value: '/user', label: '用户页面', icon: '' },
 ];
 
@@ -108,7 +116,7 @@ const Sidebar: React.FC = () => {
       <Menu
         onClick={handleMenuClick} // 处理菜单项点击事件
         onOpenChange={onOpenChange} // 处理子菜单项展开/收起
-        mode="inline" // 设置菜单模式为内联
+        mode="vertical" // 设置菜单模式为内联
         inlineIndent={24} // 设置子菜单项的缩进量
         selectedKeys={[tempPath]} // 当前选中的菜单项
         openKeys={openKeys} // 当前展开的子菜单项
