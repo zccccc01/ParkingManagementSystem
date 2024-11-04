@@ -7,11 +7,6 @@
     margin-bottom: 1rem;
   }
 
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-
   .error {
     color: red;
     margin-bottom: 1rem;
@@ -42,30 +37,30 @@
       }
     }
 
-    button {
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-      }
-
-      &:hover:not(:disabled) {
-        background-color: #0056b3;
-      }
-    }
-
     .query-button-container {
       display: flex;
       justify-content: center;
-      margin-top: 1rem;
+      gap: 1rem; /* 设置按钮之间的间距 */
       width: 100%;
+      margin-top: 1rem;
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: #0056b3;
+        }
+      }
     }
   }
 
@@ -89,6 +84,9 @@
       img {
         max-width: 100%;
         height: auto;
+        width: 500px; /* 统一图片宽度 */
+        height: 300px; /* 统一图片高度 */
+        object-fit: cover; /* 保持图片比例并裁剪 */
       }
 
       button {

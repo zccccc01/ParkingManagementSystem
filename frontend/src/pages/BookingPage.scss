@@ -1,45 +1,55 @@
-.booking-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
+.booking-page {
+  padding: 2rem;
+  background-color: #f8f9fa;
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
 
-.form-group label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
 
-.form-input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
 
-.form-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
 
-.form-button:hover {
-  background-color: #0056b3;
-}
+  .form-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
 
-.form-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  .form-button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-button:hover {
+    background-color: #0056b3;
+  }
+
+  .form-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }

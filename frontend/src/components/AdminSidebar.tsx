@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { NavLink as Link, useLocation } from 'react-router-dom';
+import {
+  HomeOutlined,
+  BarChartOutlined,
+  PieChartOutlined,
+  DollarCircleOutlined,
+  SearchOutlined,
+  EditOutlined,
+  EyeOutlined,
+  LeftOutlined,
+} from '@ant-design/icons';
 import './Sidebar.scss';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -20,14 +30,14 @@ function getItem(
 }
 
 const menuList = [
-  { value: '/admin-dashboard', label: '首页', icon: '' },
-  { value: '/statistic', label: '统计信息', icon: '' },
-  { value: '/chart', label: '可视化状态', icon: '' },
-  { value: '/parking-lot-income', label: '收入图', icon: '' },
-  { value: '/check-status', label: '查询车位状态', icon: '' },
-  { value: '/update-status', label: '更新车位状态', icon: '' },
-  { value: '/check-space', label: '查看车位', icon: '' },
-  { value: '/', label: '返回', icon: '' },
+  { value: '/admin-dashboard', label: '首页', icon: <HomeOutlined /> },
+  { value: '/statistic', label: '统计信息', icon: <BarChartOutlined /> },
+  { value: '/chart', label: '可视化状态', icon: <PieChartOutlined /> },
+  { value: '/parking-lot-income', label: '收入图', icon: <DollarCircleOutlined /> },
+  { value: '/check-status', label: '查询车位状态', icon: <SearchOutlined /> },
+  { value: '/update-status', label: '更新车位状态', icon: <EditOutlined /> },
+  { value: '/check-space', label: '查看车位', icon: <EyeOutlined /> },
+  { value: '/', label: '返回', icon: <LeftOutlined /> },
 ];
 
 const routeMap: { [key: string]: string } = {};
@@ -40,14 +50,10 @@ function getMenuList(): MenuItem[] {
       const it = getItem(
         <Link to={value}>{label}</Link>,
         value || label,
-        icon && <span>{icon}</span>,
+        icon,
         children &&
           children.map((child) =>
-            getItem(
-              <Link to={child.value}>{child.label}</Link>,
-              child.value,
-              child.icon && <span>{child.icon}</span>
-            )
+            getItem(<Link to={child.value}>{child.label}</Link>, child.value, child.icon)
           )
       );
       newList.push(it);

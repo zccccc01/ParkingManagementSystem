@@ -29,7 +29,10 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <Sidebar />
-      <h1>Parking Management System</h1>
+      <div className={styles.headerContent}>
+        <img id="1" src="/logo1.jpg" alt="logo" />
+        <h1>Parking Management System</h1>
+      </div>
       <br />
       <br />
       <div>

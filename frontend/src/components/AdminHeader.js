@@ -24,11 +24,17 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <AdminSidebar />
-      <div>
+      <div className={styles.headerContent}>
+        <img src="/logo2.jpg" alt="logo" />
         <h1>Parking Management System</h1>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div>
         <img
           src="https://cdn.buymeacoffee.com/uploads/slider_images/2018/05/98302662377036c7092e36f690ab4069.gif"
-          className={styles.logo}
+          className={styles.rightTopLogo} // 添加新的类名
           alt="logo"
         />
       </div>
