@@ -14,6 +14,8 @@ npm start
 
 ```bash
 cd ./nginx
+mkdir temp; cd temp; mkdir client_body_temp
+cd ..
 ./nginx.exe
 ```
 
