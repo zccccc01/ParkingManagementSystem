@@ -19,6 +19,7 @@ import VehicleInfoPage from './pages/VehicleInfoPage'; // 引入 VehicleInfoPage
 import ParkingSpacePage from './pages/ParkingSpacePage'; // 引入 ParkingSpacePage 组件
 import UserPage from './pages/UserPage'; // 引入 UserPage 组件
 import Sidebar from './components/Sidebar.tsx'; // 引入 Sidebar 组件
+import AdminSidebar from './components/AdminSidebar.tsx';
 import SpaceStatusPage from './pages/SpaceStatusPage'; // 引入 SpaceStatusPage 组件
 import CheckSpacePage from './pages/CheckSpacePage';
 import UpdateSpacePage from './pages/UpdateSpacePage';
@@ -69,6 +70,7 @@ const App = () => {
           <Route path="/parking-space" element={<ParkingSpacePage />} />
           <Route path="/user" element={<UserPage />} /> {/* 添加用户页面路由 */}
           <Route path="/sidebar" element={<Sidebar />} /> {/* 添加 Sidebar 组件路由 */}
+          <Route path="/admin-sidebar" element={<AdminSidebar />} />
           <Route path="/check-status" element={<SpaceStatusPage />} />
           <Route path="/check-space" element={<CheckSpacePage />} />
           <Route path="/update-status" element={<UpdateSpacePage />} />
