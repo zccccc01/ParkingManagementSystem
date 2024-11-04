@@ -3,6 +3,12 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  font-family: Arial, sans-serif;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 
   button {
     padding: 10px 20px;
@@ -19,30 +25,36 @@
     }
   }
 
+  p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
   .two-column-table {
     display: flex;
     justify-content: space-between;
-  
+
     .column {
       height: auto;
-      width: 100%;
-      margin: 0 2%; /* 每列左右各 2% 的间距 */
-  
+      width: 48%; /* 每列占总宽度的 48% */
+      margin: 0 1%; /* 每列左右各 1% 的间距 */
+
       table {
+        width: 100%;
         border-collapse: collapse;
-  
+
         th, td {
           padding: 8px;
           text-align: left;
           border: 1px solid #ddd;
         }
-  
+
         th {
           background-color: #f2f2f2;
         }
       }
     }
-  
+
     .vertical-divider {
       width: 2px;
       background-color: #ddd;
@@ -66,5 +78,21 @@
       border-left: 1px solid #0d0d0d;
       width: 1px;
     }
+  }
+
+  .error {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .view-count {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
 }

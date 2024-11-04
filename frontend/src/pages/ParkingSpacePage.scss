@@ -48,11 +48,11 @@
   .two-column-table {
     display: flex;
     justify-content: space-between;
-  
+
     .column {
       width: 48%; /* 每列占总宽度的 48% */
       margin: 0 1%; /* 每列左右各 1% 的间距 */
-  
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -68,7 +68,7 @@
         }
       }
     }
-  
+
     .vertical-divider {
       width: 2px;
       background-color: #ddd;
@@ -98,5 +98,15 @@
     color: red;
     font-size: 16px;
     margin-top: 10px;
+  }
+
+  .view-count {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
 }
