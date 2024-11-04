@@ -48,14 +48,37 @@ func (rc *ReservationController) CancelReservation(c *fiber.Ctx) error {
 // 更新预定状态
 func (rc *ReservationController) UpdateReservationStatus(c *fiber.Ctx) error {
 	reservationId, err := strconv.Atoi(c.Params("id"))
-	status := c.Params("status")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid reservation ID"})
 	}
 
-	if err := rc.ReservationRepo.UpdateStatusByReservationID(reservationId, status); err != nil {
+	var reservation models.Reservation
+	if err := c.BodyParser(&reservation); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
+	}
+
+	if err := rc.ReservationRepo.UpdateStatusByReservationID(reservationId, reservation.Status); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation status updated successfully"})
+}
+
+// 更新预定记录
+func (rc *ReservationController) UpdateReservation(c *fiber.Ctx) error {
+	reservationId, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid reservation ID"})
+	}
+
+	var reservation models.Reservation
+	if err := c.BodyParser(&reservation); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
+	}
+
+	if err := rc.ReservationRepo.UpdateByReservationID(reservationId, &reservation); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation updated successfully"})
 }

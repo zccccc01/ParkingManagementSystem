@@ -40,3 +40,12 @@ func (r *ReservationRepositoryImpl) UpdateStatusByReservationID(id int, status s
 func (r *ReservationRepositoryImpl) DeleteByReservationID(id int) error {
 	return r.DB.Delete(&models.Reservation{}, "ReservationID = ?", id).Error
 }
+
+func (r *ReservationRepositoryImpl) UpdateByReservationID(id int, reservation *models.Reservation) error {
+	var existingReservation models.Reservation
+	result := r.DB.Model(&existingReservation).Where("ReservationID = ?", id).Updates(reservation)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
