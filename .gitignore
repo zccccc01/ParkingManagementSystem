@@ -6,3 +6,4 @@ nginx/contrib/
 test/
 
 backend/cmd/tmp/main.exe
+backend/tmp
