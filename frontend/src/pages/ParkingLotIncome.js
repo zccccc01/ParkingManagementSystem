@@ -82,6 +82,7 @@ const ParkingLotMap = () => {
   return (
     <div className="ParkingLotMap">
       <Header />
+      <h1>停车场收入地图</h1>
       <div className="container">
         <div id="container" className="map-container" />
       </div>

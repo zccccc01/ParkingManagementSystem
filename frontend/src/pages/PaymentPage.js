@@ -17,6 +17,7 @@ const PaymentPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false); // 添加 loading 状态
   const [error, setError] = useState(''); // 添加错误状态
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(''); // 添加选中的支付方式
 
   const fetchData = async (type, value) => {
     try {
@@ -90,6 +91,8 @@ const PaymentPage = () => {
       setRecord('');
       setReservation('');
       setPlateFee('');
+    } else if (name === 'paymentMethod') {
+      setSelectedPaymentMethod(value);
     }
   };
 
@@ -124,6 +127,7 @@ const PaymentPage = () => {
       reservationStatus,
       reservationFee,
       plateFee,
+      selectedPaymentMethod,
     });
   }, [
     record,
@@ -134,7 +138,21 @@ const PaymentPage = () => {
     reservationStatus,
     reservationFee,
     plateFee,
+    selectedPaymentMethod,
   ]);
+
+  const getPaymentImageSrc = (method) => {
+    switch (method) {
+      case 'FREE':
+        return 'WeChat-Pay.jpg';
+      case 'OCCUPIED':
+        return 'Alipay.png';
+      case 'RESERVED':
+        return 'Credit-Card.jpg';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="payment-page">
@@ -146,7 +164,7 @@ const PaymentPage = () => {
 
       <div className="payment-form">
         <div className="payment-form-item">
-          <label htmlFor="record">record:</label>
+          <label htmlFor="record">停车记录id:</label>
           <input
             type="text"
             id="record"
@@ -157,8 +175,9 @@ const PaymentPage = () => {
           <label htmlFor="status">状态: {recordStatus}</label>
           <label htmlFor="fee">费用: {recordFee}</label>
         </div>
+        <br />
         <div className="payment-form-item">
-          <label htmlFor="reservation">reservation:</label>
+          <label htmlFor="reservation">预约记录id:</label>
           <input
             type="text"
             id="reservation"
@@ -169,31 +188,38 @@ const PaymentPage = () => {
           <label htmlFor="status">状态: {reservationStatus}</label>
           <label htmlFor="fee">费用: {reservationFee}</label>
         </div>
+        <br />
         <div className="payment-form-item">
-          <label htmlFor="plate">plate:</label>
+          <label htmlFor="plate">车牌号码 :</label>
           <input type="text" id="plate" name="plate" value={plate} onChange={handleInputChange} />
           <label htmlFor="fee">费用: {plateFee}</label>
         </div>
+        <br />
         <label>
           支付方式:
-          <select name="style" onChange={handleInputChange}>
+          <select name="paymentMethod" onChange={handleInputChange}>
             <option value="">请选择支付方式</option>
             <option value="FREE">微信支付</option>
             <option value="OCCUPIED">支付宝</option>
             <option value="RESERVED">信用卡</option>
           </select>
         </label>
-        <button type="button" onClick={handleQuery} disabled={loading}>
-          {loading ? '查询中...' : '查询'}
-        </button>
-        <button type="button" onClick={handleSubmit} disabled={loading}>
-          {loading ? '加载中...' : '支付'}
-        </button>
+        <br />
+        <br />
+        <div className="query-button-container">
+          <button type="button" onClick={handleQuery} disabled={loading}>
+            {loading ? '查询中...' : '查询'}
+          </button>
+          <button type="button" onClick={handleSubmit} disabled={loading}>
+            {loading ? '加载中...' : '支付'}
+          </button>
+        </div>
       </div>
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <img src="/0.jpg" alt=" " />
+            <img src={getPaymentImageSrc(selectedPaymentMethod)} alt="支付方式" />
+            <br />
             <button type="button" onClick={handleCloseModal}>
               支付完成
             </button>

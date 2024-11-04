@@ -1,6 +1,107 @@
-.PaymentPage {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    height: 15vh; /* 使div的高度占满整个视口高度 */
+.payment-page {
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
+
+  .error {
+    color: red;
+    margin-bottom: 1rem;
+  }
+
+  .payment-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+
+    .payment-form-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      width: 100%;
+
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      input, select {
+        padding: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+
+    .query-button-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem; /* 设置按钮之间的间距 */
+      width: 100%;
+      margin-top: 1rem;
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        width: 500px; /* 统一图片宽度 */
+        height: 300px; /* 统一图片高度 */
+        object-fit: cover; /* 保持图片比例并裁剪 */
+      }
+
+      button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+}

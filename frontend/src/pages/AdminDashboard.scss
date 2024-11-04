@@ -1,0 +1,18 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .logo {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+  }
+}

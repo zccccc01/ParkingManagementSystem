@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Menu, Modal, Input, Button, MenuProps } from 'antd';
+import {
+  HomeOutlined,
+  DashboardOutlined,
+  CarOutlined,
+  FileSearchOutlined,
+  DollarCircleOutlined,
+  CalendarOutlined,
+  UserOutlined,
+  LockOutlined,
+} from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Sidebar.scss';
 
@@ -23,24 +33,24 @@ const getItem = (
 });
 
 const menuList: MenuItem[] = [
-  { key: '/', label: '首页', icon: '' },
+  { key: '/', label: '首页', icon: <HomeOutlined /> },
   {
     key: '/dashboard',
     label: '用户仪表盘',
-    icon: '',
+    icon: <DashboardOutlined />,
     children: [
-      { key: '/parking-records', label: '停车记录', icon: '' },
-      { key: '/create-vehicle', label: '绑定车辆', icon: '' },
-      { key: '/vehicle-info', label: '车辆信息', icon: '' },
-      { key: '/violations', label: '违章停车', icon: '' },
-      { key: '/bookings', label: '停车位预约', icon: '' },
-      { key: '/payments', label: '支付', icon: '' },
+      { key: '/parking-records', label: '停车记录', icon: <FileSearchOutlined /> },
+      { key: '/create-vehicle', label: '绑定车辆', icon: <CarOutlined /> },
+      { key: '/vehicle-info', label: '车辆信息', icon: <CarOutlined /> },
+      { key: '/violations', label: '违章停车', icon: <LockOutlined /> },
+      { key: '/bookings', label: '停车位预约', icon: <CalendarOutlined /> },
+      { key: '/payments', label: '支付', icon: <DollarCircleOutlined /> },
     ],
   },
-  { key: '/parking-space', label: '空闲车位', icon: '' },
-  { key: '/parking-lots', label: '停车场列表', icon: '' },
-  { key: '/user', label: '用户页面', icon: '' },
-  { key: '/admin-dashboard', label: '管理员面板', icon: '' },
+  { key: '/parking-space', label: '空闲车位', icon: <CarOutlined /> },
+  { key: '/parking-lots', label: '停车场列表', icon: <HomeOutlined /> },
+  { key: '/user', label: '用户页面', icon: <UserOutlined /> },
+  { key: '/admin-dashboard', label: '管理员面板', icon: <LockOutlined /> },
 ];
 
 const Sidebar: React.FC = () => {
