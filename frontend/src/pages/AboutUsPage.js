@@ -25,7 +25,7 @@ const AboutUsPage = () => {
         src="https://avatars.githubusercontent.com/u/113156426?v=4"
         className="avatar avatar-user width-full border color-bg-default"
       />
-      <p>Front-end developer</p>
+      <p>Front-end developer and DataBase developer</p>
       <a href="https://github.com/Rethymus/" target="_blank" rel="noopener noreferrer">
         Rethymus
       </a>
@@ -36,7 +36,7 @@ const AboutUsPage = () => {
         src="https://avatars.githubusercontent.com/u/176380517?v=4"
         className="avatar avatar-user width-full border color-bg-default"
       />
-      <p>Back-end developer</p>
+      <p>Back-end developer and DataBase developer</p>
       <a href="https://github.com/Holocaust956/" target="_blank" rel="noopener noreferrer">
         Holocaust956
       </a>

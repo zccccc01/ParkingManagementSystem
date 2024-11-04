@@ -146,7 +146,7 @@ const PaymentPage = () => {
 
       <div className="payment-form">
         <div className="payment-form-item">
-          <label htmlFor="record">record:</label>
+          <label htmlFor="record">停车记录id:</label>
           <input
             type="text"
             id="record"
@@ -157,8 +157,9 @@ const PaymentPage = () => {
           <label htmlFor="status">状态: {recordStatus}</label>
           <label htmlFor="fee">费用: {recordFee}</label>
         </div>
+        <br />
         <div className="payment-form-item">
-          <label htmlFor="reservation">reservation:</label>
+          <label htmlFor="reservation">预约记录id:</label>
           <input
             type="text"
             id="reservation"
@@ -169,11 +170,13 @@ const PaymentPage = () => {
           <label htmlFor="status">状态: {reservationStatus}</label>
           <label htmlFor="fee">费用: {reservationFee}</label>
         </div>
+        <br />
         <div className="payment-form-item">
-          <label htmlFor="plate">plate:</label>
+          <label htmlFor="plate">车牌号码 :</label>
           <input type="text" id="plate" name="plate" value={plate} onChange={handleInputChange} />
           <label htmlFor="fee">费用: {plateFee}</label>
         </div>
+        <br />
         <label>
           支付方式:
           <select name="style" onChange={handleInputChange}>
@@ -183,6 +186,8 @@ const PaymentPage = () => {
             <option value="RESERVED">信用卡</option>
           </select>
         </label>
+        <br />
+        <br />
         <button type="button" onClick={handleQuery} disabled={loading}>
           {loading ? '查询中...' : '查询'}
         </button>
