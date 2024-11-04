@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Menu, Modal, Input, Button } from 'antd';
+import { Menu, Modal, Input, Button, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Sidebar.scss';
 
@@ -67,11 +67,11 @@ const Sidebar: React.FC = () => {
     // 这里不再需要更新 tempPath，因为我们直接使用 navigate 进行跳转
   }, [path]);
 
-  const onOpenChange: Menu['onOpenChange'] = (keys) => {
+  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     setOpenKeys(keys);
   };
 
-  const handleMenuClick: Menu['onClick'] = ({ key }) => {
+  const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     if (key === '/admin-dashboard') {
       setPasswordModalVisible(true); // 显示密码输入模态框
     } else {

@@ -24,7 +24,16 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <AdminSidebar />
-      <h1>Parking Management System</h1>
+      <div>
+        <h1>Parking Management System</h1>
+        <img
+          src="https://cdn.buymeacoffee.com/uploads/slider_images/2018/05/98302662377036c7092e36f690ab4069.gif"
+          className={styles.logo}
+          alt="logo"
+        />
+      </div>
+      <br />
+      <br />
       <br />
       <br />
     </header>

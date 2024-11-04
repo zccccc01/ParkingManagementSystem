@@ -1,4 +1,3 @@
-// pages/BookingPage.js
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -69,6 +68,91 @@ const BookingPage = () => {
     }
   };
 
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // 转换时间格式为 ISO 8601 并添加时区信息
+      const startTime = new Date(formData.startTime).toISOString();
+      const endTime = new Date(formData.endTime).toISOString();
+
+      const response = await fetch(
+        `http://localhost:8000/api/reservation/id/${formData.reservationID}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            LotID: parseInt(formData.lotID, 10),
+            SpaceID: parseInt(formData.spaceID, 10),
+            StartTime: startTime,
+            EndTime: endTime,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorData.message || '未知错误'}`
+        );
+      }
+
+      const data = await response.json();
+      if (data.message === 'Reservation updated successfully') {
+        setSuccess(true);
+      } else {
+        setError('更新失败，请稍后再试');
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/reservation/id/${formData.reservationID}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorData.message || '未知错误'}`
+        );
+      }
+
+      const data = await response.json();
+      console.log(data); // 添加这行日志，查看响应体内容
+
+      if (data.message === 'Reservation cancelled successfully') {
+        setSuccess(true);
+      } else {
+        setError('取消失败，请稍后再试');
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="booking-page">
       <Header />
@@ -150,8 +234,14 @@ const BookingPage = () => {
         <button type="submit" disabled={loading} className="form-button">
           {loading ? '提交中...' : '提交'}
         </button>
+        <button type="button" onClick={handleUpdate} disabled={loading} className="form-button">
+          {loading ? '更新中...' : '更新'}
+        </button>
+        <button type="button" onClick={handleDelete} disabled={loading} className="form-button">
+          {loading ? '删除中...' : '删除'}
+        </button>
       </form>
-      {success && <p>预约成功！</p>}
+      {success && <p>操作成功！</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Footer />
     </div>
