@@ -3,6 +3,7 @@ nginx/logs/
 nginx/html/
 nginx/docs/
 nginx/contrib/
+nginx/temp/
 test/
 
 backend/cmd/tmp/main.exe

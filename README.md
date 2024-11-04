@@ -1,29 +1,47 @@
 # 智能停车管理系统
 
-## 环境依赖
-```bash
-go mod tidy
-go install github.com/air-verse/air@v1.60.0
-```
-
 ## 前端运行
+
+### 方法 1
+
 ```bash
 cd ./frontend
-npm run build
-npx serve -s build
+npm install
+npm start
+```
+
+### 方法 2(windows)
+
+```bash
+cd ./nginx
+./nginx.exe
+```
+
+### 优雅关闭 nginx(windows)
+
+```bash
+cd ./nginx
+./nginx.exe -s quit
 ```
 
 ## 后端运行
+
 ```bash
 cd ./backend/cmd
 air
 ```
 
 ## 前端
-+ react
+
+- react
+
 ## 后端
-+ fiter框架
-+ grom
-+ air
+
+- fiter 框架
+- grom
+- air
+
 ## 数据库
-+ mysql
+
+- mysql
+- redis
