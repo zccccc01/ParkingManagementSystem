@@ -1,7 +1,7 @@
 // src/pages/ParkingLotMap.js
 
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
+import Header from '../components/AdminHeader';
 import Footer from '../components/Footer';
 import './ParkingLotMap.scss';
 

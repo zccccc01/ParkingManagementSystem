@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
-import Header from '../components/Header';
+import Header from '../components/AdminHeader';
 import Footer from '../components/Footer';
 import './ChartPage.scss';
 
