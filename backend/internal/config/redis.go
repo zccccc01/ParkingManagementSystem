@@ -5,22 +5,27 @@ import (
 	"log"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/global"
 )
 
-func InitRedis() {
+var rdb *redis.Client
+
+func init() {
 	// 连接Redis
-	rdb := redis.NewClient(&redis.Options{
+	db := redis.NewClient(&redis.Options{
 		Addr:     "192.168.66.130:6379",
 		Password: "123456",
 		DB:       0,
 	})
 
-	_, err := rdb.Ping(context.Background()).Result()
+	_, err := db.Ping(context.Background()).Result()
 
 	if err != nil {
 		log.Fatalf("Failed to connect to Redis, got error: %v", err)
 	}
 
-	global.RDB = rdb
+	rdb = db
+}
+
+func GetRDBInstance() *redis.Client {
+	return rdb
 }

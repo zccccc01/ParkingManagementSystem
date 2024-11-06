@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/config"
-	"github.com/zccccc01/ParkingManagementSystem/backend/internal/global"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/routes"
 )
 
@@ -14,8 +13,8 @@ func main() {
 	// 创建 Fiber 实例
 	app := fiber.New()
 
-	config.InitDB()
-	config.InitRedis()
+	db := config.GetDBInstance()
+	rdb := config.GetRDBInstance()
 
 	// 设置 CORS 中间件 允许前端3000端口
 	app.Use(cors.New(cors.Config{
@@ -26,15 +25,15 @@ func main() {
 	}))
 
 	// 设置路由
-	routes.SetupParkingLotRoutes(app, global.DB)
-	routes.SetupUserRoutes(app, global.DB)
-	routes.SetupParkingRecordRoutes(app, global.DB)
-	routes.SetupParkingSpaceRoutes(app, global.DB)
-	routes.SetupPaymentRecordRoutes(app, global.DB)
-	routes.SetupReservationRoutes(app, global.DB)
-	routes.SetupVehicleRoutes(app, global.DB)
-	routes.SetupViolationRecordRoutes(app, global.DB)
-	routes.SetupCountRoutes(app, global.RDB)
+	routes.SetupParkingLotRoutes(app, db)
+	routes.SetupUserRoutes(app, db)
+	routes.SetupParkingRecordRoutes(app, db)
+	routes.SetupParkingSpaceRoutes(app, db)
+	routes.SetupPaymentRecordRoutes(app, db)
+	routes.SetupReservationRoutes(app, db)
+	routes.SetupVehicleRoutes(app, db)
+	routes.SetupViolationRecordRoutes(app, db)
+	routes.SetupCountRoutes(app, rdb)
 	// 启动服务器
 	log.Fatal(app.Listen(":8000"))
 }
