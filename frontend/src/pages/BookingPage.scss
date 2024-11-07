@@ -100,4 +100,10 @@
   .modal button:hover {
     background-color: #218838;
   }
+
+  .payment-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 }

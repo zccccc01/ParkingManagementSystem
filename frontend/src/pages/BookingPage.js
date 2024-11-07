@@ -61,11 +61,20 @@ const BookingPage = () => {
     setError(null);
     setSuccess(false);
 
+    // 验证 startTime 是否早于 endTime
+    const startTime = new Date(formData.startTime);
+    const endTime = new Date(formData.endTime);
+    if (startTime >= endTime) {
+      setError('开始时间必须早于结束时间');
+      setLoading(false);
+      return;
+    }
+
     try {
       await getFee(); // Get the fee before creating the reservation
 
-      const startTime = new Date(formData.startTime).toISOString();
-      const endTime = new Date(formData.endTime).toISOString();
+      const startTimeISO = startTime.toISOString();
+      const endTimeISO = endTime.toISOString();
 
       const response = await fetch('http://localhost:8000/api/reservation/', {
         method: 'POST',
@@ -74,8 +83,8 @@ const BookingPage = () => {
         },
         body: JSON.stringify({
           ReservationID: parseInt(formData.reservationID, 10),
-          StartTime: startTime,
-          EndTime: endTime,
+          StartTime: startTimeISO,
+          EndTime: endTimeISO,
           SpaceID: parseInt(formData.spaceID, 10),
           VehicleID: parseInt(formData.vehicleID, 10),
           LotID: parseInt(formData.lotID, 10),
@@ -109,9 +118,18 @@ const BookingPage = () => {
     setError(null);
     setSuccess(false);
 
+    // 验证 startTime 是否早于 endTime
+    const startTime = new Date(formData.startTime);
+    const endTime = new Date(formData.endTime);
+    if (startTime >= endTime) {
+      setError('开始时间必须早于结束时间');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const startTime = new Date(formData.startTime).toISOString();
-      const endTime = new Date(formData.endTime).toISOString();
+      const startTimeISO = startTime.toISOString();
+      const endTimeISO = endTime.toISOString();
 
       const response = await fetch(
         `http://localhost:8000/api/reservation/id/${formData.reservationID}`,
@@ -123,8 +141,8 @@ const BookingPage = () => {
           body: JSON.stringify({
             LotID: parseInt(formData.lotID, 10),
             SpaceID: parseInt(formData.spaceID, 10),
-            StartTime: startTime,
-            EndTime: endTime,
+            StartTime: startTimeISO,
+            EndTime: endTimeISO,
           }),
         }
       );
@@ -315,24 +333,24 @@ const BookingPage = () => {
                 </select>
                 <br />
                 <br />
-                <button
-                  type="button"
-                  onClick={handlePaymentConfirm}
-                  disabled={loading}
-                  className="form-button"
-                >
-                  确认支付
-                </button>
-                <br />
-                <br />
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  disabled={loading}
-                  className="form-button"
-                >
-                  稍后支付
-                </button>
+                <div className="payment-buttons">
+                  <button
+                    type="button"
+                    onClick={handlePaymentConfirm}
+                    disabled={loading}
+                    className="form-button"
+                  >
+                    确认支付
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    disabled={loading}
+                    className="form-button"
+                  >
+                    稍后支付
+                  </button>
+                </div>
               </>
             ) : (
               <>
