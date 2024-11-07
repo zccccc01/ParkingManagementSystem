@@ -15,11 +15,12 @@ func SetupParkingRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 定义路由组
 	parkingRecord := app.Group("/api/parkingrecord")
 
-	// 定义路由
+	// 定义路由(注意:路由顺序会影响,更具体的路由优先,最后再定义具有动态参数的路由)
+	parkingRecord.Get("/month", parkingRecordController.GetMonthlyReport)
+	parkingRecord.Get("/year", parkingRecordController.GetAnnualReport)
 	parkingRecord.Post("/", parkingRecordController.CreateParkingRecord)
 	parkingRecord.Get("/user/:id", parkingRecordController.GetParkingRecordByUserID)
 	parkingRecord.Get("/vehicle/:id", parkingRecordController.GetParkingRecordFeeByVehicleID)
 	parkingRecord.Get("/:id", parkingRecordController.GetParkingRecordFee)
 	parkingRecord.Put("/:id", parkingRecordController.UpdateParkingRecord)
-
 }

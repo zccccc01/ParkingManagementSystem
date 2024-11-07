@@ -16,5 +16,9 @@ type ParkingRecordRepository interface {
 	// 根据车辆ID获取费用
 	GetFeeByVehicleID(id int) (float64, error)
 	// 根据UserID查历史记录
-	FindHistoryRecordByUserID(id int) (records []models.ParkingRecord, err error)
+	FindHistoryRecordByUserID(id int) ([]models.ParkingRecord, error)
+	// 获取月度报告
+	GetMonthlyReport(year int, month int) (interface{}, error)
+	// 获取年度报告
+	GetAnnualReport(year int) (interface{}, error)
 }

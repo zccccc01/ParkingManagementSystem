@@ -97,3 +97,37 @@ func (prc *ParkingRecordController) UpdateParkingRecord(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking record updated successfully"})
 }
+
+// 根据年月获取月度报告
+func (prc *ParkingRecordController) GetMonthlyReport(c *fiber.Ctx) error {
+	year, err := strconv.Atoi(c.Query("year"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid year"})
+	}
+	month, err := strconv.Atoi(c.Query("month"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid month"})
+	}
+
+	records, err := prc.ParkingRecordRepo.GetMonthlyReport(year, month)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"records": records})
+}
+
+// 根据年获取年度报告
+func (prc *ParkingRecordController) GetAnnualReport(c *fiber.Ctx) error {
+	year, err := strconv.Atoi(c.Query("year"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid year"})
+	}
+
+	records, err := prc.ParkingRecordRepo.GetAnnualReport(year)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"records": records})
+}

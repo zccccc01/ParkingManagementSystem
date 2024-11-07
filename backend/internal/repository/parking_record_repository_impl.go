@@ -81,7 +81,7 @@ func (r *ParkingRecordRepositoryImpl) GetFeeByVehicleID(id int) (float64, error)
 	return float64(timeDiff.Hours()) * rate, nil
 }
 
-func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (records []models.ParkingRecord, err error) {
+func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) ([]models.ParkingRecord, error) {
 	// select * from parkingrecord where VehicleID in (
 	// 	  select VehicleID from vehicle where UserID = ?)
 	var tmp []models.ParkingRecord
@@ -98,4 +98,49 @@ func (r *ParkingRecordRepositoryImpl) FindHistoryRecordByUserID(id int) (records
 		return nil, result.Error
 	}
 	return tmp, nil
+}
+
+func (r *ParkingRecordRepositoryImpl) GetMonthlyReport(year int, month int) (interface{}, error) {
+	query := `SELECT LotID, YEAR(StartTime) AS Year, MONTH(StartTime) AS Month, COUNT(*) AS TotalRecords,
+		SUM(Fee) AS TotalIncome	FROM parkingrecord WHERE YEAR(StartTime) = ? AND MONTH(StartTime) = ? 
+		GROUP BY LotID, YEAR(StartTime), MONTH(StartTime);`
+	var report []struct {
+		LotID        int     `gorm:"column:LotID"`
+		Year         int     `gorm:"column:Year"`
+		Month        int     `gorm:"column:Month"`
+		TotalRecords int     `gorm:"column:TotalRecords"`
+		TotalIncome  float64 `gorm:"column:TotalIncome"`
+	}
+	result := r.DB.Raw(query, year, month).Scan(&report)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	for i := range report {
+		report[i].TotalIncome = float64(int(report[i].TotalIncome*100)) / 100
+	}
+
+	return report, nil
+}
+
+func (r *ParkingRecordRepositoryImpl) GetAnnualReport(year int) (interface{}, error) {
+	query := `SELECT LotID, YEAR(StartTime) AS Year, COUNT(*) AS TotalRecords,
+		SUM(Fee) AS TotalIncome	FROM parkingrecord WHERE YEAR(StartTime) = ?
+		GROUP BY LotID, YEAR(StartTime);`
+	var rep []struct {
+		LotID        int     `gorm:"column:LotID"`
+		Year         int     `gorm:"column:Year"`
+		TotalRecords int     `gorm:"column:TotalRecords"`
+		TotalIncome  float64 `gorm:"column:TotalIncome"`
+	}
+	result := r.DB.Raw(query, year).Scan(&rep)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	for i := range rep {
+		rep[i].TotalIncome = float64(int(rep[i].TotalIncome*100)) / 100
+	}
+
+	return rep, nil
 }
