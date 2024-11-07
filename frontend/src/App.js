@@ -6,7 +6,6 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ParkingLotListPage from './pages/ParkingLotListPage';
-import ParkingSpotDetailPage from './pages/ParkingSpotDetailPage';
 import BookingPage from './pages/BookingPage';
 import PaymentPage from './pages/PaymentPage';
 import ParkingRecordPage from './pages/ParkingRecordPage';
@@ -64,7 +63,6 @@ const App = () => {
           {/* 直接暴露需要认证的页面 */}
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/parking-lots" element={<ParkingLotListPage />} />
-          <Route path="/parking-spots/:id" element={<ParkingSpotDetailPage />} />
           <Route path="/bookings" element={<BookingPage />} />
           <Route path="/payments" element={<PaymentPage />} />
           <Route path="/parking-records" element={<ParkingRecordPage />} />
