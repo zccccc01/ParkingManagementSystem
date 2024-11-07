@@ -99,6 +99,12 @@ const Sidebar: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handlePasswordSubmit();
+    }
+  };
+
   return (
     <div className="sidebar">
       <h2>菜单</h2>
@@ -124,6 +130,7 @@ const Sidebar: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="请输入密码"
+            onKeyPress={handleKeyPress} // 添加 onKeyPress 事件处理函数
           />
           <br />
           <br />

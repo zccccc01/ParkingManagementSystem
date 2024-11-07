@@ -6,8 +6,10 @@ import './BarChart.scss';
 
 const BarChart = () => {
   const chartRef = useRef(null);
+  const annualChartRef = useRef(null);
   const [year, setYear] = useState('2024');
   const [month, setMonth] = useState('10');
+  const [annualYear, setAnnualYear] = useState('2024');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -15,6 +17,22 @@ const BarChart = () => {
     try {
       const response = await fetch(
         `http://localhost:8000/api/parkingrecord/month?year=${selectedYear}&month=${selectedMonth}`
+      );
+      const data = await response.json();
+      if (!data || !Array.isArray(data.records)) {
+        throw new Error('No records returned or data is not an array');
+      }
+      return data.records;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  };
+
+  const fetchAnnualData = async (selectedYear) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/parkingrecord/year?year=${selectedYear}`
       );
       const data = await response.json();
       if (!data || !Array.isArray(data.records)) {
@@ -71,12 +89,60 @@ const BarChart = () => {
     }
   };
 
+  const initAnnualChart = async (selectedYear) => {
+    try {
+      setLoading(true);
+      const records = await fetchAnnualData(selectedYear);
+      const lotIDs = records.map((record) => `Lot ${record.LotID}`);
+      const totalIncomes = records.map((record) => record.TotalIncome);
+
+      if (annualChartRef.current) {
+        const chartInstance = echarts.init(annualChartRef.current);
+        const option = {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow',
+            },
+          },
+          xAxis: {
+            type: 'category',
+            data: lotIDs,
+          },
+          yAxis: {
+            type: 'value',
+          },
+          series: [
+            {
+              name: 'Total Income',
+              type: 'bar',
+              data: totalIncomes,
+              itemStyle: {
+                color: 'rgba(75, 192, 192, 0.6)',
+              },
+            },
+          ],
+        };
+
+        chartInstance.setOption(option);
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleYearChange = (e) => {
     setYear(e.target.value);
   };
 
   const handleMonthChange = (e) => {
     setMonth(e.target.value);
+  };
+
+  const handleAnnualYearChange = (e) => {
+    setAnnualYear(e.target.value);
   };
 
   const handleSearch = () => {
@@ -87,8 +153,20 @@ const BarChart = () => {
     }
   };
 
+  const handleAnnualSearch = () => {
+    if (annualYear) {
+      initAnnualChart(annualYear);
+    } else {
+      setErrorMessage('Please enter a year');
+    }
+  };
+
   useEffect(() => {
     initChart(year, month);
+  }, []);
+
+  useEffect(() => {
+    initAnnualChart(annualYear);
   }, []);
 
   return (
@@ -115,6 +193,28 @@ const BarChart = () => {
         {loading && <p>Loading...</p>}
         {!loading && errorMessage && <p className="error-message">{errorMessage}</p>}
         <div ref={chartRef} className="chart-canvas" />
+      </div>
+
+      <div className="annual-bar-chart-container">
+        <div className="chart-title">Total Income by Lot ID (Annual)</div>
+        <div className="chart-subtitle">Year: {annualYear}</div>
+        <div className="input-container">
+          <label>
+            Year:
+            <input type="number" value={annualYear} onChange={handleAnnualYearChange} />
+          </label>
+          <button
+            onClick={handleAnnualSearch}
+            disabled={loading}
+            className="search-button"
+            type="button"
+          >
+            {loading ? 'Loading...' : 'Search'}
+          </button>
+        </div>
+        {loading && <p>Loading...</p>}
+        {!loading && errorMessage && <p className="error-message">{errorMessage}</p>}
+        <div ref={annualChartRef} className="chart-canvas" />
       </div>
       <br />
       <br />
