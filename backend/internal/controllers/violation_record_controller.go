@@ -90,3 +90,13 @@ func (vrc *ViolationRecordController) GetViolationRecordsByUserID(c *fiber.Ctx) 
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"violationRecords": violationRecords})
 }
+
+func (vrc *ViolationRecordController) StatisticalViolationsByType(c *fiber.Ctx) error {
+	t := c.Params("type")
+	violationRecords, err := vrc.ViolationRecordRepo.StatisticalViolationsByType(t)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"violationRecords": violationRecords})
+}

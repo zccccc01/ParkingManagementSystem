@@ -21,4 +21,5 @@ func SetupViolationRecordRoutes(app *fiber.App, db *gorm.DB) {
 	violationRecord.Get("/status/record/:id", violationRecordController.GetStatusByRecordId)
 	violationRecord.Get("/type/record/:id", violationRecordController.GetViolationTypeByRecordId)
 	violationRecord.Get("/user/:id", violationRecordController.GetViolationRecordsByUserID)
+	violationRecord.Get("/violation/:type", violationRecordController.StatisticalViolationsByType)
 }

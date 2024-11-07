@@ -16,4 +16,6 @@ type ViolationRecordRepository interface {
 	GetViolationTypeByRecordID(id int) ([]models.ViolationRecord, error)
 	//根据UserID查违章记录
 	FindViolationRecordByUserID(id int) ([]models.ViolationRecord, error)
+	//根据违章类型统计
+	StatisticalViolationsByType(t string) (interface{}, error)
 }

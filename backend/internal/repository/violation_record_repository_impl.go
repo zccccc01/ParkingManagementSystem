@@ -94,3 +94,28 @@ func (r *ViolationRecordRepositoryImpl) FindViolationRecordByUserID(id int) ([]m
 	return violationRecords, nil
 
 }
+
+func (r *ViolationRecordRepositoryImpl) StatisticalViolationsByType(t string) (interface{}, error) {
+	query := `SELECT ViolationType, Status, COUNT(*) AS TotalViolations, 
+	SUM(CASE WHEN Status = 'PAID' THEN 1 ELSE 0 END) AS PaidCount,
+	SUM(CASE WHEN Status = 'UNPAID' THEN 1 ELSE 0 END) AS UnpaidCount,
+	SUM(CASE WHEN Status = 'DISPUTED' THEN 1 ELSE 0 END) AS DisputedCount,
+	SUM(FineAmount) AS TotalFineAmount
+	FROM violationrecord WHERE ViolationType = ? GROUP BY ViolationType, Status
+	ORDER BY ViolationType, Status;
+	`
+	var report []struct {
+		ViolationType   string  `gorm:"column:ViolationType"`
+		Status          string  `gorm:"column:Status"`
+		TotalViolations int     `gorm:"column:TotalViolations"`
+		PaidCount       int     `gorm:"column:PaidCount"`
+		UnpaidCount     int     `gorm:"column:UnpaidCount"`
+		DisputedCount   int     `gorm:"column:DisputedCount"`
+		TotalFineAmount float64 `gorm:"column:TotalFineAmount"`
+	}
+	result := r.DB.Raw(query, t).Scan(&report)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return report, nil
+}
