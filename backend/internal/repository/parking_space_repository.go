@@ -11,10 +11,10 @@ type ParkingSpaceRepository interface {
 	GetStatusByLotIDAndSpaceID(lotID int, spaceID int) (string, error)
 	// 根据车位id更新状态
 	UpdateStatusBySpaceID(space *models.ParkingSpace, lotID int, spaceID int) (bool, error)
-	// 根据车牌号查看停车位置(LotID,SpaceID) TODO:想改一下返回值
-	FindVehicleSpaceInLotByPlateNumber(plateNumber string) (map[int]int, error)
-	// 根据UserID查看停车位置(LotID,SpaceID) TODO:想改一下返回值
-	FindVehicleSpaceInLotByUserID(id int) (map[int]int, error)
+	// 根据车牌号查看停车位置(LotID,SpaceID)
+	FindVehicleSpaceInLotByPlateNumber(plateNumber string) (interface{}, error)
+	// 根据UserID查看停车位置(LotID,SpaceID)
+	FindVehicleSpaceInLotByUserID(id int) (interface{}, error)
 	// 查看空闲车位
 	FindFreeSpaceInAllLots() ([]models.ParkingSpace, error)
 }

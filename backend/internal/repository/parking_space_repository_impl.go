@@ -48,7 +48,7 @@ func (r *ParkingSpaceRepositoryImpl) UpdateStatusBySpaceID(space *models.Parking
 	return true, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNumber string) (map[int]int, error) {
+func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNumber string) (interface{}, error) {
 	var space []struct {
 		LotID   int `gorm:"column:LotID"`
 		SpaceID int `gorm:"column:SpaceID"`
@@ -67,14 +67,11 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByPlateNumber(plateNum
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	var ans = make(map[int]int)
-	for _, record := range space {
-		ans[record.LotID] = record.SpaceID
-	}
-	return ans, nil
+
+	return space, nil
 }
 
-func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[int]int, error) {
+func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (interface{}, error) {
 	var spaces []struct {
 		LotID   int `gorm:"column:LotID"`
 		SpaceID int `gorm:"column:SpaceID"`
@@ -93,11 +90,8 @@ func (r *ParkingSpaceRepositoryImpl) FindVehicleSpaceInLotByUserID(id int) (map[
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	var ans = make(map[int]int)
-	for _, record := range spaces {
-		ans[record.LotID] = record.SpaceID
-	}
-	return ans, nil
+
+	return spaces, nil
 }
 
 func (r *ParkingSpaceRepositoryImpl) FindFreeSpaceInAllLots() ([]models.ParkingSpace, error) {

@@ -2,9 +2,6 @@ package repository
 
 import "github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 
-// TODO: where ="unpaid" 找到RecordID 从RID找VehicleID 找人的ID
-// 实现发违规记录给某人
-
 type ViolationRecordRepository interface {
 	//创建一条记录
 	Create(violation *models.ViolationRecord) (bool, error)
