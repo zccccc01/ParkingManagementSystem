@@ -11,15 +11,48 @@ const BookingPage = () => {
     spaceID: '',
     vehicleID: '',
     lotID: '',
+    paymentMethod: '', // Payment method
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [fee, setFee] = useState(null); // Declare fee state
+  const [showModal, setShowModal] = useState(false); // Declare showModal state
+  const [paymentComplete, setPaymentComplete] = useState(false); // Declare paymentComplete state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const getFee = async () => {
+    try {
+      const startTime = new Date(formData.startTime).toISOString();
+      const endTime = new Date(formData.endTime).toISOString();
+
+      const response = await fetch(
+        `http://localhost:8000/api/reservation/lot/${formData.lotID}?start=${startTime}&end=${endTime}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorData.message || '未知错误'}`
+        );
+      }
+
+      const data = await response.json();
+      setFee(data.fee); // Set the fee value received from the API
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -29,7 +62,8 @@ const BookingPage = () => {
     setSuccess(false);
 
     try {
-      // 转换时间格式为 ISO 8601 并添加时区信息
+      await getFee(); // Get the fee before creating the reservation
+
       const startTime = new Date(formData.startTime).toISOString();
       const endTime = new Date(formData.endTime).toISOString();
 
@@ -58,6 +92,7 @@ const BookingPage = () => {
       const data = await response.json();
       if (data.message === 'Reservation created successfully') {
         setSuccess(true);
+        setShowModal(true); // Show the modal to choose payment method
       } else {
         setError('预约失败，请稍后再试');
       }
@@ -75,7 +110,6 @@ const BookingPage = () => {
     setSuccess(false);
 
     try {
-      // 转换时间格式为 ISO 8601 并添加时区信息
       const startTime = new Date(formData.startTime).toISOString();
       const endTime = new Date(formData.endTime).toISOString();
 
@@ -140,8 +174,6 @@ const BookingPage = () => {
       }
 
       const data = await response.json();
-      console.log(data); // 添加这行日志，查看响应体内容
-
       if (data.message === 'Reservation cancelled successfully') {
         setSuccess(true);
       } else {
@@ -153,6 +185,29 @@ const BookingPage = () => {
       setLoading(false);
     }
   };
+
+  const handlePaymentConfirm = () => {
+    setPaymentComplete(true); // Mark payment as complete
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Close the modal
+    setPaymentComplete(false); // Reset payment completion state
+  };
+
+  const getPaymentImageSrc = (method) => {
+    switch (method) {
+      case 'FREE':
+        return 'WeChat-Pay.jpg';
+      case 'OCCUPIED':
+        return 'Alipay.png';
+      case 'RESERVED':
+        return 'Credit-Card.jpg';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="booking-page">
       <Header />
@@ -241,8 +296,60 @@ const BookingPage = () => {
           {loading ? '删除中...' : '删除'}
         </button>
       </form>
-      {success && <p>操作成功！</p>}
+
+      {success && <p>预约成功！</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h1>费用: {fee}元</h1>
+            {!paymentComplete ? (
+              <>
+                <h2>请选择支付方式:</h2>
+                <select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
+                  <option value="">请选择支付方式</option>
+                  <option value="FREE">微信支付</option>
+                  <option value="OCCUPIED">支付宝</option>
+                  <option value="RESERVED">信用卡</option>
+                </select>
+                <br />
+                <br />
+                <button
+                  type="button"
+                  onClick={handlePaymentConfirm}
+                  disabled={loading}
+                  className="form-button"
+                >
+                  确认支付
+                </button>
+                <br />
+                <br />
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  disabled={loading}
+                  className="form-button"
+                >
+                  稍后支付
+                </button>
+              </>
+            ) : (
+              <>
+                <img
+                  src={getPaymentImageSrc(formData.paymentMethod)}
+                  alt="支付方式"
+                  className="payment-image"
+                />
+                <button type="button" onClick={handleCloseModal}>
+                  支付完成
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

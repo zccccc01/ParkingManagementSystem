@@ -1,5 +1,7 @@
+// pages/ViolationsPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Table } from 'antd';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './ViolationsPage.scss';
@@ -62,6 +64,29 @@ const ViolationsPage = () => {
     loadViolationRecords();
   }, []);
 
+  const columns = [
+    {
+      title: '记录 ID',
+      dataIndex: 'RecordID',
+      key: 'RecordID',
+    },
+    {
+      title: '罚款金额',
+      dataIndex: 'FineAmount',
+      key: 'FineAmount',
+    },
+    {
+      title: '违规类型',
+      dataIndex: 'ViolationType',
+      key: 'ViolationType',
+    },
+    {
+      title: '状态',
+      dataIndex: 'Status',
+      key: 'Status',
+    },
+  ];
+
   return (
     <div className="violations-page">
       <Header />
@@ -75,26 +100,12 @@ const ViolationsPage = () => {
           {violationRecords.length === 0 ? (
             <p>没有违规记录</p>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>记录 ID</th>
-                  <th>罚款金额</th>
-                  <th>违规类型</th>
-                  <th>状态</th>
-                </tr>
-              </thead>
-              <tbody>
-                {violationRecords.map((record) => (
-                  <tr key={record.RecordID}>
-                    <td>{record.RecordID}</td>
-                    <td>{record.FineAmount}</td>
-                    <td>{record.ViolationType}</td>
-                    <td>{record.Status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table
+              columns={columns}
+              dataSource={violationRecords}
+              rowKey="RecordID"
+              pagination={{ pageSize: 10 }}
+            />
           )}
         </div>
       )}

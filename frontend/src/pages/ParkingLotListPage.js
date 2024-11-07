@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Table } from 'antd';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './ParkingLotListPage.scss';
@@ -46,8 +47,35 @@ const ParkingLotListPage = () => {
 
   useEffect(() => {
     incrementViewCount(); // 在组件挂载时增加浏览计数
-    fetchParkingLots(); // 获取停车场信息
   }, []);
+
+  const columns = [
+    {
+      title: '名称',
+      dataIndex: 'ParkingName',
+      key: 'ParkingName',
+    },
+    {
+      title: '经度',
+      dataIndex: 'Longitude',
+      key: 'Longitude',
+    },
+    {
+      title: '纬度',
+      dataIndex: 'Latitude',
+      key: 'Latitude',
+    },
+    {
+      title: '总容量',
+      dataIndex: 'Capacity',
+      key: 'Capacity',
+    },
+    {
+      title: '收费标准（元/h）',
+      dataIndex: 'Rates',
+      key: 'Rates',
+    },
+  ];
 
   return (
     <div className="parking-lot-list-page">
@@ -56,63 +84,18 @@ const ParkingLotListPage = () => {
       <button type="button" onClick={fetchParkingLots}>
         查询
       </button>
+      <br />
       {loading && <p>加载中...</p>}
       {error && <p className="error">加载失败: {error.message}</p>}
       {!loading && !error && (
-        <div className="two-column-table">
-          <div className="column left">
-            <table>
-              <thead>
-                <tr>
-                  <th>名称</th>
-                  <th>经度</th>
-                  <th>纬度</th>
-                  <th>总容量</th>
-                  <th>收费标准（元/h）</th>
-                </tr>
-              </thead>
-              <tbody>
-                {parkingLots
-                  .filter((_, index) => index % 2 === 0)
-                  .map((lot) => (
-                    <tr key={lot.id}>
-                      <td>{lot.ParkingName}</td>
-                      <td>{lot.Longitude}</td>
-                      <td>{lot.Latitude}</td>
-                      <td>{lot.Capacity}</td>
-                      <td>{lot.Rates}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="column right">
-            <table>
-              <thead>
-                <tr>
-                  <th>名称</th>
-                  <th>经度</th>
-                  <th>纬度</th>
-                  <th>总容量</th>
-                  <th>收费标准（元/h）</th>
-                </tr>
-              </thead>
-              <tbody>
-                {parkingLots
-                  .filter((_, index) => index % 2 !== 0)
-                  .map((lot) => (
-                    <tr key={lot.id}>
-                      <td>{lot.ParkingName}</td>
-                      <td>{lot.Longitude}</td>
-                      <td>{lot.Latitude}</td>
-                      <td>{lot.Capacity}</td>
-                      <td>{lot.Rates}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="vertical-divider" />
+        <div>
+          <h1>停车场列表</h1>
+          <Table
+            columns={columns}
+            dataSource={parkingLots}
+            rowKey="id"
+            pagination={{ pageSize: 10 }}
+          />
         </div>
       )}
       <Footer />

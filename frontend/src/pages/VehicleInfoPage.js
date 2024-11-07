@@ -1,6 +1,7 @@
 // pages/VehicleInfoPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Table } from 'antd';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './VehicleInfoPage.scss';
@@ -41,6 +42,24 @@ const VehicleInfoPage = () => {
     fetchVehicles();
   }, []);
 
+  const columns = [
+    {
+      title: '用户 ID',
+      dataIndex: 'UserID',
+      key: 'UserID',
+    },
+    {
+      title: '车牌号',
+      dataIndex: 'PlateNumber',
+      key: 'PlateNumber',
+    },
+    {
+      title: '颜色',
+      dataIndex: 'Color',
+      key: 'Color',
+    },
+  ];
+
   return (
     <div className="vehicle-info-page">
       <Header />
@@ -50,24 +69,7 @@ const VehicleInfoPage = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>用户 ID</th>
-              <th>车牌号</th>
-              <th>颜色</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vehicles.map((vehicle) => (
-              <tr key={vehicle.id}>
-                <td>{vehicle.UserID}</td>
-                <td>{vehicle.PlateNumber}</td>
-                <td>{vehicle.Color}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table columns={columns} dataSource={vehicles} rowKey="id" pagination={{ pageSize: 10 }} />
       )}
 
       <Footer />

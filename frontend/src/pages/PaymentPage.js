@@ -117,29 +117,13 @@ const PaymentPage = () => {
 
   // 使用 useEffect 监听状态变化
   useEffect(() => {
-    // 可以在这里执行一些副作用操作，例如日志记录
-    console.log('State changed:', {
-      record,
-      reservation,
-      plate,
-      recordStatus,
-      recordFee,
-      reservationStatus,
-      reservationFee,
-      plateFee,
-      selectedPaymentMethod,
-    });
-  }, [
-    record,
-    reservation,
-    plate,
-    recordStatus,
-    recordFee,
-    reservationStatus,
-    reservationFee,
-    plateFee,
-    selectedPaymentMethod,
-  ]);
+    // 重置状态
+    setRecordStatus('');
+    setRecordFee('');
+    setReservationStatus('');
+    setReservationFee('');
+    setPlateFee('');
+  }, [record, reservation, plate]);
 
   const getPaymentImageSrc = (method) => {
     switch (method) {
@@ -164,7 +148,7 @@ const PaymentPage = () => {
 
       <div className="payment-form">
         <div className="payment-form-item">
-          <label htmlFor="record">停车记录id:</label>
+          <label htmlFor="record">停车记录ID:</label>
           <input
             type="text"
             id="record"
@@ -177,7 +161,7 @@ const PaymentPage = () => {
         </div>
         <br />
         <div className="payment-form-item">
-          <label htmlFor="reservation">预约记录id:</label>
+          <label htmlFor="reservation">预约记录ID:</label>
           <input
             type="text"
             id="reservation"

@@ -86,6 +86,9 @@ const Chart = () => {
           获取状态
         </button>
       </div>
+      <br />
+      <br />
+      <br />
       <div id="main" className="chart-container" />
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // 引入axios
+import { Table } from 'antd';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './ParkingRecordPage.scss';
@@ -47,6 +48,39 @@ const ParkingRecordPage = () => {
     fetchRecords();
   }, []);
 
+  const columns = [
+    {
+      title: '车位 ID',
+      dataIndex: 'SpaceID',
+      key: 'SpaceID',
+    },
+    {
+      title: '车辆 ID',
+      dataIndex: 'VehicleID',
+      key: 'VehicleID',
+    },
+    {
+      title: '停车场 ID',
+      dataIndex: 'LotID',
+      key: 'LotID',
+    },
+    {
+      title: '进场时间',
+      dataIndex: 'StartTime',
+      key: 'StartTime',
+    },
+    {
+      title: '离场时间',
+      dataIndex: 'EndTime',
+      key: 'EndTime',
+    },
+    {
+      title: '停车费',
+      dataIndex: 'Fee',
+      key: 'Fee',
+    },
+  ];
+
   return (
     <div className="parking-record-page">
       <Header />
@@ -57,30 +91,12 @@ const ParkingRecordPage = () => {
       {!loading && error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && records.length === 0 && <p>暂无停车记录</p>}
       {!loading && !error && records.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>车位 ID</th>
-              <th>车辆 ID</th>
-              <th>停车场 ID</th>
-              <th>进场时间</th>
-              <th>离场时间</th>
-              <th>停车费</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record) => (
-              <tr key={record.RecordID}>
-                <td>{record.SpaceID}</td>
-                <td>{record.VehicleID}</td>
-                <td>{record.LotID}</td>
-                <td>{record.StartTime}</td>
-                <td>{record.EndTime}</td>
-                <td>{record.Fee}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          columns={columns}
+          dataSource={records}
+          rowKey="RecordID"
+          pagination={{ pageSize: 10 }}
+        />
       )}
 
       <Footer />
