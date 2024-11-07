@@ -1,6 +1,10 @@
 package repository
 
 import (
+	"database/sql"
+	"fmt"
+	"time"
+
 	"github.com/jinzhu/gorm"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
 )
@@ -48,4 +52,28 @@ func (r *ReservationRepositoryImpl) UpdateByReservationID(id int, reservation *m
 		return result.Error
 	}
 	return nil
+}
+
+func (r *ReservationRepositoryImpl) GetFeeByLotIDAndTime(id int, start time.Time, end time.Time) (float64, error) {
+	if end.Before(start) {
+		return 0, fmt.Errorf("end time cannot be before start time")
+	}
+
+	var rate sql.NullFloat64
+	err := r.DB.Table("parkinglot").Where("ParkingLotID = ?", id).Select("Rates").Row().Scan(&rate)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return 0, fmt.Errorf("no parking lot found with ID %d", id)
+		}
+		return 0, err
+	}
+
+	if !rate.Valid {
+		return 0, fmt.Errorf("invalid rate for parking lot ID %d", id)
+	}
+
+	duration := end.Sub(start).Hours()
+	fee := rate.Float64 * duration
+
+	return fee, nil
 }

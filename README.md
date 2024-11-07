@@ -12,6 +12,20 @@ npm start
 
 ### 方法 2(windows)
 
+修改/nginx/conf/nginx.conf
+
+```
+root C:/gocode/ParkingManagementSystem/build; #修改为你的完整路径(一定要用/)
+
+location / {
+    try_files $uri $uri/ /index.html;
+}
+
+location /static/ {
+    alias C:/gocode/ParkingManagementSystem/build/static/; #修改为你的完整路径
+}
+```
+
 ```bash
 cd ./nginx
 mkdir temp; cd temp; mkdir client_body_temp

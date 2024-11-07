@@ -16,6 +16,7 @@ func SetupReservationRoutes(app *fiber.App, db *gorm.DB) {
 	reservation := app.Group("/api/reservation")
 
 	// 定义路由
+	reservation.Get("/lot/:id", reservationController.GetFeeByLotID)
 	reservation.Post("/", reservationController.CreateReservation)
 	reservation.Put("/id/:id", reservationController.UpdateReservation)
 	reservation.Delete("/id/:id", reservationController.CancelReservation)

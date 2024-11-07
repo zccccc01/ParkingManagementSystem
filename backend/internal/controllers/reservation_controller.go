@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/models"
@@ -81,4 +82,33 @@ func (rc *ReservationController) UpdateReservation(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation updated successfully"})
+}
+
+func (rc *ReservationController) GetFeeByLotID(c *fiber.Ctx) error {
+	lotId, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid lot ID"})
+	}
+
+	startStr := c.Query("start")
+	endStr := c.Query("end")
+	if startStr == "" || endStr == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Start and end times are required"})
+	}
+
+	startTime, err := time.Parse(time.RFC3339, startStr)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid start time format"})
+	}
+	endTime, err := time.Parse(time.RFC3339, endStr)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid end time format"})
+	}
+
+	fee, err := rc.ReservationRepo.GetFeeByLotIDAndTime(lotId, startTime, endTime)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"fee": fee})
 }
