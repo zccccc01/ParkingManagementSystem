@@ -33,10 +33,12 @@ const menuList = [
   { value: '/admin-dashboard', label: '首页', icon: <HomeOutlined /> },
   { value: '/statistic', label: '统计信息', icon: <BarChartOutlined /> },
   { value: '/chart', label: '可视化状态', icon: <PieChartOutlined /> },
-  { value: '/parking-lot-income', label: '收入图', icon: <DollarCircleOutlined /> },
+  { value: '/parking-lot-income', label: '收入统计', icon: <DollarCircleOutlined /> },
   { value: '/check-status', label: '查询车位状态', icon: <SearchOutlined /> },
   { value: '/update-status', label: '更新车位状态', icon: <EditOutlined /> },
   { value: '/check-space', label: '查看车位', icon: <EyeOutlined /> },
+  { value: '/check-violations', label: '查看违规记录', icon: <SearchOutlined /> },
+  { value: '/bar-chart', label: '收入报告', icon: <BarChartOutlined /> },
   { value: '/', label: '返回', icon: <LeftOutlined /> },
 ];
 

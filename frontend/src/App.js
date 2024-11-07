@@ -27,6 +27,10 @@ import CreateVehiclePage from './pages/CreateVehiclePage';
 import ChartPage from './pages/ChartPage';
 import ParkingLotIncome from './pages/ParkingLotIncome';
 import StatisticPage from './pages/StatisticPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import CheckViolationsPage from './pages/CheckViolationsPage';
+import BarChart from './pages/BarChart';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -78,6 +82,10 @@ const App = () => {
           <Route path="/chart" element={<ChartPage />} />
           <Route path="/parking-lot-income" element={<ParkingLotIncome />} />
           <Route path="/statistic" element={<StatisticPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/check-violations" element={<CheckViolationsPage />} />
+          <Route path="/bar-chart" element={<BarChart />} />
           {/* 404 页面 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

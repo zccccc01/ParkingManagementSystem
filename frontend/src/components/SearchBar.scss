@@ -4,6 +4,133 @@
   display: flex;
   top: 20px;
 
+  .ant-menu {
+    width: 272px;
+    border-right: none;
+    background-color: #024583;
+    color: rgba(132, 119, 116, 1);
+    padding: 0.675rem 0 0.675rem 1.8rem;
+    position: relative;
+    display: block;
+    text-align: center;
+
+    &-item,
+    &-submenu-title {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    &-item {
+      &.ant-menu-item-selected {
+        background-color: #1890ff;
+        color: white;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    &-submenu {
+      &-title {
+        font-size: 25px;
+      }
+
+      & > .ant-menu-item {
+        font-size: 20px;
+        padding-left: 40px;
+      }
+    }
+  }
+
+  // 特定菜单项的样式调整
+  .ant-menu-item[data-value='/update-space'],
+  .ant-menu-item[data-value='/check-space'],
+  .ant-menu-item[data-value='/create-vehicle'],
+  .ant-menu-item[data-value='/user'] {
+    font-size: 20px;
+    padding: 10px 16px;
+  }
+
+  // 响应式设计
+  @media (max-width: 1024px) {
+    width: 200px;
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      font-size: 20px;
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 18px;
+      padding: 8px 12px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 150px;
+
+    h2 {
+      font-size: 18px;
+    }
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      font-size: 18px;
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 16px;
+      padding: 6px 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    position: static;
+    height: auto;
+
+    h2 {
+      font-size: 16px;
+    }
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      font-size: 16px;
+    }
+
+    // 特定菜单项的样式调整
+    .ant-menu-item[data-value='/update-space'],
+    .ant-menu-item[data-value='/check-space'],
+    .ant-menu-item[data-value='/create-vehicle'],
+    .ant-menu-item[data-value='/user'] {
+      font-size: 14px;
+      padding: 4px 8px;
+    }
+  }
+
   .search-input {
     padding: 15px;
     border: 2px solid #ccc;
@@ -32,6 +159,10 @@
       text-decoration: none;
       color: #333;
       background-color: #fff;
+
+      svg {
+        margin-right: 10px; // 调整图标和文本之间的间距
+      }
 
       &:hover {
         background-color: rgba(121, 116, 116, 0.658);

@@ -1,6 +1,5 @@
-// src/pages/AboutUsPage.scss
-
-.AboutUsPage {
+// TermsOfService.module.scss
+.termsOfService {
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
@@ -21,46 +20,36 @@
     line-height: 1.75;
     margin-bottom: 1rem;
     font-size: 1rem;
-    text-align: center; /* 使段落中的文字居中 */
   }
 
-  .team-member {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
+  h2 {
+    color: #444444;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
 
-    img {
-      border-radius: 50%;
-      border: 2px solid #000;
-      width: 150px; /* 设置宽度 */
-      height: 150px; /* 设置高度 */
-      object-fit: cover; /* 确保图片填充整个容器 */
-      margin-bottom: 0.5rem;
-    }
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
 
-    p {
+    li {
       color: #666666;
-      line-height: 1.75;
       margin-bottom: 0.5rem;
-      font-size: 1rem;
-      text-align: center; /* 使段落中的文字居中 */
-    }
-
-    a {
-      color: #1a73e8;
-      text-decoration: none;
-      transition: color 0.3s;
-
-      &:hover {
-        color: #3b82f6;
-      }
     }
   }
 
-  hr {
-    width: 100%;
-    margin: 1rem 0;
+  a {
+    color: #1a73e8;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #3b82f6;
+    }
   }
 }
 
@@ -106,7 +95,7 @@
 }
 
 // 应用媒体查询
-.AboutUsPage {
+.privacyPolicy {
   @include media-breakpoint-down(sm) {
     padding: 1rem;
     margin: 1rem;

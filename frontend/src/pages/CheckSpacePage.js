@@ -1,3 +1,4 @@
+// src/pages/CheckSpacePage.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../components/AdminHeader';
@@ -69,6 +70,7 @@ const CheckSpacePage = () => {
             required
           />
         </div>
+        <br />
         <div>
           <label htmlFor="startTime">开始时间:</label>
           <input
@@ -79,6 +81,7 @@ const CheckSpacePage = () => {
             required
           />
         </div>
+        <br />
         <div>
           <label htmlFor="endTime">结束时间:</label>
           <input
@@ -89,6 +92,7 @@ const CheckSpacePage = () => {
             required
           />
         </div>
+        <br />
         <button type="submit" disabled={loading}>
           查询
         </button>

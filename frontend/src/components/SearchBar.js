@@ -1,20 +1,30 @@
 // src/components/SearchBar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  HomeOutlined,
+  DashboardOutlined,
+  CarOutlined,
+  FileSearchOutlined,
+  DollarCircleOutlined,
+  CalendarOutlined,
+  UserOutlined,
+  LockOutlined,
+} from '@ant-design/icons';
 import './SearchBar.scss';
 
 const menuList = [
-  { value: '/', label: '首页', icon: '' },
-  { value: '/dashboard', label: '用户仪表盘', icon: '' },
-  { value: '/parking-records', label: '停车记录', icon: '' },
-  { value: '/create-vehicle', label: '绑定车辆', icon: '' },
-  { value: '/vehicle-info', label: '车辆信息', icon: '' },
-  { value: '/violations', label: '违章停车', icon: '' },
-  { value: '/bookings', label: '停车位预约', icon: '' },
-  { value: '/payments', label: '支付', icon: '' },
-  { value: '/parking-space', label: '空闲车位', icon: '' },
-  { value: '/parking-lots', label: '停车场列表', icon: '' },
-  { value: '/user', label: '用户页面', icon: '' },
+  { value: '/', label: '首页', icon: <HomeOutlined /> },
+  { value: '/dashboard', label: '用户仪表盘', icon: <DashboardOutlined /> },
+  { value: '/parking-records', label: '停车记录', icon: <FileSearchOutlined /> },
+  { value: '/create-vehicle', label: '绑定车辆', icon: <CarOutlined /> },
+  { value: '/vehicle-info', label: '车辆信息', icon: <CarOutlined /> },
+  { value: '/violations', label: '违章停车', icon: <LockOutlined /> },
+  { value: '/bookings', label: '停车位预约', icon: <CalendarOutlined /> },
+  { value: '/payments', label: '支付', icon: <DollarCircleOutlined /> },
+  { value: '/parking-space', label: '空闲车位', icon: <CarOutlined /> },
+  { value: '/parking-lots', label: '停车场列表', icon: <HomeOutlined /> },
+  { value: '/user', label: '用户页面', icon: <UserOutlined /> },
 ];
 
 const SearchBar = () => {
@@ -72,7 +82,7 @@ const SearchBar = () => {
               onClick={() => handleResultClick(result)}
               className="search-result-item"
             >
-              {result.label}
+              {result.icon} {result.label}
             </button>
           ))}
         </ul>
