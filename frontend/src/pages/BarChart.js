@@ -12,6 +12,7 @@ const BarChart = () => {
   const [annualYear, setAnnualYear] = useState('2024');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showMonthlyChart, setShowMonthlyChart] = useState(true);
 
   const fetchData = async (selectedYear, selectedMonth) => {
     try {
@@ -161,13 +162,17 @@ const BarChart = () => {
     }
   };
 
-  useEffect(() => {
-    initChart(year, month);
-  }, []);
+  const handleToggleChart = () => {
+    setShowMonthlyChart(!showMonthlyChart);
+  };
 
   useEffect(() => {
-    initAnnualChart(annualYear);
-  }, []);
+    if (showMonthlyChart) {
+      initChart(year, month);
+    } else {
+      initAnnualChart(annualYear);
+    }
+  }, [showMonthlyChart, year, month, annualYear]);
 
   return (
     <div>
@@ -175,46 +180,51 @@ const BarChart = () => {
       <div className="bar-chart-container">
         <div className="chart-title">Total Income by Lot ID</div>
         <div className="chart-subtitle">
-          Year: {year}, Month: {month}
+          {showMonthlyChart ? `Year: ${year}, Month: ${month}` : `Year: ${annualYear}`}
         </div>
         <div className="input-container">
-          <label>
-            Year:
-            <input type="number" value={year} onChange={handleYearChange} />
-          </label>
-          <label>
-            Month:
-            <input type="number" min="1" max="12" value={month} onChange={handleMonthChange} />
-          </label>
-          <button onClick={handleSearch} disabled={loading} className="search-button" type="button">
-            {loading ? 'Loading...' : 'Search'}
-          </button>
+          {showMonthlyChart ? (
+            <>
+              <label>
+                Year:
+                <input type="number" value={year} onChange={handleYearChange} />
+              </label>
+              <label>
+                Month:
+                <input type="number" min="1" max="12" value={month} onChange={handleMonthChange} />
+              </label>
+              <button
+                onClick={handleSearch}
+                disabled={loading}
+                className="search-button"
+                type="button"
+              >
+                {loading ? 'Loading...' : 'Search'}
+              </button>
+            </>
+          ) : (
+            <>
+              <label>
+                Year:
+                <input type="number" value={annualYear} onChange={handleAnnualYearChange} />
+              </label>
+              <button
+                onClick={handleAnnualSearch}
+                disabled={loading}
+                className="search-button"
+                type="button"
+              >
+                {loading ? 'Loading...' : 'Search'}
+              </button>
+            </>
+          )}
         </div>
         {loading && <p>Loading...</p>}
         {!loading && errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div ref={chartRef} className="chart-canvas" />
-      </div>
-
-      <div className="annual-bar-chart-container">
-        <div className="chart-title">Total Income by Lot ID (Annual)</div>
-        <div className="chart-subtitle">Year: {annualYear}</div>
-        <div className="input-container">
-          <label>
-            Year:
-            <input type="number" value={annualYear} onChange={handleAnnualYearChange} />
-          </label>
-          <button
-            onClick={handleAnnualSearch}
-            disabled={loading}
-            className="search-button"
-            type="button"
-          >
-            {loading ? 'Loading...' : 'Search'}
-          </button>
-        </div>
-        {loading && <p>Loading...</p>}
-        {!loading && errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div ref={annualChartRef} className="chart-canvas" />
+        <div ref={showMonthlyChart ? chartRef : annualChartRef} className="chart-canvas" />
+        <button onClick={handleToggleChart} className="toggle-button" type="button">
+          {showMonthlyChart ? 'Annual Chart' : 'Monthly Chart'}
+        </button>
       </div>
       <br />
       <br />
