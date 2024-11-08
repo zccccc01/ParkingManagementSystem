@@ -1,6 +1,7 @@
 // src/pages/CheckSpacePage.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Table } from 'antd';
 import Header from '../components/AdminHeader';
 import Footer from '../components/Footer';
 import './CheckSpacePage.scss';
@@ -54,6 +55,24 @@ const CheckSpacePage = () => {
     }
   };
 
+  const columns = [
+    {
+      title: '车位ID',
+      dataIndex: 'SpaceID',
+      key: 'SpaceID',
+    },
+    {
+      title: '状态',
+      dataIndex: 'Status',
+      key: 'Status',
+    },
+    {
+      title: '停车场ID',
+      dataIndex: 'ParkingLotID',
+      key: 'ParkingLotID',
+    },
+  ];
+
   return (
     <div className="CheckSpacePage">
       <Header />
@@ -98,55 +117,19 @@ const CheckSpacePage = () => {
         </button>
       </form>
       {loading && <p>加载中...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="error">加载失败: {error}</p>}
       {occupancyData.length > 0 && (
-        <div className="two-column-table">
-          <div className="column left">
-            <table>
-              <thead>
-                <tr>
-                  <th>车位ID</th>
-                  <th>状态</th>
-                  <th>停车场ID</th>
-                </tr>
-              </thead>
-              <tbody>
-                {occupancyData
-                  .filter((_, index) => index % 2 === 0)
-                  .map((item) => (
-                    <tr key={item.SpaceID}>
-                      <td>{item.SpaceID}</td>
-                      <td>{item.Status}</td>
-                      <td>{item.ParkingLotID}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="column right">
-            <table>
-              <thead>
-                <tr>
-                  <th>车位ID</th>
-                  <th>状态</th>
-                  <th>停车场ID</th>
-                </tr>
-              </thead>
-              <tbody>
-                {occupancyData
-                  .filter((_, index) => index % 2 !== 0)
-                  .map((item) => (
-                    <tr key={item.SpaceID}>
-                      <td>{item.SpaceID}</td>
-                      <td>{item.Status}</td>
-                      <td>{item.ParkingLotID}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="vertical-divider" />
-        </div>
+        <Table
+          columns={columns}
+          dataSource={occupancyData}
+          pagination={{
+            pageSize: 10, // 每页显示的条目数
+            showSizeChanger: true, // 允许用户改变每页显示的条目数
+            showQuickJumper: true, // 允许用户快速跳转到指定页
+          }}
+          loading={loading}
+          rowKey="SpaceID"
+        />
       )}
       <Footer />
     </div>
