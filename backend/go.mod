@@ -1,4 +1,4 @@
-module github.com/zccccc01/ParkingManagementSystem
+module github.com/zccccc01/ParkingManagementSystem/backend
 
 go 1.23.0
 

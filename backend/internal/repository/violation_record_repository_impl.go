@@ -117,5 +117,10 @@ func (r *ViolationRecordRepositoryImpl) StatisticalViolationsByType(t string) (i
 	if result.Error != nil {
 		return nil, result.Error
 	}
+
+	for i := range report {
+		report[i].TotalFineAmount = float64(int(report[i].TotalFineAmount*100)) / 100
+	}
+
 	return report, nil
 }

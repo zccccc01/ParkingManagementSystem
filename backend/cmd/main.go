@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/config"
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/routes"
 )
@@ -15,14 +14,6 @@ func main() {
 
 	db := config.GetDBInstance()
 	rdb := config.GetRDBInstance()
-
-	// 设置 CORS 中间件 允许前端3000端口
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000",                       // 允许来自前端的请求
-		AllowMethods:     "GET,POST,PUT,DELETE",                         // 允许的 HTTP 方法
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization", // 允许的头部
-		AllowCredentials: true,                                          // 允许发送凭证
-	}))
 
 	// 设置路由
 	routes.SetupParkingLotRoutes(app, db)
@@ -35,5 +26,5 @@ func main() {
 	routes.SetupViolationRecordRoutes(app, db)
 	routes.SetupCountRoutes(app, rdb)
 	// 启动服务器
-	log.Fatal(app.Listen(":8000"))
+	log.Fatal(app.Listen("0.0.0.0:8000"))
 }
