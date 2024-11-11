@@ -12,6 +12,13 @@ npm start
 
 ### 方法 2(windows)
 
+```bash
+cd ./frontend
+npm install
+npm run build
+mv build ../
+```
+
 修改/nginx/conf/nginx.conf
 
 ```
@@ -47,6 +54,16 @@ cd ./backend/cmd
 air
 ```
 
+## 使用docker运行
+
+```bash
+cd ./frontend
+npm install
+npm run build
+mv build ../web
+docker-compose up -d --build
+```
+
 ## 前端
 
 - react
@@ -61,3 +78,9 @@ air
 
 - mysql
 - redis
+
+## 有疑问向我提issue
+## 有些部分写的挺乱,有待改进
+## 欢迎star
+## 欢迎fork
+## 欢迎pr
