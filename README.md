@@ -2,49 +2,10 @@
 
 ## 前端运行
 
-### 方法 1
-
 ```bash
 cd ./frontend
 npm install
 npm start
-```
-
-### 方法 2(windows)
-
-```bash
-cd ./frontend
-npm install
-npm run build
-mv build ../
-```
-
-修改/nginx/conf/nginx.conf
-
-```
-root C:/gocode/ParkingManagementSystem/build; #修改为你的完整路径(一定要用/)
-
-location / {
-    try_files $uri $uri/ /index.html;
-}
-
-location /static/ {
-    alias C:/gocode/ParkingManagementSystem/build/static/; #修改为你的完整路径
-}
-```
-
-```bash
-cd ./nginx
-mkdir temp; cd temp; mkdir client_body_temp
-cd ..
-./nginx.exe
-```
-
-### 优雅关闭 nginx(windows)
-
-```bash
-cd ./nginx
-./nginx.exe -s quit
 ```
 
 ## 后端运行
@@ -54,14 +15,14 @@ cd ./backend/cmd
 air
 ```
 
-## 使用docker运行
+## 利用 docker 运行
 
 ```bash
-cd ./frontend
-npm install
-npm run build
-mv build ../web
-docker-compose up -d --build
+git checkout docker
+docker-compose up -d db_master db_slave1 db_slave2 redis #这里要先设置数据库主从复制
+docker-compose up --build python
+docker-compose up -d --build backend1 backend2 backend3
+docker-compose up -d --build frontend
 ```
 
 ## 前端
@@ -71,16 +32,10 @@ docker-compose up -d --build
 ## 后端
 
 - fiter 框架
-- grom
+- gorm
 - air
 
 ## 数据库
 
 - mysql
 - redis
-
-## 有疑问向我提issue
-## 有些部分写的挺乱,有待改进
-## 欢迎star
-## 欢迎fork
-## 欢迎pr
