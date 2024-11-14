@@ -24,6 +24,16 @@ RUN go build -o main ./cmd
 # 第二阶段：生产部署阶段
 FROM alpine:3.20.3
 
+# 设置国内镜像源，加速 apk 包下载
+RUN echo "http://mirrors.aliyun.com/alpine/v3.20/main" > /etc/apk/repositories && \
+    echo "http://mirrors.aliyun.com/alpine/v3.20/community" >> /etc/apk/repositories
+
+# 设置时区为上海
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del tzdata
+
 # 设置工作目录
 WORKDIR /root/
 

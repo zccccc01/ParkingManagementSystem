@@ -14,7 +14,8 @@ RUN apk add --no-cache --virtual .build-deps gcc musl-dev libffi-dev mariadb-con
     && apk del .build-deps  # 安装完成后删除编译依赖
 
 # 复制脚本到容器
-COPY add_all_data.py /app/add_data.py
+COPY create_tables.py /app/create_tables.py
+COPY add_all_data.py /app/add_all_data.py
 
-# 执行 Python 脚本
-CMD ["python", "add_data.py"]
+# 执行 Python 脚本顺序：先创建表，再添加数据
+CMD python create_tables.py && python add_all_data.py

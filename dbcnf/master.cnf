@@ -1,0 +1,6 @@
+[mysqld]
+server-id = 1
+log-bin = mysql-master-bin
+binlog-do-db = mydb  # 只记录 mydb 数据库的操作
+binlog-ignore-db = mysql,information_schema,performance_schema,sys  # 忽略这些数据库
+default-time-zone = 'Asia/Shanghai'
