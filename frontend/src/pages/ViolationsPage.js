@@ -13,7 +13,7 @@ const ViolationsPage = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/user', {
+      const response = await fetch('/api/user', {
         method: 'GET',
         credentials: 'include', // 确保请求带上 cookie
       });
@@ -32,7 +32,7 @@ const ViolationsPage = () => {
 
   const fetchViolationRecords = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/violationrecord/user/${userId}`);
+      const response = await axios.get(`/api/violationrecord/user/${userId}`);
       console.log('Response data:', response.data); // 添加调试信息
 
       // 检查返回的数据是否包含 violationRecords 数组

@@ -8,7 +8,7 @@ const Header = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/user', {
+        const response = await fetch('/api/user', {
           method: 'GET',
           credentials: 'include', // 确保请求带上 cookie
         });
