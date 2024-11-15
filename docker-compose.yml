@@ -1,0 +1,187 @@
+version: '3.9'
+
+services:
+  # Web 服务 1 - backend1 (负责写操作)
+  backend1:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db_master
+      - redis
+    container_name: backend1
+    environment:
+      - DB_HOST=db_master
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=123456
+      - DB_NAME=mydb
+      - DB_ROLE=master # 指定为主库角色
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TZ=Asia/Shanghai # 设置时区
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.10
+
+  # Web 服务 2 - backend2 (负责读操作)
+  backend2:
+    build: ./backend
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db_slave1
+      - redis
+    container_name: backend2
+    environment:
+      - DB_HOST=db_slave1
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=123456
+      - DB_NAME=mydb
+      - DB_ROLE=slave # 指定为从库角色
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TZ=Asia/Shanghai # 设置时区
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.11
+
+  # Web 服务 3 - backend3 (负责读操作)
+  backend3:
+    build: ./backend
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db_slave2
+      - redis
+    container_name: backend3
+    environment:
+      - DB_HOST=db_slave2
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=123456
+      - DB_NAME=mydb
+      - DB_ROLE=slave # 指定为从库角色
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TZ=Asia/Shanghai # 设置时区
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.12
+
+  # 数据库主节点
+  db_master:
+    image: mysql:8.0
+    container_name: db_master
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./dbcnf/master.cnf:/etc/mysql/conf.d/mysql.cnf # 挂载主节点的配置文件
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.20
+
+  # 数据库从节点 1
+  db_slave1:
+    image: mysql:8.0
+    container_name: db_slave1
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_REPLICATION_MASTER_HOST: db_master
+      MYSQL_REPLICATION_MASTER_PORT: 3306
+      MYSQL_REPLICATION_MASTER_USER: root
+      MYSQL_REPLICATION_MASTER_PASSWORD: 123456
+    volumes:
+      - ./dbcnf/slave1.cnf:/etc/mysql/conf.d/mysql.cnf # 挂载从节点 1 的配置文件
+      - ./dbcnf/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_slave1_data:/var/lib/mysql # 持久化数据
+    depends_on:
+      - db_master
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.21
+
+  # 数据库从节点 2
+  db_slave2:
+    image: mysql:8.0
+    container_name: db_slave2
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_REPLICATION_MASTER_HOST: db_master
+      MYSQL_REPLICATION_MASTER_PORT: 3306
+      MYSQL_REPLICATION_MASTER_USER: root
+      MYSQL_REPLICATION_MASTER_PASSWORD: 123456
+    volumes:
+      - ./dbcnf/slave2.cnf:/etc/mysql/conf.d/mysql.cnf # 挂载从节点 2 的配置文件
+      - ./dbcnf/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_slave2_data:/var/lib/mysql # 持久化数据
+    depends_on:
+      - db_master
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.22
+
+  # Redis 服务
+  redis:
+    image: redis:7.4.1
+    ports:
+      - "6379:6379"
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.30
+
+  # 前端服务 (通过 Nginx 实现负载均衡)
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    container_name: frontend
+    environment:
+      - TZ=Asia/Shanghai # 设置时区
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.50
+
+  # Python 数据填充脚本
+  python:
+    build:
+      context: ./pyscript
+      dockerfile: Dockerfile
+    depends_on:
+      - db_master
+    environment:
+      - DB_HOST=db_master
+      - DB_USER=root
+      - DB_PASSWORD=123456
+      - DB_NAME=mydb
+      - TZ=Asia/Shanghai # 设置时区
+    networks:
+      app-network:
+        ipv4_address: 10.1.0.40
+
+volumes:
+  db_data:
+  db_slave1_data:
+  db_slave2_data:
+
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/24

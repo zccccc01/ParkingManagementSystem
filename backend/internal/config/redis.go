@@ -12,8 +12,8 @@ var rdb *redis.Client
 func init() {
 	// 连接Redis
 	db := redis.NewClient(&redis.Options{
-		Addr:     "192.168.66.130:6379",
-		Password: "123456",
+		Addr:     "10.1.0.30:6379",
+		Password: "",
 		DB:       0,
 	})
 

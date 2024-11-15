@@ -3,13 +3,18 @@ import random
 import string
 from decimal import Decimal
 from datetime import datetime, timedelta
+import logging
+
+# 配置日志
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
 
 # 数据库连接配置
 config = {
-    'host': '127.0.0.1',
+    'host': '10.1.0.20',
     'user': 'root',
     'password': '123456',
-    'database': 'chao_db'  # 请替换为您的数据库名称
+    'database': 'mydb'  # 请替换为您的数据库名称
 }
 
 # 连接到数据库
@@ -22,27 +27,33 @@ hashed_password = '$2a$14$CiAORhxAjL/xJMczSFhP.utXyEFIQ0gIIC6dM0TQP2bvNGoLgCKB.'
 
 # 插入users表数据的函数
 def insert_users():
+    logger.info("开始插入users表数据...")
     for i in range(1, 51):
         username = ''.join(random.choices(string.ascii_uppercase, k=3))
         tel = "1" + ''.join(random.choices(string.digits, k=10))
         query = "INSERT INTO users (UserID, Username, Password, Tel) VALUES (%s, %s, %s, %s)"
         values = (i, username, hashed_password, tel)
         cursor.execute(query, values)
+        logger.debug(f"插入用户数据: {values}")
+    logger.info("users表数据插入完成.")
 
 
 # 插入vehicle表数据的函数
 def insert_vehicles():
+    logger.info("开始插入vehicle表数据...")
     for i in range(1, 51):
         plate_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
         color = random.choice(['Red', 'Blue', 'Green', 'Black', 'White'])
         query = "INSERT INTO vehicle (VehicleID, UserID, PlateNumber, Color) VALUES (%s, %s, %s, %s)"
         values = (i, i, plate_number, color)  # 这里确保每个用户对应一个车辆
         cursor.execute(query, values)
+        logger.debug(f"插入车辆数据: {values}")
+    logger.info("vehicle表数据插入完成.")
 
 
 # 插入parkinglot表数据的函数
 def insert_parkinglots():
-    # 中国城市及其对应的经纬度
+    logger.info("开始插入parkinglot表数据...")
     cities = {
         'BJ': (39.9042, 116.4074),  # 北京
         'SH': (31.2304, 121.4737),  # 上海
@@ -56,7 +67,6 @@ def insert_parkinglots():
         'XA': (34.3416, 108.9398)  # 西安
     }
 
-    # 各城市的固定费率
     rates = {
         'BJ': 18.0,  # 北京
         'SH': 16.0,  # 上海
@@ -77,10 +87,13 @@ def insert_parkinglots():
         query = "INSERT INTO parkinglot (ParkingLotID, ParkingName, Longitude, Latitude, Capacity, Rates) VALUES (%s, %s, %s, %s, %s, %s)"
         values = (i, parking_name, longitude, latitude, capacity, rate)
         cursor.execute(query, values)
+        logger.debug(f"插入停车场数据: {values}")
+    logger.info("parkinglot表数据插入完成.")
 
 
 # 插入parkingspace表数据的函数
 def insert_parkingspaces():
+    logger.info("开始插入parkingspace表数据...")
     for parking_lot_id in range(1, 11):  # 对于每个停车场
         for i in range(1, 51):  # 每个停车场50个车位
             space_id = (parking_lot_id - 1) * 50 + i  # 计算车位ID
@@ -88,10 +101,13 @@ def insert_parkingspaces():
             query = "INSERT INTO parkingspace (SpaceID, Status, ParkingLotID) VALUES (%s, %s, %s)"
             values = (space_id, status, parking_lot_id)
             cursor.execute(query, values)
+            logger.debug(f"插入车位数据: {values}")
+    logger.info("parkingspace表数据插入完成.")
 
 
 # 插入parkingrecord表数据的函数
 def insert_parkingrecords():
+    logger.info("开始插入parkingrecord表数据...")
     cursor.execute("SELECT SpaceID FROM parkingspace")
     space_ids = [row[0] for row in cursor.fetchall()]
     cursor.execute("SELECT VehicleID FROM vehicle")
@@ -99,11 +115,10 @@ def insert_parkingrecords():
     cursor.execute("SELECT ParkingLotID FROM parkinglot")
     lot_ids = [row[0] for row in cursor.fetchall()]
 
-    # 获取停车场的费率
     cursor.execute("SELECT ParkingLotID, Rates FROM parkinglot")
-    rates = {row[0]: row[1] for row in cursor.fetchall()}  # 停车场ID到费率的映射
+    rates = {row[0]: row[1] for row in cursor.fetchall()}
 
-    for i in range(1, 51):  # 修改为插入50条数据
+    for i in range(1, 51):  # 插入50条数据
         space_id = random.choice(space_ids)
         vehicle_id = random.choice(vehicle_ids)
         lot_id = (space_id - 1) // 50 + 1  # 根据SpaceID计算ParkingLotID
@@ -112,41 +127,52 @@ def insert_parkingrecords():
                                                 minutes=random.randint(0, 59))
         end_time = start_time + timedelta(hours=random.randint(1, 12), minutes=random.randint(0, 59))
 
-        # 计算时间差（小时）
         total_hours = Decimal((end_time - start_time).total_seconds()) / Decimal(3600.0)
 
-        # 获取停车场的费率
-        rate = rates.get(lot_id, Decimal(0))  # 默认费率为0
-        fee = round(rate * total_hours, 2)  # 计算费用
+        rate = rates.get(lot_id, Decimal(0))
+        fee = round(rate * total_hours, 2)
 
         query = "INSERT INTO parkingrecord (RecordID, SpaceID, VehicleID, LotID, StartTime, EndTime, Fee) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (i, space_id, vehicle_id, lot_id, start_time, end_time, fee)
         cursor.execute(query, values)
+        logger.debug(f"插入停车记录数据: {values}")
+    logger.info("parkingrecord表数据插入完成.")
 
 
 # 插入reservation表数据的函数
 def insert_reservations():
-    cursor.execute("SELECT ParkingLotID FROM parkinglot")
-    parking_lot_ids = [row[0] for row in cursor.fetchall()]
-    cursor.execute("SELECT VehicleID FROM vehicle")
-    vehicle_ids = [row[0] for row in cursor.fetchall()]
-    cursor.execute("SELECT SpaceID FROM parkingspace")
-    space_ids = [row[0] for row in cursor.fetchall()]
-    for i in range(1, 51):  # 修改为插入50条数据
-        lot_id = random.choice(parking_lot_ids)
-        vehicle_id = random.choice(vehicle_ids)
-        space_id = random.choice(space_ids)
-        start_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23),
-                                                minutes=random.randint(0, 59))
-        end_time = start_time + timedelta(hours=random.randint(1, 12), minutes=random.randint(0, 59))
-        status = random.choice(['Completed', 'Cancelled', 'Doing'])
-        query = "INSERT INTO reservation (ReservationID, StartTime, EndTime, SpaceID, VehicleID, LotID, Status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        values = (i, start_time, end_time, space_id, vehicle_id, lot_id, status)
-        cursor.execute(query, values)
+    logger.info("开始插入reservation表数据...")
+    try:
+        # 获取 parkinglot, vehicle, parkingspace 的 ID 数据
+        cursor.execute("SELECT ParkingLotID FROM parkinglot")
+        parking_lot_ids = [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT VehicleID FROM vehicle")
+        vehicle_ids = [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT SpaceID FROM parkingspace")
+        space_ids = [row[0] for row in cursor.fetchall()]
 
+        # 插入 50 条数据
+        for i in range(1, 51):
+            lot_id = random.choice(parking_lot_ids)
+            vehicle_id = random.choice(vehicle_ids)
+            space_id = random.choice(space_ids)
+            start_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23),
+                                                    minutes=random.randint(0, 59))
+            end_time = start_time + timedelta(hours=random.randint(1, 12), minutes=random.randint(0, 59))
+            status = random.choice(['Completed', 'Cancelled', 'Doing'])
+            query = "INSERT INTO reservation (ReservationID, StartTime, EndTime, SpaceID, VehicleID, LotID, Status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            values = (i, start_time, end_time, space_id, vehicle_id, lot_id, status)
+            cursor.execute(query, values)
+            logger.debug(f"插入预定数据: {values}")
+
+        logger.info("reservation表数据插入完成.")
+    except mysql.connector.Error as err:
+        logger.error(f"插入reservation表数据时出现数据库错误: {err}")
+        conn.rollback()  # 出现错误时回滚事务
 
 # 插入violationrecord表数据的函数
 def insert_violations():
+    logger.info("开始插入violationrecord表数据...")
     cursor.execute("SELECT RecordID FROM parkingrecord")
     record_ids = [row[0] for row in cursor.fetchall()]
     for i in range(1, 101):
@@ -157,10 +183,13 @@ def insert_violations():
         query = "INSERT INTO violationrecord (ViolationID, RecordID, FineAmount, ViolationType, Status) VALUES (%s, %s, %s, %s, %s)"
         values = (i, record_id, fine_amount, violation_type, status)
         cursor.execute(query, values)
+        logger.debug(f"插入违章记录数据: {values}")
+    logger.info("violationrecord表数据插入完成.")
 
 
 # 插入paymentrecord表数据的函数
 def insert_payments():
+    logger.info("开始插入paymentrecord表数据...")
     cursor.execute("SELECT RecordID, Fee FROM parkingrecord")
     records = cursor.fetchall()
     cursor.execute("SELECT ReservationID, StartTime, EndTime, LotID FROM reservation")
@@ -210,25 +239,36 @@ def insert_payments():
         query = "INSERT INTO paymentrecord (PaymentID, RecordID, ReservationID, Amount, PaymentTimestamp, PaymentMethod) VALUES (%s, %s, %s, %s, %s, %s)"
         values = (total_payments + 1, record_id, reservation_id, amount, payment_timestamp, payment_method)
         cursor.execute(query, values)
+        logger.debug(f"插入支付记录数据: {values}")
 
         total_payments += 1  # 增加已插入支付条数
 
+    logger.info("paymentrecord表数据插入完成.")
+
 
 # 执行插入数据
-insert_users()
-insert_vehicles()
-insert_parkinglots()
-insert_parkingspaces()
-insert_parkingrecords()
-insert_reservations()
-insert_violations()
-insert_payments()
+try:
+    insert_users()
+    insert_vehicles()
+    insert_parkinglots()
+    insert_parkingspaces()
+    insert_parkingrecords()
+    insert_reservations()
+    insert_violations()
+    insert_payments()
 
-# 提交事务
-conn.commit()
+    # 提交事务
+    conn.commit()
 
-# 关闭数据库连接
-cursor.close()
-conn.close()
+    logger.info("所有数据已成功插入数据库.")
 
-print("Data has been inserted into all tables.")
+except mysql.connector.Error as err:
+    logger.error(f"数据库错误: {err}")
+    conn.rollback()  # 如果发生错误，回滚事务
+
+finally:
+    # 关闭数据库连接
+    cursor.close()
+    conn.close()
+
+    logger.info("数据库连接已关闭.")
