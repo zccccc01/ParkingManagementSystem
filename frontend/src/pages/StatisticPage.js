@@ -13,16 +13,14 @@ const StatisticPage = () => {
   const fetchData = async (id) => {
     try {
       setLoading(true);
-      const incomeResponse = await axios.get(`http://localhost:8000/api/parkinglot/income/${id}`);
+      const incomeResponse = await axios.get(`/api/parkinglot/income/${id}`);
       if (incomeResponse.data !== undefined) {
         setIncome(incomeResponse.data);
       } else {
         throw new Error('No income data returned');
       }
 
-      const rateResponse = await axios.get(
-        `http://localhost:8000/api/parkinglot/occupancy-rate/${id}`
-      );
+      const rateResponse = await axios.get(`/api/parkinglot/occupancy-rate/${id}`);
       if (rateResponse.data !== undefined) {
         setRate(rateResponse.data);
       } else {

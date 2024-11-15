@@ -17,7 +17,7 @@ const BarChart = () => {
   const fetchData = async (selectedYear, selectedMonth) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/parkingrecord/month?year=${selectedYear}&month=${selectedMonth}`
+        `/api/parkingrecord/month?year=${selectedYear}&month=${selectedMonth}`
       );
       const data = await response.json();
       if (!data || !Array.isArray(data.records)) {
@@ -32,9 +32,7 @@ const BarChart = () => {
 
   const fetchAnnualData = async (selectedYear) => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/parkingrecord/year?year=${selectedYear}`
-      );
+      const response = await fetch(`/api/parkingrecord/year?year=${selectedYear}`);
       const data = await response.json();
       if (!data || !Array.isArray(data.records)) {
         throw new Error('No records returned or data is not an array');

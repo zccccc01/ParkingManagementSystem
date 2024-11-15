@@ -28,7 +28,7 @@ const CheckSpacePage = () => {
     const formattedEndTime = formatTime(endTime);
 
     try {
-      const url = `http://localhost:8000/api/parkinglot/id/${parkingLotID}/start/${formattedStartTime}/end/${formattedEndTime}`;
+      const url = `/api/parkinglot/id/${parkingLotID}/start/${formattedStartTime}/end/${formattedEndTime}`;
       console.log('Request URL:', url);
 
       const response = await axios.get(url);

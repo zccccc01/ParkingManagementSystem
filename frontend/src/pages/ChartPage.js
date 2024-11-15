@@ -10,7 +10,7 @@ const Chart = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/parkinglot/status/lot/${lotId}`);
+      const response = await fetch(`/api/parkinglot/status/lot/${lotId}`);
       const data = await response.json();
 
       if (response.ok) {

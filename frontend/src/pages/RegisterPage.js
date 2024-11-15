@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/user/register',
+        '/api/user/register',
         {
           id: parsedUserID,
           tel,

@@ -13,7 +13,7 @@ const ParkingRecordPage = () => {
   const fetchRecords = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/api/user', {
+      const response = await fetch('/api/user', {
         method: 'GET',
         credentials: 'include', // 确保请求带上 cookie
       });
@@ -24,9 +24,7 @@ const ParkingRecordPage = () => {
           throw new Error('User data is invalid or missing ID');
         }
 
-        const recordResponse = await axios.get(
-          `http://localhost:8000/api/parkingrecord/user/${userData.id}`
-        ); // 使用用户 ID
+        const recordResponse = await axios.get(`/api/parkingrecord/user/${userData.id}`); // 使用用户 ID
 
         if (Array.isArray(recordResponse.data.records)) {
           setRecords(recordResponse.data.records);

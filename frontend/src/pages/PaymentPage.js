@@ -28,19 +28,13 @@ const PaymentPage = () => {
       let feeResponse;
 
       if (type === 'reservation') {
-        statusResponse = await axios.get(
-          `http://localhost:8000/api/paymentrecord/status/reservation/${value}`
-        );
-        feeResponse = await axios.get(
-          `http://localhost:8000/api/paymentrecord/reservation/${value}`
-        );
+        statusResponse = await axios.get(`/api/paymentrecord/status/reservation/${value}`);
+        feeResponse = await axios.get(`/api/paymentrecord/reservation/${value}`);
       } else if (type === 'record') {
-        statusResponse = await axios.get(
-          `http://localhost:8000/api/paymentrecord/status/record/${value}`
-        );
-        feeResponse = await axios.get(`http://localhost:8000/api/paymentrecord/record/${value}`);
+        statusResponse = await axios.get(`/api/paymentrecord/status/record/${value}`);
+        feeResponse = await axios.get(`/api/paymentrecord/record/${value}`);
       } else if (type === 'plate') {
-        feeResponse = await axios.get(`http://localhost:8000/api/paymentrecord/plate/${value}`);
+        feeResponse = await axios.get(`/api/paymentrecord/plate/${value}`);
       }
 
       if (statusResponse && statusResponse.data !== undefined) {

@@ -15,9 +15,7 @@ const CheckViolationsPage = () => {
 
   const fetchViolationRecords = async (violationType) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/violationrecord/violation/${violationType}`
-      );
+      const response = await axios.get(`/api/violationrecord/violation/${violationType}`);
       console.log('Response data:', response.data);
 
       if (!response.data || !Array.isArray(response.data.violationRecords)) {
