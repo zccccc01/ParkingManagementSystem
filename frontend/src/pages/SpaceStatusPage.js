@@ -19,7 +19,7 @@ const ParkingSpacePage = () => {
       }
 
       console.log(`Fetching parking spaces for lot ID: ${lotid}`);
-      const response = await axios.get(`http://localhost:8000/api/parkingspace/lot/${lotid}`);
+      const response = await axios.get(`/api/parkingspace/lot/${lotid}`);
 
       console.log('API Response:', response.data);
       setParkingSpaces(response.data.spaces);

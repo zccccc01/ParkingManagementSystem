@@ -33,10 +33,9 @@ const UpdateSpacePage = () => {
       console.log(
         `Updating parking space status for lot ID: ${lotid}, space ID: ${spaceid}, status: ${status}`
       );
-      const response = await axios.put(
-        `http://localhost:8000/api/parkingspace/status/lot/${lotid}/space/${spaceid}`,
-        { status }
-      );
+      const response = await axios.put(`/api/parkingspace/status/lot/${lotid}/space/${spaceid}`, {
+        status,
+      });
 
       console.log('API Response:', response.data);
       setParkingSpaces(

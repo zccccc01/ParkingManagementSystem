@@ -20,7 +20,7 @@ const CreateVehiclePage = () => {
   const fetchUserID = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/api/user', {
+      const response = await fetch('/api/user', {
         method: 'GET',
         credentials: 'include', // 确保请求带上 cookie
       });
@@ -60,7 +60,7 @@ const CreateVehiclePage = () => {
 
     try {
       console.log('Submitting with UserID:', userID); // 添加日志输出
-      const response = await axios.post('http://localhost:8000/api/vehicle', {
+      const response = await axios.post('/api/vehicle', {
         VehicleID: parseInt(vehicle.VehicleID, 10),
         UserID: parseInt(userID, 10),
         PlateNumber: vehicle.PlateNumber,

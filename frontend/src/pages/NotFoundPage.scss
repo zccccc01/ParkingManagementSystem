@@ -1,6 +1,111 @@
-.NotFoundPage {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    height: 15vh; /* 使div的高度占满整个视口高度 */
+// src/pages/NotFoundPage.scss
+.not-found-page {
+  display: flex;
+  flex-direction: column; // 使用列布局
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  position: relative; // 添加相对定位
+
+  .back-to-home {
+    text-decoration: none; // 去掉下划线
+    color: #555; // 颜色
+    font-size: 16px; // 字体大小
   }
+
+  .artistic-text {
+    font-size: 100px;
+    margin-bottom: 20px;
+  }
+
+  .color-value {
+    font-weight: bold;
+  }
+
+  .color-picker {
+    width: 100%;
+    height: 10px;
+    appearance: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 20px;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+  }
+
+  p,a {
+    margin: 10px 0; // 添加上下边距，使段落之间有间距
+  }
+
+  h1 {
+    margin: 10px 0; // 添加上下边距，使段落之间有间距
+    font-size: 1500% !important;
+  }
+
+  h2 {
+    margin: 10px 0; // 添加上下边距，使段落之间有间距
+    font-size: 300% !important;
+  }
+
+  // 响应式设计
+  @media (max-width: 768px) {
+    padding: 10px;
+
+    .artistic-text {
+      font-size: 50px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    .color-picker {
+      height: 8px;
+      margin-top: 15px;
+    }
+
+    h1 {
+      font-size: 50px !important; // 响应式字体大小
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+
+    .artistic-text {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+
+    .color-picker {
+      height: 6px;
+      margin-top: 10px;
+    }
+
+    h1 {
+      font-size: 30px !important; // 响应式字体大小
+    }
+  }
+}

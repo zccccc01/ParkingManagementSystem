@@ -32,7 +32,7 @@ const BookingPage = () => {
       const endTime = new Date(formData.endTime).toISOString();
 
       const response = await fetch(
-        `http://localhost:8000/api/reservation/lot/${formData.lotID}?start=${startTime}&end=${endTime}`,
+        `/api/reservation/lot/${formData.lotID}?start=${startTime}&end=${endTime}`,
         {
           method: 'GET',
           headers: {
@@ -76,7 +76,7 @@ const BookingPage = () => {
       const startTimeISO = startTime.toISOString();
       const endTimeISO = endTime.toISOString();
 
-      const response = await fetch('http://localhost:8000/api/reservation/', {
+      const response = await fetch('/api/reservation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,21 +131,18 @@ const BookingPage = () => {
       const startTimeISO = startTime.toISOString();
       const endTimeISO = endTime.toISOString();
 
-      const response = await fetch(
-        `http://localhost:8000/api/reservation/id/${formData.reservationID}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            LotID: parseInt(formData.lotID, 10),
-            SpaceID: parseInt(formData.spaceID, 10),
-            StartTime: startTimeISO,
-            EndTime: endTimeISO,
-          }),
-        }
-      );
+      const response = await fetch(`/api/reservation/id/${formData.reservationID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          LotID: parseInt(formData.lotID, 10),
+          SpaceID: parseInt(formData.spaceID, 10),
+          StartTime: startTimeISO,
+          EndTime: endTimeISO,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -174,15 +171,12 @@ const BookingPage = () => {
     setSuccess(false);
 
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/reservation/id/${formData.reservationID}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await fetch(`/api/reservation/id/${formData.reservationID}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

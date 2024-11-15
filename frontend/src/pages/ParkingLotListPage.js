@@ -14,7 +14,7 @@ const ParkingLotListPage = () => {
   const fetchParkingLots = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/parkinglot');
+      const response = await axios.get('/api/parkinglot');
       setParkingLots(response.data);
       setError(null);
     } catch (err) {
@@ -28,7 +28,7 @@ const ParkingLotListPage = () => {
   // Fetch the view count when the component mounts
   const fetchViewCount = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8000/parking-lots/count'); // 更新为新的端点
+      const { data } = await axios.get('/api/parking-lots/count'); // 更新为新的端点
       setViewCount(data.count); // 从返回的 JSON 中提取 count
     } catch (err) {
       console.error('Failed to fetch view count:', err);
@@ -38,7 +38,7 @@ const ParkingLotListPage = () => {
   // 增加浏览计数并获取停车场信息
   const incrementViewCount = async () => {
     try {
-      await axios.get('http://localhost:8000/parking-lots'); // 发送请求以增加计数
+      await axios.get('/api/parking-lots'); // 发送请求以增加计数
       fetchViewCount(); // 然后获取当前浏览计数
     } catch (err) {
       console.error('Failed to increment view count:', err);

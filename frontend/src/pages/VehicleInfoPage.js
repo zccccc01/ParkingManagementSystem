@@ -13,16 +13,14 @@ const VehicleInfoPage = () => {
   const fetchVehicles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/api/user', {
+      const response = await fetch('/api/user', {
         method: 'GET',
         credentials: 'include', // 确保请求带上 cookie
       });
 
       if (response.ok) {
         const userData = await response.json(); // 获取用户数据
-        const vehicleResponse = await axios.get(
-          `http://localhost:8000/api/vehicle/user/${userData.id}`
-        ); // 使用用户 ID
+        const vehicleResponse = await axios.get(`/api/vehicle/user/${userData.id}`); // 使用用户 ID
         if (vehicleResponse.data) {
           setVehicles(vehicleResponse.data);
         } else {

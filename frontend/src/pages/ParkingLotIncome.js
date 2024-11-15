@@ -14,7 +14,7 @@ const ParkingLotMap = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/parkinglot/allincome/all');
+        const response = await fetch('/api/parkinglot/allincome/all');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

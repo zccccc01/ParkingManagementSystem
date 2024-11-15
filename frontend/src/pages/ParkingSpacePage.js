@@ -14,7 +14,7 @@ const ParkingSpacePage = () => {
   const fetchParkingSpaces = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:8000/api/parkingspace/status/free');
+      const { data } = await axios.get('/api/parkingspace/status/free');
       setParkingSpaces(data.spaces);
       setError(null);
     } catch (err) {
@@ -27,7 +27,7 @@ const ParkingSpacePage = () => {
 
   const fetchViewCount = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8000/parking-space/count');
+      const { data } = await axios.get('/api/parking-space/count');
       setViewCount(data.count);
     } catch (err) {
       console.error('Failed to fetch view count:', err);
@@ -36,7 +36,7 @@ const ParkingSpacePage = () => {
 
   const incrementViewCount = async () => {
     try {
-      await axios.get('http://localhost:8000/parking-space');
+      await axios.get('/api/parking-space');
       fetchViewCount();
     } catch (err) {
       console.error('Failed to increment view count:', err);
