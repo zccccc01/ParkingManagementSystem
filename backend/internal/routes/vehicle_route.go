@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupVehicleRoutes 设置车辆相关的路由
+// @Description Vehicle API routes
 func SetupVehicleRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	vehicleRepo := repository.NewVehicleRepository(db)

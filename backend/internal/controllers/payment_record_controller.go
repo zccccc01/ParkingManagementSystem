@@ -15,7 +15,16 @@ func NewPaymentRecordController(repo repository.PaymentRecordRepository) *Paymen
 	return &PaymentRecordController{PaymentRecordRepo: repo}
 }
 
-// 获取费用通过预定ID
+// @Summary Get payment amount by reservation ID
+// @Description Retrieve the payment amount by reservation ID
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/reservation/{id} [get]
 func (prc *PaymentRecordController) GetFeeByReservationID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -30,7 +39,16 @@ func (prc *PaymentRecordController) GetFeeByReservationID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(amount)
 }
 
-// 获取支付状态通过预定ID
+// @Summary Get payment status by reservation ID
+// @Description Retrieve the payment status by reservation ID
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Success 200 {object} bool
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/reservation/{id}/status [get]
 func (prc *PaymentRecordController) GetPaymentStatusByReservationID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -45,7 +63,16 @@ func (prc *PaymentRecordController) GetPaymentStatusByReservationID(c *fiber.Ctx
 	return c.Status(fiber.StatusOK).JSON(status)
 }
 
-// 获取费用通过记录ID
+// @Summary Get payment amount by record ID
+// @Description Retrieve the payment amount by record ID
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Record ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/record/{id} [get]
 func (prc *PaymentRecordController) GetFeeByRecordID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -60,7 +87,16 @@ func (prc *PaymentRecordController) GetFeeByRecordID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(amount)
 }
 
-// 获取支付状态通过记录ID
+// @Summary Get payment status by record ID
+// @Description Retrieve the payment status by record ID
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Record ID"
+// @Success 200 {object} bool
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/record/{id}/status [get]
 func (prc *PaymentRecordController) GetPaymentStatusByRecordID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -75,7 +111,16 @@ func (prc *PaymentRecordController) GetPaymentStatusByRecordID(c *fiber.Ctx) err
 	return c.Status(fiber.StatusOK).JSON(status)
 }
 
-// 获取费用通过车牌号
+// @Summary Get payment amount by plate number
+// @Description Retrieve the payment amount by plate number
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param plate path string true "Plate Number"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/plate/{plate} [get]
 func (prc *PaymentRecordController) GetFeeByPlate(c *fiber.Ctx) error {
 	plate := c.Params("plate")
 
@@ -87,7 +132,16 @@ func (prc *PaymentRecordController) GetFeeByPlate(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(amount)
 }
 
-// 获取支付信息通过车牌号
+// @Summary Get payment info by plate number
+// @Description Retrieve the payment info by plate number
+// @Tags PaymentRecord
+// @Accept json
+// @Produce json
+// @Param plate path string true "Plate Number"
+// @Success 200 {object} models.PaymentRecord
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/paymentrecord/plate/{plate}/info [get]
 func (prc *PaymentRecordController) GetPaymentInfoByPlate(c *fiber.Ctx) error {
 	plate := c.Params("plate")
 

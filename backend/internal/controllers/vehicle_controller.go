@@ -16,7 +16,16 @@ func NewVehicleController(repo repository.VehicleRepository) *VehicleController 
 	return &VehicleController{VehicleRepo: repo}
 }
 
-// 新建一个车的记录
+// @Summary Create a new vehicle
+// @Description Create a new vehicle
+// @Tags Vehicle
+// @Accept json
+// @Produce json
+// @Param vehicle body models.Vehicle true "Vehicle information"
+// @Success 201 {object} models.Vehicle
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/vehicle [post]
 func (vc *VehicleController) CreateVehicle(c *fiber.Ctx) error {
 	var vehicle models.Vehicle
 	if err := c.BodyParser(&vehicle); err != nil {
@@ -31,7 +40,16 @@ func (vc *VehicleController) CreateVehicle(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(vehicle)
 }
 
-// 根据车辆id获取一条记录
+// @Summary Get vehicle by ID
+// @Description Get vehicle by ID
+// @Tags Vehicle
+// @Accept json
+// @Produce json
+// @Param id path int true "Vehicle ID"
+// @Success 200 {object} models.Vehicle
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/vehicle/{id} [get]
 func (vc *VehicleController) GetByVehicleID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -46,7 +64,16 @@ func (vc *VehicleController) GetByVehicleID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(vehicle)
 }
 
-// 根据用户id获取所有记录
+// @Summary Get all vehicles by user ID
+// @Description Get all vehicles by user ID
+// @Tags Vehicle
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID"
+// @Success 200 {array} models.Vehicle
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/vehicle/user/{id} [get]
 func (vc *VehicleController) GetByUserID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -61,7 +88,17 @@ func (vc *VehicleController) GetByUserID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(vehicle)
 }
 
-// 根据车辆id更新车牌号和颜色
+// @Summary Update vehicle by ID
+// @Description Update vehicle by ID
+// @Tags Vehicle
+// @Accept json
+// @Produce json
+// @Param id path int true "Vehicle ID"
+// @Param vehicle body models.Vehicle true "Vehicle information"
+// @Success 200 {object} models.Vehicle
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/vehicle/{id} [put]
 func (vc *VehicleController) UpdateVehicle(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -80,7 +117,16 @@ func (vc *VehicleController) UpdateVehicle(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Vehicle updated successfully"})
 }
 
-// 根据车辆id删除一条记录
+// @Summary Delete vehicle by ID
+// @Description Delete vehicle by ID
+// @Tags Vehicle
+// @Accept json
+// @Produce json
+// @Param id path int true "Vehicle ID"
+// @Success 200 {object} string
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/vehicle/{id} [delete]
 func (vc *VehicleController) DeleteVehicle(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

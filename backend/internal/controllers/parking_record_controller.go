@@ -17,7 +17,16 @@ func NewParkingRecordController(repo repository.ParkingRecordRepository) *Parkin
 	return &ParkingRecordController{ParkingRecordRepo: repo}
 }
 
-// 创建停车记录
+// @Summary Create a parking record
+// @Description Create a new parking record
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param parkingRecord body models.ParkingRecord true "Parking Record Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord [post]
 func (prc *ParkingRecordController) CreateParkingRecord(c *fiber.Ctx) error {
 	var parkingRecord models.ParkingRecord
 	if err := c.BodyParser(&parkingRecord); err != nil {
@@ -32,7 +41,16 @@ func (prc *ParkingRecordController) CreateParkingRecord(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking record created successfully"})
 }
 
-// 根据记录ID获取费用
+// @Summary Get parking record fee by record ID
+// @Description Retrieve the fee of a parking record by its ID
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Record ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/{id} [get]
 func (prc *ParkingRecordController) GetParkingRecordFee(c *fiber.Ctx) error {
 	recordID, err := strconv.Atoi(c.Params("id"))
 
@@ -48,7 +66,16 @@ func (prc *ParkingRecordController) GetParkingRecordFee(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"fee": fee})
 }
 
-// 根据车辆ID获取费用
+// @Summary Get parking record fee by vehicle ID
+// @Description Retrieve the fee of a parking record by its vehicle ID
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Vehicle ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/vehicle/{id} [get]
 func (prc *ParkingRecordController) GetParkingRecordFeeByVehicleID(c *fiber.Ctx) error {
 	vehicleID, err := strconv.Atoi(c.Params("id"))
 
@@ -64,7 +91,16 @@ func (prc *ParkingRecordController) GetParkingRecordFeeByVehicleID(c *fiber.Ctx)
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"fee": fee})
 }
 
-// 根据UserID查历史记录
+// @Summary Get parking record history by user ID
+// @Description Retrieve the history records of a user
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID"
+// @Success 200 {array} models.ParkingRecord
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/user/{id} [get]
 func (prc *ParkingRecordController) GetParkingRecordByUserID(c *fiber.Ctx) error {
 	userID, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -79,7 +115,17 @@ func (prc *ParkingRecordController) GetParkingRecordByUserID(c *fiber.Ctx) error
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"records": records})
 }
 
-// 根据ID更新出场记录
+// @Summary Update parking record exit time
+// @Description Update the exit time of a parking record
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Record ID"
+// @Param parkingRecord body models.ParkingRecord true "Updated Parking Record Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/{id} [put]
 func (prc *ParkingRecordController) UpdateParkingRecord(c *fiber.Ctx) error {
 	recordID, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -98,7 +144,17 @@ func (prc *ParkingRecordController) UpdateParkingRecord(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking record updated successfully"})
 }
 
-// 根据年月获取月度报告
+// @Summary Get monthly report
+// @Description Retrieve the monthly report of parking records
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param year query int true "Year"
+// @Param month query int true "Month"
+// @Success 200 {array} models.ParkingRecord
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/month [get]
 func (prc *ParkingRecordController) GetMonthlyReport(c *fiber.Ctx) error {
 	year, err := strconv.Atoi(c.Query("year"))
 	if err != nil {
@@ -117,7 +173,16 @@ func (prc *ParkingRecordController) GetMonthlyReport(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"records": records})
 }
 
-// 根据年获取年度报告
+// @Summary Get annual report
+// @Description Retrieve the annual report of parking records
+// @Tags ParkingRecord
+// @Accept json
+// @Produce json
+// @Param year query int true "Year"
+// @Success 200 {array} models.ParkingRecord
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingrecord/year [get]
 func (prc *ParkingRecordController) GetAnnualReport(c *fiber.Ctx) error {
 	year, err := strconv.Atoi(c.Query("year"))
 	if err != nil {

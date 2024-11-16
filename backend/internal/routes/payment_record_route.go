@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupPaymentRecordRoutes 设置支付记录相关的路由
+// @Description Payment Record API routes
 func SetupPaymentRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	paymentRepo := repository.NewPaymentRecordRepository(db)

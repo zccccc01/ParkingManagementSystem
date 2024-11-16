@@ -21,6 +21,16 @@ func NewUserController(repo repository.UserRepository) *UserController {
 	return &UserController{UserRepo: repo}
 }
 
+// @Summary Register a new user
+// @Description Register a new user with given parameters
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body models.User true "User information"
+// @Success 201 {object} models.User
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/user/register [post]
 func (uc *UserController) Register(c *fiber.Ctx) error {
 	var data struct {
 		ID       int    `json:"id"`
@@ -66,6 +76,16 @@ func (uc *UserController) Register(c *fiber.Ctx) error {
 	})
 }
 
+// @Summary Login a user
+// @Description Login a user with given credentials
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body models.User true "User information"
+// @Success 200 {object} string
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/user/login [post]
 func (uc *UserController) Login(c *fiber.Ctx) error {
 	var data models.User
 	if err := c.BodyParser(&data); err != nil {
@@ -101,6 +121,15 @@ func (uc *UserController) Login(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "success"})
 }
 
+// @Summary Get authenticated user information
+// @Description Get authenticated user information
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.User
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /api/user/authenticated [get]
 func (uc *UserController) AuthenticatedUser(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
 	token, err := jwt.ParseWithClaims(cookie, &jwt.RegisteredClaims{}, func(t *jwt.Token) (interface{}, error) {
@@ -131,6 +160,14 @@ func (uc *UserController) AuthenticatedUser(c *fiber.Ctx) error {
 	})
 }
 
+// @Summary Logout a user
+// @Description Logout a user by clearing the JWT cookie
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} string
+// @Failure 500 {object} string
+// @Router /api/user/logout [post]
 func (uc *UserController) Logout(c *fiber.Ctx) error {
 	c.Cookie(&fiber.Cookie{
 		Name:     "jwt",

@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupViolationRecordRoutes 设置违规记录相关的路由
+// @Description Violation Record API routes
 func SetupViolationRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	violationRecordRepo := repository.NewViolationRecordRepository(db)

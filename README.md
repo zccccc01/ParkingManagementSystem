@@ -34,6 +34,7 @@ docker-compose up -d --build frontend
 - fiter 框架
 - gorm
 - air
+- swagger 生成接口文档
 
 ## 数据库
 

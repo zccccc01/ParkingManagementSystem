@@ -16,7 +16,16 @@ func NewParkingSpaceController(repo repository.ParkingSpaceRepository) *ParkingS
 	return &ParkingSpaceController{ParkingSpaceRepo: repo}
 }
 
-// 创建停车位
+// @Summary Create a parking space
+// @Description Create a new parking space
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param parkingSpace body models.ParkingSpace true "Parking Space Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace [post]
 func (psc *ParkingSpaceController) CreateParkingSpace(c *fiber.Ctx) error {
 	var parkingSpace models.ParkingSpace
 	if err := c.BodyParser(&parkingSpace); err != nil {
@@ -31,7 +40,16 @@ func (psc *ParkingSpaceController) CreateParkingSpace(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking space created successfully"})
 }
 
-// 根据停车场id获取该停车场车位空余情况
+// @Summary Get parking spaces by parking lot id
+// @Description Retrieve the parking spaces by parking lot id
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {array} models.ParkingSpace
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/{id} [get]
 func (psc *ParkingSpaceController) GetParkingSpaceByParkingLotId(c *fiber.Ctx) error {
 	parkingLotId, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -46,7 +64,18 @@ func (psc *ParkingSpaceController) GetParkingSpaceByParkingLotId(c *fiber.Ctx) e
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"spaces": parkingSpaces})
 }
 
-// 根据车位id更新状态
+// @Summary Update parking space status
+// @Description Update the status of a parking space
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param lotid path int true "Parking Lot ID"
+// @Param spaceid path int true "Parking Space ID"
+// @Param parkingSpace body models.ParkingSpace true "Updated Parking Space Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/{lotid}/{spaceid} [put]
 func (psc *ParkingSpaceController) UpdateParkingSpaceStatus(c *fiber.Ctx) error {
 	parkingLotID, err := strconv.Atoi(c.Params("lotid"))
 	if err != nil {
@@ -70,7 +99,16 @@ func (psc *ParkingSpaceController) UpdateParkingSpaceStatus(c *fiber.Ctx) error 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking space updated successfully"})
 }
 
-// 根据车牌号查看停车位置
+// @Summary Get parking space by license plate
+// @Description Retrieve the parking space by license plate
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param plateNumber path string true "License Plate Number"
+// @Success 200 {array} models.ParkingSpace
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/plate/{plateNumber} [get]
 func (psc *ParkingSpaceController) GetParkingSpaceByLicensePlate(c *fiber.Ctx) error {
 	plateNumber := c.Params("plateNumber") //车牌号是通过 URL 参数传递的
 
@@ -82,7 +120,16 @@ func (psc *ParkingSpaceController) GetParkingSpaceByLicensePlate(c *fiber.Ctx) e
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"spaces": spaces})
 }
 
-// 根据UserID查看停车位置
+// @Summary Get parking space by user id
+// @Description Retrieve the parking space by user id
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID"
+// @Success 200 {array} models.ParkingSpace
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/user/{id} [get]
 func (psc *ParkingSpaceController) GetParkingSpaceByUserID(c *fiber.Ctx) error {
 	userID, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -97,7 +144,17 @@ func (psc *ParkingSpaceController) GetParkingSpaceByUserID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"spaces": spaces})
 }
 
-// 根据车位id获取状态
+// @Summary Get parking space status by id
+// @Description Retrieve the status of a parking space by id
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Param lotid query int true "Parking Lot ID"
+// @Param spaceid query int true "Parking Space ID"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/status [get]
 func (psc *ParkingSpaceController) GetParkingSpaceStatusById(c *fiber.Ctx) error {
 	parkingLotID, err := strconv.Atoi(c.Query("lotid"))
 	if err != nil {
@@ -116,7 +173,14 @@ func (psc *ParkingSpaceController) GetParkingSpaceStatusById(c *fiber.Ctx) error
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": status})
 }
 
-// 查看空闲车位
+// @Summary Get free parking spaces
+// @Description Retrieve the free parking spaces
+// @Tags ParkingSpace
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.ParkingSpace
+// @Failure 500 {object} map[string]string
+// @Router /api/parkingspace/free [get]
 func (psc *ParkingSpaceController) GetFreeParkingSpace(c *fiber.Ctx) error {
 	spaces, err := psc.ParkingSpaceRepo.FindFreeSpaceInAllLots()
 	if err != nil {

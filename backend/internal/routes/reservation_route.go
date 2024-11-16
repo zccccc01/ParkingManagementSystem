@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupReservationRoutes 设置预约相关的路由
+// @Description Reservation API routes
 func SetupReservationRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	reservationRepo := repository.NewReservationRepository(db)

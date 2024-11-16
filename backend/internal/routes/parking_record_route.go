@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupParkingRecordRoutes 设置停车记录相关路由
+// @Description Parking Record API routes
 func SetupParkingRecordRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	parkingRecordRepo := repository.NewParkingRecordRepository(db)

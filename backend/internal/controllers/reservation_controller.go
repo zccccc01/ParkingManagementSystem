@@ -17,7 +17,16 @@ func NewReservationController(repo repository.ReservationRepository) *Reservatio
 	return &ReservationController{ReservationRepo: repo}
 }
 
-// 创建预定记录
+// @Summary Create a reservation
+// @Description Create a new reservation
+// @Tags Reservation
+// @Accept json
+// @Produce json
+// @Param reservation body models.Reservation true "Reservation Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/reservation [post]
 func (rc *ReservationController) CreateReservation(c *fiber.Ctx) error {
 	var reservation models.Reservation
 	if err := c.BodyParser(&reservation); err != nil {
@@ -32,7 +41,16 @@ func (rc *ReservationController) CreateReservation(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation created successfully"})
 }
 
-// 删除预定
+// @Summary Cancel a reservation
+// @Description Cancel an existing reservation
+// @Tags Reservation
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/reservation/{id} [delete]
 func (rc *ReservationController) CancelReservation(c *fiber.Ctx) error {
 	reservationId, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -46,7 +64,17 @@ func (rc *ReservationController) CancelReservation(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation cancelled successfully"})
 }
 
-// 更新预定状态
+// @Summary Update reservation status
+// @Description Update the status of an existing reservation
+// @Tags Reservation
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Param reservation body models.Reservation true "Updated Reservation Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/reservation/{id}/status [put]
 func (rc *ReservationController) UpdateReservationStatus(c *fiber.Ctx) error {
 	reservationId, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -65,7 +93,17 @@ func (rc *ReservationController) UpdateReservationStatus(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation status updated successfully"})
 }
 
-// 更新预定记录
+// @Summary Update reservation details
+// @Description Update the details of an existing reservation
+// @Tags Reservation
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Param reservation body models.Reservation true "Updated Reservation Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/reservation/{id} [put]
 func (rc *ReservationController) UpdateReservation(c *fiber.Ctx) error {
 	reservationId, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -84,6 +122,18 @@ func (rc *ReservationController) UpdateReservation(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Reservation updated successfully"})
 }
 
+// @Summary Get fee for a reservation
+// @Description Get the fee for a reservation based on lot ID and time range
+// @Tags Reservation
+// @Accept json
+// @Produce json
+// @Param id path int true "Lot ID"
+// @Param start query string true "Start Time"
+// @Param end query string true "End Time"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/reservation/fee/{id} [get]
 func (rc *ReservationController) GetFeeByLotID(c *fiber.Ctx) error {
 	lotId, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

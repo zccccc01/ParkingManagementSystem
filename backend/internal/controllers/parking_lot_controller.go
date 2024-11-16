@@ -17,7 +17,17 @@ func NewParkingLotController(repo repository.ParkingLotRepository) *ParkingLotCo
 	return &ParkingLotController{ParkingLotRepo: repo}
 }
 
-// 创建停车场
+// CreateParkingLot 创建停车场
+// @Summary Create a parking lot
+// @Description Create a new parking lot with given details
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param parkingLot body models.ParkingLot true "Parking Lot Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot [post]
 func (plc *ParkingLotController) CreateParkingLot(c *fiber.Ctx) error {
 	var lot models.ParkingLot
 	if err := c.BodyParser(&lot); err != nil {
@@ -31,7 +41,17 @@ func (plc *ParkingLotController) CreateParkingLot(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot created successfully"})
 }
 
-// 根据ID获取停车场信息
+// GetParkingLotByID 获取停车场信息
+// @Summary Get parking lot by ID
+// @Description Retrieve details of a parking lot by its ID
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {object} models.ParkingLot
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /parkinglot/id/{id} [get]
 func (plc *ParkingLotController) GetParkingLotByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -46,7 +66,15 @@ func (plc *ParkingLotController) GetParkingLotByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(lot)
 }
 
-// 根据名称获取停车场信息
+// GetAllParkingLots 获取所有停车场
+// @Summary Get all parking lots
+// @Description Retrieve a list of all parking lots
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.ParkingLot
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot [get]
 func (plc *ParkingLotController) GetParkingLotsByName(c *fiber.Ctx) error {
 	name := c.Params("name")
 
@@ -58,7 +86,14 @@ func (plc *ParkingLotController) GetParkingLotsByName(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(lots)
 }
 
-// 获取所有停车场
+// @Summary Get all parking lots
+// @Description Retrieve a list of all parking lots
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.ParkingLot
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot [get]
 func (plc *ParkingLotController) GetAllParkingLots(c *fiber.Ctx) error {
 	lots, err := plc.ParkingLotRepo.FindAll()
 	if err != nil {
@@ -68,7 +103,16 @@ func (plc *ParkingLotController) GetAllParkingLots(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(lots)
 }
 
-// 按ID获取停车场收入
+// @Summary Get all income by lot ID
+// @Description Retrieve the total income of a parking lot by its ID
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/income/{id} [get]
 func (plc *ParkingLotController) GetAllIncomeByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -83,7 +127,17 @@ func (plc *ParkingLotController) GetAllIncomeByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(income)
 }
 
-// 更新停车场信息
+// @Summary Update parking lot
+// @Description Update the details of a parking lot
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Param parkingLot body models.ParkingLot true "Updated Parking Lot Details"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/id/{id} [put]
 func (plc *ParkingLotController) UpdateParkingLot(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -102,7 +156,16 @@ func (plc *ParkingLotController) UpdateParkingLot(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot updated successfully"})
 }
 
-// 删除停车场
+// @Summary Delete parking lot
+// @Description Delete a parking lot by its ID
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/id/{id} [delete]
 func (plc *ParkingLotController) DeleteParkingLot(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -116,7 +179,16 @@ func (plc *ParkingLotController) DeleteParkingLot(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Parking lot deleted successfully"})
 }
 
-// 获取停车场占有率
+// @Summary Get parking lot occupancy rate
+// @Description Retrieve the occupancy rate of a parking lot by its ID
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/occupancy-rate/{id} [get]
 func (plc *ParkingLotController) GetOccupancyRateByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -131,7 +203,18 @@ func (plc *ParkingLotController) GetOccupancyRateByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(occupancyRate)
 }
 
-// 获取停车场占用情况(有bug)
+// @Summary Get parking lot occupancy by time
+// @Description Retrieve the occupancy of a parking lot by its ID and time range
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Param start query string true "Start time (YYYY-MM-DDTHH:MM:SS)"
+// @Param end query string true "End time (YYYY-MM-DDTHH:MM:SS)"
+// @Success 200 {object} float64
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/id/{id}/start/{start}/end/{end} [get]
 func (plc *ParkingLotController) GetOccupancyByIDAndTime(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -160,6 +243,16 @@ func (plc *ParkingLotController) GetOccupancyByIDAndTime(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(occupancy)
 }
 
+// @Summary Get parking lot status by ID
+// @Description Retrieve the status of a parking lot by its ID
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Param id path int true "Parking Lot ID"
+// @Success 200 {object} map[string]int
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/status/lot/{id} [get]
 func (plc *ParkingLotController) GetStatusByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -172,6 +265,14 @@ func (plc *ParkingLotController) GetStatusByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"free": free, "occupied": occupied, "reserved": reserved})
 }
 
+// @Summary Get all income by lot ID
+// @Description Retrieve the total income of all parking lots
+// @Tags ParkingLot
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]string
+// @Router /parkinglot/allincome/all [get]
 func (plc *ParkingLotController) GetAllIncomeByLotID(c *fiber.Ctx) error {
 	var lotsInfo []fiber.Map
 

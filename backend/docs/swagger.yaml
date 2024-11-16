@@ -1,0 +1,1784 @@
+basePath: /api
+definitions:
+  models.ParkingLot:
+    properties:
+      capacity:
+        type: integer
+      latitude:
+        type: number
+      longitude:
+        type: number
+      parkingLotID:
+        type: integer
+      parkingName:
+        type: string
+      rates:
+        type: number
+    type: object
+  models.ParkingRecord:
+    properties:
+      EndTime:
+        type: string
+      StartTime:
+        type: string
+      fee:
+        type: number
+      lotID:
+        type: integer
+      recordID:
+        type: integer
+      spaceID:
+        type: integer
+      vehicleID:
+        type: integer
+    type: object
+  models.ParkingSpace:
+    properties:
+      parkingLotID:
+        type: integer
+      spaceID:
+        type: integer
+      status:
+        type: string
+    type: object
+  models.PaymentRecord:
+    properties:
+      amount:
+        type: number
+      paymentID:
+        type: integer
+      paymentMethod:
+        type: string
+      paymentTimestamp:
+        type: string
+      recordID:
+        type: integer
+      reservationID:
+        type: integer
+    type: object
+  models.Reservation:
+    properties:
+      endTime:
+        type: string
+      lotID:
+        type: integer
+      reservationID:
+        type: integer
+      spaceID:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: string
+      vehicleID:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      password:
+        type: string
+      tel:
+        type: string
+      userID:
+        type: integer
+      userName:
+        type: string
+    type: object
+  models.Vehicle:
+    properties:
+      color:
+        type: string
+      plateNumber:
+        type: string
+      userID:
+        type: integer
+      vehicleID:
+        type: integer
+    type: object
+  models.ViolationRecord:
+    properties:
+      fineAmount:
+        type: number
+      recordID:
+        type: integer
+      status:
+        type: string
+      violationID:
+        type: integer
+      violationType:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: 1351688749@qq.com
+    name: API Support
+    url: http://example.com/support
+  description: API documentation for Parking Management System.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://example.com/terms/
+  title: Parking Management API
+  version: "1.0"
+paths:
+  /api/parkingrecord:
+    post:
+      consumes:
+      - application/json
+      description: Create a new parking record
+      parameters:
+      - description: Parking Record Details
+        in: body
+        name: parkingRecord
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingRecord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a parking record
+      tags:
+      - ParkingRecord
+  /api/parkingrecord/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the fee of a parking record by its ID
+      parameters:
+      - description: Parking Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking record fee by record ID
+      tags:
+      - ParkingRecord
+    put:
+      consumes:
+      - application/json
+      description: Update the exit time of a parking record
+      parameters:
+      - description: Parking Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Parking Record Details
+        in: body
+        name: parkingRecord
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingRecord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update parking record exit time
+      tags:
+      - ParkingRecord
+  /api/parkingrecord/month:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the monthly report of parking records
+      parameters:
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      - description: Month
+        in: query
+        name: month
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingRecord'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get monthly report
+      tags:
+      - ParkingRecord
+  /api/parkingrecord/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the history records of a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingRecord'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking record history by user ID
+      tags:
+      - ParkingRecord
+  /api/parkingrecord/vehicle/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the fee of a parking record by its vehicle ID
+      parameters:
+      - description: Vehicle ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking record fee by vehicle ID
+      tags:
+      - ParkingRecord
+  /api/parkingrecord/year:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the annual report of parking records
+      parameters:
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingRecord'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get annual report
+      tags:
+      - ParkingRecord
+  /api/parkingspace:
+    post:
+      consumes:
+      - application/json
+      description: Create a new parking space
+      parameters:
+      - description: Parking Space Details
+        in: body
+        name: parkingSpace
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingSpace'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a parking space
+      tags:
+      - ParkingSpace
+  /api/parkingspace/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the parking spaces by parking lot id
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingSpace'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking spaces by parking lot id
+      tags:
+      - ParkingSpace
+  /api/parkingspace/{lotid}/{spaceid}:
+    put:
+      consumes:
+      - application/json
+      description: Update the status of a parking space
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: lotid
+        required: true
+        type: integer
+      - description: Parking Space ID
+        in: path
+        name: spaceid
+        required: true
+        type: integer
+      - description: Updated Parking Space Details
+        in: body
+        name: parkingSpace
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingSpace'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update parking space status
+      tags:
+      - ParkingSpace
+  /api/parkingspace/free:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the free parking spaces
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingSpace'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get free parking spaces
+      tags:
+      - ParkingSpace
+  /api/parkingspace/plate/{plateNumber}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the parking space by license plate
+      parameters:
+      - description: License Plate Number
+        in: path
+        name: plateNumber
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingSpace'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking space by license plate
+      tags:
+      - ParkingSpace
+  /api/parkingspace/status:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the status of a parking space by id
+      parameters:
+      - description: Parking Lot ID
+        in: query
+        name: lotid
+        required: true
+        type: integer
+      - description: Parking Space ID
+        in: query
+        name: spaceid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking space status by id
+      tags:
+      - ParkingSpace
+  /api/parkingspace/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the parking space by user id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingSpace'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking space by user id
+      tags:
+      - ParkingSpace
+  /api/paymentrecord/plate/{plate}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment amount by plate number
+      parameters:
+      - description: Plate Number
+        in: path
+        name: plate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment amount by plate number
+      tags:
+      - PaymentRecord
+  /api/paymentrecord/plate/{plate}/info:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment info by plate number
+      parameters:
+      - description: Plate Number
+        in: path
+        name: plate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PaymentRecord'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment info by plate number
+      tags:
+      - PaymentRecord
+  /api/paymentrecord/record/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment amount by record ID
+      parameters:
+      - description: Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment amount by record ID
+      tags:
+      - PaymentRecord
+  /api/paymentrecord/record/{id}/status:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment status by record ID
+      parameters:
+      - description: Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment status by record ID
+      tags:
+      - PaymentRecord
+  /api/paymentrecord/reservation/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment amount by reservation ID
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment amount by reservation ID
+      tags:
+      - PaymentRecord
+  /api/paymentrecord/reservation/{id}/status:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the payment status by reservation ID
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment status by reservation ID
+      tags:
+      - PaymentRecord
+  /api/reservation:
+    post:
+      consumes:
+      - application/json
+      description: Create a new reservation
+      parameters:
+      - description: Reservation Details
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/models.Reservation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a reservation
+      tags:
+      - Reservation
+  /api/reservation/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Cancel an existing reservation
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cancel a reservation
+      tags:
+      - Reservation
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing reservation
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Reservation Details
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/models.Reservation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update reservation details
+      tags:
+      - Reservation
+  /api/reservation/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: Update the status of an existing reservation
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Reservation Details
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/models.Reservation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update reservation status
+      tags:
+      - Reservation
+  /api/reservation/fee/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get the fee for a reservation based on lot ID and time range
+      parameters:
+      - description: Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Start Time
+        in: query
+        name: start
+        required: true
+        type: string
+      - description: End Time
+        in: query
+        name: end
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get fee for a reservation
+      tags:
+      - Reservation
+  /api/user/authenticated:
+    get:
+      consumes:
+      - application/json
+      description: Get authenticated user information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get authenticated user information
+      tags:
+      - User
+  /api/user/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user with given credentials
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Login a user
+      tags:
+      - User
+  /api/user/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout a user by clearing the JWT cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Logout a user
+      tags:
+      - User
+  /api/user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with given parameters
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+      - User
+  /api/vehicle:
+    post:
+      consumes:
+      - application/json
+      description: Create a new vehicle
+      parameters:
+      - description: Vehicle information
+        in: body
+        name: vehicle
+        required: true
+        schema:
+          $ref: '#/definitions/models.Vehicle'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new vehicle
+      tags:
+      - Vehicle
+  /api/vehicle/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete vehicle by ID
+      parameters:
+      - description: Vehicle ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Delete vehicle by ID
+      tags:
+      - Vehicle
+    get:
+      consumes:
+      - application/json
+      description: Get vehicle by ID
+      parameters:
+      - description: Vehicle ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get vehicle by ID
+      tags:
+      - Vehicle
+    put:
+      consumes:
+      - application/json
+      description: Update vehicle by ID
+      parameters:
+      - description: Vehicle ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Vehicle information
+        in: body
+        name: vehicle
+        required: true
+        schema:
+          $ref: '#/definitions/models.Vehicle'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update vehicle by ID
+      tags:
+      - Vehicle
+  /api/vehicle/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get all vehicles by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Vehicle'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all vehicles by user ID
+      tags:
+      - Vehicle
+  /api/violationrecord:
+    post:
+      consumes:
+      - application/json
+      description: Create a new violation record
+      parameters:
+      - description: Violation record information
+        in: body
+        name: violationRecord
+        required: true
+        schema:
+          $ref: '#/definitions/models.ViolationRecord'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ViolationRecord'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new violation record
+      tags:
+      - ViolationRecord
+  /api/violationrecord/fineamount/record/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get fine amount by record ID
+      parameters:
+      - description: Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ViolationRecord'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get fine amount by record ID
+      tags:
+      - ViolationRecord
+  /api/violationrecord/status/record/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get status by record ID
+      parameters:
+      - description: Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ViolationRecord'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get status by record ID
+      tags:
+      - ViolationRecord
+  /api/violationrecord/type/record/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get violation type by record ID
+      parameters:
+      - description: Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ViolationRecord'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get violation type by record ID
+      tags:
+      - ViolationRecord
+  /api/violationrecord/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get violation records by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ViolationRecord'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get violation records by user ID
+      tags:
+      - ViolationRecord
+  /api/violationrecord/violation/{type}:
+    get:
+      consumes:
+      - application/json
+      description: Statistical violations by type
+      parameters:
+      - description: Violation type
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ViolationRecord'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Statistical violations by type
+      tags:
+      - ViolationRecord
+  /parkinglot:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all parking lots
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ParkingLot'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all parking lots
+      tags:
+      - ParkingLot
+    post:
+      consumes:
+      - application/json
+      description: Create a new parking lot with given details
+      parameters:
+      - description: Parking Lot Details
+        in: body
+        name: parkingLot
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingLot'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a parking lot
+      tags:
+      - ParkingLot
+  /parkinglot/allincome/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the total income of all parking lots
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all income by lot ID
+      tags:
+      - ParkingLot
+  /parkinglot/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a parking lot by its ID
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete parking lot
+      tags:
+      - ParkingLot
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a parking lot by its ID
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ParkingLot'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking lot by ID
+      tags:
+      - ParkingLot
+    put:
+      consumes:
+      - application/json
+      description: Update the details of a parking lot
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Parking Lot Details
+        in: body
+        name: parkingLot
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParkingLot'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update parking lot
+      tags:
+      - ParkingLot
+  /parkinglot/id/{id}/start/{start}/end/{end}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the occupancy of a parking lot by its ID and time range
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Start time (YYYY-MM-DDTHH:MM:SS)
+        in: query
+        name: start
+        required: true
+        type: string
+      - description: End time (YYYY-MM-DDTHH:MM:SS)
+        in: query
+        name: end
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking lot occupancy by time
+      tags:
+      - ParkingLot
+  /parkinglot/income/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the total income of a parking lot by its ID
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all income by lot ID
+      tags:
+      - ParkingLot
+  /parkinglot/occupancy-rate/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the occupancy rate of a parking lot by its ID
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking lot occupancy rate
+      tags:
+      - ParkingLot
+  /parkinglot/status/lot/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the status of a parking lot by its ID
+      parameters:
+      - description: Parking Lot ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get parking lot status by ID
+      tags:
+      - ParkingLot
+swagger: "2.0"

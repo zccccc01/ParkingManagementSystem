@@ -7,6 +7,8 @@ import (
 	"github.com/zccccc01/ParkingManagementSystem/backend/internal/repository"
 )
 
+// SetupUserRoutes 设置用户相关的路由
+// @Description User API routes
 func SetupUserRoutes(app *fiber.App, db *gorm.DB) {
 	// 初始化 repository 和 controller
 	userRepo := repository.NewUserRepository(db)
