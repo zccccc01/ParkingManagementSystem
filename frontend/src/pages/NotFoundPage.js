@@ -18,9 +18,9 @@ const NotFoundPage = () => {
     <div className="not-found-page">
       <h2>Whoops, that page is gone.</h2>
       <p>
-        You can click here to return to{' '}
+        {' '}
         <a href="/" className="back-to-home">
-          Home{' '}
+          You can click here to return to Home{' '}
         </a>
       </p>
       <p>While you’re here, feast your eyes upon these tantalizing</p>
