@@ -49,9 +49,9 @@ const CheckViolationsPage = () => {
     // 计算每个状态的违规记录数量
     const statusCounts = violationRecords.reduce((acc, record) => {
       if (acc[record.Status]) {
-        acc[record.Status] += 1;
+        acc[record.Status] += record.TotalViolations; // 使用TotalViolations作为计数
       } else {
-        acc[record.Status] = 1;
+        acc[record.Status] = record.TotalViolations;
       }
       return acc;
     }, {});
