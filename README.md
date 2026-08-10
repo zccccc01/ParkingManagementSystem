@@ -1,3 +1,5 @@
+
+
 # 智能停车管理系统
 
 ## 前端运行
@@ -31,7 +33,7 @@ docker-compose up -d --build frontend
 
 ## 后端
 
-- fiter 框架
+- fiber 框架
 - gorm
 - air
 - swagger 生成接口文档
